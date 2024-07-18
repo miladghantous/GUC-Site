@@ -5,6 +5,7 @@ const ConferenceSchema = new mongoose.Schema({
     title:{
       type: String,
       required: true,
+      unique: true
     },
     description: {
         type: String,
@@ -12,6 +13,7 @@ const ConferenceSchema = new mongoose.Schema({
     },
     location: {
         type: String,
+        required: true
     },
     date: {
         type: Date,
