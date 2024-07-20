@@ -15,8 +15,13 @@ server.listen(port,() => console.log(`Server is listening on port ${port}`))
 connectToDb()
 
 const instructorRoutes = require('./routes/InstructorRoute')
+const conferenceRoutes = require('./routes/ConferenceRoute')
+const fundRoutes = require('./routes/FundRoute')
+
 
 server.use('/api/instructor',instructorRoutes)
+server.use('/api/conference',conferenceRoutes)
+server.use('/api/fund',fundRoutes)
 
 
 // server.use(errorHandler)

@@ -51,7 +51,6 @@ module.exports={
     addFund,
     viewFunds,
     viewFund,
-    updateFund
 }
 
 
