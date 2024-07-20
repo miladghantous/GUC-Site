@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler')
 
 // Add a new Instructor
 const addInstructor = asyncHandler (async (req,res)=>{
-    const instructorbody = req.boody
+    const instructorbody = req.body
     try {
         if (instructorbody.password.search(/[a-z]/) < 0 || instructorbody.password.search(/[A-Z]/) < 0 || instructorbody.password.search(/[0-9]/) < 0) {
             res.status(400)
@@ -34,7 +34,7 @@ const removeInstructor = asyncHandler (async (req,res)=>{
             res.status(400)
             throw new Error('Instructor not found')
         }
-        res.status(200).json({message: 'Instructor removed successfully'})
+        res.status(200).json(instructor)
     }
     catch (error){
         throw new Error(error.message)
@@ -50,7 +50,7 @@ const viewInstructor = asyncHandler (async (req,res)=>{
         throw new Error('Instructor not found')
         }
         try {
-            const instructor = await InstructorModel.findById(id).select('-password')
+            const instructor = await InstructorModel.findById(id)
             if (!instructor) {
                 throw new Error('Instructor not found')
             }
@@ -62,7 +62,7 @@ const viewInstructor = asyncHandler (async (req,res)=>{
         }
 })
 
-// View Instructors
+// View all Instructors
 const viewInstructors = asyncHandler (async (req,res)=>{
     try {
         const instructors = await InstructorModel.find({}).sort({createdAt: -1})
