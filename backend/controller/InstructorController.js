@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const asyncHandler = require('express-async-handler')
 
 // Add a new Instructor
-const addInstructor = asyncHandler (async (req,res)=>{
+const addInstructor = asyncHandler(async (req, res) => {
     const instructorbody = req.body
     try {
         if (instructorbody.password.search(/[a-z]/) < 0 || instructorbody.password.search(/[A-Z]/) < 0 || instructorbody.password.search(/[0-9]/) < 0) {
@@ -14,7 +14,7 @@ const addInstructor = asyncHandler (async (req,res)=>{
         res.status(200).json(instructor)
 
     }
-    catch (error){
+    catch (error) {
         res.status(400)
         throw new Error(error.message)
     }
@@ -22,8 +22,8 @@ const addInstructor = asyncHandler (async (req,res)=>{
 })
 
 // Remove/Block Instructor
-const removeInstructor = asyncHandler (async (req,res)=>{
-    const { id } =req.params
+const removeInstructor = asyncHandler(async (req, res) => {
+    const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
         res.status(400)
         throw new Error('Instructor not found')
@@ -36,45 +36,50 @@ const removeInstructor = asyncHandler (async (req,res)=>{
         }
         res.status(200).json(instructor)
     }
-    catch (error){
+    catch (error) {
         throw new Error(error.message)
     }
 })
 
 
 // View Instructor
-const viewInstructor = asyncHandler (async (req,res)=>{
+const viewInstructor = asyncHandler(async (req, res) => {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
         res.status(400)
         throw new Error('Instructor not found')
-        }
-        try {
-            const instructor = await InstructorModel.findById(id)
-            if (!instructor) {
-                throw new Error('Instructor not found')
-            }
-                res.status(200).json(instructor)
-        }
-        catch (error){
-            res.status(400)
-            throw new Error(error.message)
-        }
-})
-
-// View all Instructors
-const viewInstructors = asyncHandler (async (req,res)=>{
-    try {
-        const instructors = await InstructorModel.find({}).sort({createdAt: -1})
-        res.status(200).json(instructors)
     }
-    catch (error){
+    try {
+        const instructor = await InstructorModel.findById(id)
+        if (!instructor) {
+            throw new Error('Instructor not found')
+        }
+        res.status(200).json(instructor)
+    }
+    catch (error) {
         res.status(400)
         throw new Error(error.message)
     }
 })
 
-// Update Instructor
+// View all Instructors
+const viewInstructors = asyncHandler(async (req, res) => {
+    try {
+        const instructors = await InstructorModel.find({}).sort({ createdAt: -1 })
+        res.status(200).json(instructors)
+    }
+    catch (error) {
+        res.status(400)
+        throw new Error(error.message)
+    }
+})
+
+const updateInstructor = asyncHandler(async (req, res, next) => {
+    console.log(req.params);
+    let updatedInstructor = await InstructorModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    if (!updatedInstructor) return res.status(404).json({ message: "Instructor not found!" })
+    res.status(200).json({ message: "Instructor Updated!", updatedInstructor })
+})
 // Change password
 
 
@@ -82,7 +87,8 @@ module.exports = {
     addInstructor,
     removeInstructor,
     viewInstructor,
-    viewInstructors
+    viewInstructors,
+    updateInstructor
 }
 
 
