@@ -63,7 +63,7 @@ const viewInstructor = asyncHandler(async (req, res) => {
 })
 
 // View all Instructors
-const viewInstructors = asyncHandler(async (req, res) => {
+const viewAllInstructors = asyncHandler(async (req, res) => {
     try {
         const instructors = await InstructorModel.find({}).sort({ createdAt: -1 })
         res.status(200).json(instructors)
@@ -80,6 +80,8 @@ const updateInstructor = asyncHandler(async (req, res, next) => {
     if (!updatedInstructor) return res.status(404).json({ message: "Instructor not found!" })
     res.status(200).json({ message: "Instructor Updated!", updatedInstructor })
 })
+
+
 // Change password
 
 
@@ -87,7 +89,7 @@ module.exports = {
     addInstructor,
     removeInstructor,
     viewInstructor,
-    viewInstructors,
+    viewAllInstructors,
     updateInstructor
 }
 

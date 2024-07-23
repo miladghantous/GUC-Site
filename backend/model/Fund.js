@@ -7,8 +7,8 @@ const FundSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    amount: {
-      type: Number,
+    link: {
+      type: String,
       required: true,
     },
     description: {

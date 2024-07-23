@@ -1,17 +1,22 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const AnnouncementSchema = new mongoose.Schema({
-
+const AnnouncementSchema = new mongoose.Schema(
+  {
     title: {
       type: String,
       required: true,
     },
     details: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
-    
-},{ timestamps: true });
+    date: {
+      type: Date,
+      required: true,
+    }, // Date of announcement (not the date of creation)
+  },
+  { timestamps: true }
+);
 
-const Announcement = mongoose.model('Announcement', AnnouncementSchema);
+const Announcement = mongoose.model("Announcement", AnnouncementSchema);
 module.exports = Announcement;
