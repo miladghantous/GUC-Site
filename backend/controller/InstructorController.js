@@ -6,7 +6,10 @@ const asyncHandler = require('express-async-handler')
 const addInstructor = asyncHandler(async (req, res) => {
     const instructorbody = req.body
     try {
-        if (instructorbody.password.search(/[a-z]/) < 0 || instructorbody.password.search(/[A-Z]/) < 0 || instructorbody.password.search(/[0-9]/) < 0) {
+        if (instructorbody.password.search(/[a-z]/) < 0 ||
+        instructorbody.password.search(/[A-Z]/) < 0 ||
+        instructorbody.password.search(/[0-9]/) < 0) 
+        {
             res.status(400)
             throw new Error("Password must contain at least one number, one capital letter and one small letter")
         }
@@ -25,7 +28,7 @@ const addInstructor = asyncHandler(async (req, res) => {
 const removeInstructor = asyncHandler(async (req, res) => {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(400)
+        res.status(404)
         throw new Error('Instructor not found')
     }
     try {
@@ -46,7 +49,7 @@ const removeInstructor = asyncHandler(async (req, res) => {
 const viewInstructor = asyncHandler(async (req, res) => {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(400)
+        res.status(404)
         throw new Error('Instructor not found')
     }
     try {

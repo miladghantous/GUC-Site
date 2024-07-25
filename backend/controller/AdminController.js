@@ -28,7 +28,7 @@ const addAdmin = asyncHandler(async (req, res) => {
 const removeAdmin = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
+    res.status(404);
     throw new Error("Admin not found");
   }
   try {
@@ -47,7 +47,7 @@ const removeAdmin = asyncHandler(async (req, res) => {
 const viewAdmin = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
+    res.status(404);
     throw new Error("Admin not found");
   }
   try {

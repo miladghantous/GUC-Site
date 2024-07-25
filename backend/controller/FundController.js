@@ -15,10 +15,10 @@ const addFund = asyncHandler(async (req, res) => {
 });
 
 //delete fund
-const deleteFund = asyncHandler(async (req, res) => {
+const removeFund = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
+    res.status(404);
     throw new Error("Fund not found");
   }
   try {
@@ -48,7 +48,7 @@ const viewAllFunds = asyncHandler(async (req, res) => {
 const viewFund = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
+    res.status(404);
     throw new Error("Invalid mongoose id!");
   }
   try {
@@ -65,7 +65,7 @@ const updateFund = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const fundbody = req.body;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
+    res.status(404);
     throw new Error("Invalid mongoose id!");
   }
   try {
@@ -82,5 +82,5 @@ module.exports = {
   viewAllFunds,
   viewFund,
   updateFund,
-  deleteFund,
+  removeFund,
 };

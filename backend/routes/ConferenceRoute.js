@@ -5,12 +5,16 @@ const router = express.Router();
 const {
     addConference,
     viewConference,
-    viewConferences
+    viewAllConferences,
+    updateConference,
+    removeConference
 } = require('../controller/ConferenceController')
 
 router.post('/addConference',addConference)
-router.get('/getConference/:id',viewConference)
-router.get('/getAllConferences',viewConferences)
+router.get('/viewConference/:id',viewConference)
+router.get('/viewAllConferences',viewAllConferences)
+router.put('/updateConference/:id',updateConference)
+router.delete('/removeConference/:id',removeConference)
 
 
 module.exports = router

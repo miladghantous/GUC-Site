@@ -15,10 +15,10 @@ const addConference = asyncHandler(async (req, res) => {
 });
 
 //delete conference
-const deleteConference = asyncHandler(async (req, res) => {
+const removeConference = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
+    res.status(404);
     throw new Error("Conference not found");
   }
   try {
@@ -48,7 +48,7 @@ const viewAllConferences = asyncHandler(async (req, res) => {
 const viewConference = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
+    res.status(404);
     throw new Error("Invalid mongoose id!");
   }
   try {
@@ -65,7 +65,7 @@ const updateConference = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const conferencebody = req.body;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(400);
+    res.status(404);
     throw new Error("Invalid mongoose id!");
   }
   try {
@@ -83,7 +83,7 @@ const updateConference = asyncHandler(async (req, res) => {
 
 module.exports = {
   addConference,
-  deleteConference,
+  removeConference,
   viewAllConferences,
   viewConference,
   updateConference,

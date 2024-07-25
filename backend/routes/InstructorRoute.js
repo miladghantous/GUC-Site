@@ -6,16 +6,16 @@ const {
     addInstructor,
     removeInstructor,
     viewInstructor,
-    viewInstructors,
+    viewAllInstructors,
     updateInstructor,
 
 } = require('../controller/InstructorController')
 
 router.post('/addInstructor', addInstructor)
 router.delete('/removeInstructor/:id', removeInstructor)
-router.get('/getInstructor/:id', viewInstructor)
-router.get('/getAllInstructors', viewInstructors)
-router.put('/update/:id', updateInstructor)
+router.get('/viewInstructor/:id', viewInstructor)
+router.get('/viewAllInstructors', viewAllInstructors)
+router.put('/updateInstructor/:id', updateInstructor)
 
 
 module.exports = router

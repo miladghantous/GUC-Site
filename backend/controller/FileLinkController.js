@@ -1,0 +1,96 @@
+const FileLinkModel = require("../model/FileLink");
+const mongoose = require("mongoose");
+const asyncHandler = require("express-async-handler");
+
+// Add File Link
+const addFileLink = asyncHandler(async (req, res) => {
+    const filelinkbody = req.body;
+
+    try{
+        const filelink = await FileLinkModel.create(filelinkbody);
+        res.status(200).json(filelink);
+    }
+    catch(error){
+        res.status(400);
+        throw new Error(error.message);
+    }
+});
+        
+// Get All File Links
+const viewAllFileLinks = asyncHandler(async (req, res) => {
+        
+    try{
+        const fileLinks = await FileLinkModel.find().sort({ createdAt: -1 });
+        res.status(200).json(fileLinks);
+    }
+    catch(error){
+        res.status(400);
+        throw new Error(error.message);
+    }
+});
+
+// Get a file link by ID
+const viewFileLink = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        res.status(404)
+        throw new Error('Instructor not found')
+    }
+    
+    try{
+        const fileLink = await FileLinkModel.findById(id);
+        res.status(200).json(fileLink);
+    }
+    catch(error){
+        res.status(400);
+        throw new Error(error.message);
+    }
+});
+
+// Update file link by ID
+const updateFileLink = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const filelinkbody = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        res.status(404)
+        throw new Error('Instructor not found')
+    }
+
+    try{
+        const fileLink = await FileLinkModel.findByIdAndUpdate(id, filelinkbody, { new: true});
+        res.status(200).json(fileLink);
+    }
+    catch(error){
+        res.status(400);
+        throw new Error(error.message);
+    }
+});     
+    
+// Delete file link by ID 
+const removeFileLink = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        res.status(404)
+        throw new Error('Instructor not found')
+    }
+
+    try{
+        const fileLink = await FileLinkModel.findByIdAndDelete(id);
+        res.status(200).json(fileLink);
+    }
+    catch(error){
+        res.status(400);
+        throw new Error(error.message);
+    }
+});
+
+module.exports ={
+    addFileLink,
+    viewFileLink,
+    viewAllFileLinks,
+    updateFileLink,
+    removeFileLink
+}
