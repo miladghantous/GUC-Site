@@ -15,7 +15,7 @@ router.post('/addFileLink', addFileLink)
 router.get('/viewAllFileLinks', viewAllFileLinks)
 router.get('/viewFileLink/:id', viewFileLink)
 router.delete('/removeFileLink/:id', removeFileLink)
-router.put('/updateFileLink/:id', updateFileLink)
+router.patch('/updateFileLink/:id', updateFileLink)
 
 
 module.exports = router

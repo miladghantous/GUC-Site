@@ -13,7 +13,7 @@ const {
 router.post('/addFund',addFund)
 router.get('/viewFund/:id',viewFund)
 router.get('/viewAllFunds',viewAllFunds)
-router.put('/updateFund/:id',updateFund)
+router.patch('/updateFund/:id',updateFund)
 router.delete('/removeFund/:id',removeFund)
 
 

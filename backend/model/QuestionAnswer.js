@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const QuestionAnswerSchema = new mongoose.Schema({
   question: {
     type: String,
-    required: true,
   },
   answer: {
     type: String,
@@ -14,7 +13,6 @@ const QuestionAnswerSchema = new mongoose.Schema({
       "Disagree",
       "Strongly Disagree",
     ],
-    required: true,
   },
 });
 

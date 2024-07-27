@@ -13,7 +13,7 @@ const {
 router.post('/addConference',addConference)
 router.get('/viewConference/:id',viewConference)
 router.get('/viewAllConferences',viewAllConferences)
-router.put('/updateConference/:id',updateConference)
+router.patch('/updateConference/:id',updateConference)
 router.delete('/removeConference/:id',removeConference)
 
 

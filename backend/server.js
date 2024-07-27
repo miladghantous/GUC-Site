@@ -22,6 +22,7 @@ const fundRoutes = require('./routes/FundRoute')
 const adminRoutes = require('./routes/AdminRoute')
 const announcementRoutes = require('./routes/AnnouncementRoute')
 const filelinkRoutes = require('./routes/FileLinkRoute')
+const evaluationformRoutes = require('./routes/EvaluationFormRoute')
 
 
 // APIs
@@ -31,6 +32,7 @@ server.use('/api/fund',fundRoutes)
 server.use('/api/admin',adminRoutes)
 server.use('/api/announcement',announcementRoutes)
 server.use('/api/filelink',filelinkRoutes)
+server.use('/api/evaluationform',evaluationformRoutes)
 
 
 server.use(ErrorHandler)

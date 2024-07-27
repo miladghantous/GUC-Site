@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const QuestionAnswerSchema = require("./QuestionAnswer");
+const QuestionAnswerSchema = require("./QuestionAnswer").schema;
 
 const EvaluationFormSchema = new mongoose.Schema(
   {
@@ -12,7 +12,10 @@ const EvaluationFormSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    questions: [QuestionAnswerSchema],
+    questions: {
+      type: [QuestionAnswerSchema],
+      default: [],
+    },
   },
   { timestamps: true }
 );

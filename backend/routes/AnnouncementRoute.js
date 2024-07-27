@@ -15,7 +15,7 @@ router.post('/addAnnouncement', addAnnouncement)
 router.get('/viewAllAnnouncements', viewAllAnnouncements)
 router.get('/viewAnnouncement/:id', viewAnnouncement)
 router.delete('/removeAnnouncement/:id', removeAnnouncement)
-router.put('/updateAnnouncement/:id', updateAnnouncement)
+router.patch('/updateAnnouncement/:id', updateAnnouncement)
 
 
 module.exports = router
