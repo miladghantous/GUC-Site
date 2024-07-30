@@ -1,9 +1,9 @@
 import { Card } from "@mui/material";
 import { CardHeader } from "@mui/material";
 import { CardContent } from "@mui/material";
-import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
+import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 
-const AnnouncementCard = () => {
+const ConferencesCard = () => {
   return (
     <Card
       sx={{
@@ -23,7 +23,7 @@ const AnnouncementCard = () => {
       }}
     >
       <CardHeader
-        title="Announcements"
+        title="Conferences"
         sx={{
           textAlign: "center",
           padding: 1,
@@ -38,10 +38,10 @@ const AnnouncementCard = () => {
       <CardContent
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }} // Style the CardContent
       >
-        <CampaignOutlinedIcon sx={{ fontSize: 100 }} />
+        <Groups2OutlinedIcon sx={{ fontSize: 100 }} />
       </CardContent>
     </Card>
   );
 };
 
-export default AnnouncementCard;
+export default ConferencesCard;

@@ -1,6 +1,8 @@
 import Navbar from "./components/NavBar";
 import Home from "./pages/Home";
 import Box from "@mui/material/Box";
+/* Add this to your CSS file */
+
 
 const App = () => {
   return (

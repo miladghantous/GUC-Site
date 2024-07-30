@@ -12,7 +12,7 @@ const StyledAppBar = styled(AppBar)({
 const StyledMenuItem = styled(MenuItem)({
   color: "#FFFFFF",
   "&:hover": {
-    backgroundColor: "#333333",
+    backgroundColor: "#F57C00",
   },
 });
 
@@ -24,7 +24,7 @@ const Navbar = () => {
         <Box
           component="img"
           src={logo}
-          sx={{ display: { xs: "none", md: "flex" }, mr: 1, height: "40px" }}
+          sx={{ display: { xs: "none", md: "flex" }, mr: 1, height: "50px" }}
         />
         <Box sx={{ display: "flex", flexGrow: 1, justifyContent: "center" }}>
           <StyledMenuItem>Home</StyledMenuItem>
@@ -33,6 +33,7 @@ const Navbar = () => {
           <StyledMenuItem>Evaluation</StyledMenuItem>
           <StyledMenuItem>Files</StyledMenuItem>
           <StyledMenuItem>Funds</StyledMenuItem>
+          <StyledMenuItem>Compliants</StyledMenuItem>
         </Box>
       </Toolbar>
     </StyledAppBar>

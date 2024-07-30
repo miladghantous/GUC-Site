@@ -1,9 +1,9 @@
 import { Card } from "@mui/material";
 import { CardHeader } from "@mui/material";
 import { CardContent } from "@mui/material";
-import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
+import FileCopyOutlinedIcon from "@mui/icons-material/FileCopyOutlined";
 
-const AnnouncementCard = () => {
+const FilesCard = () => {
   return (
     <Card
       sx={{
@@ -23,7 +23,7 @@ const AnnouncementCard = () => {
       }}
     >
       <CardHeader
-        title="Announcements"
+        title="Files"
         sx={{
           textAlign: "center",
           padding: 1,
@@ -38,10 +38,10 @@ const AnnouncementCard = () => {
       <CardContent
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }} // Style the CardContent
       >
-        <CampaignOutlinedIcon sx={{ fontSize: 100 }} />
+        <FileCopyOutlinedIcon sx={{ fontSize: 100 }} />
       </CardContent>
     </Card>
   );
 };
 
-export default AnnouncementCard;
+export default FilesCard;
