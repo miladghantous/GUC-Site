@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "nodemon": "^3.1.4"
+    "axios": "^1.7.2",
+    "nodemon": "^3.1.4",
+    "react-router-dom": "^6.25.1",
+    "typeface-roboto": "^1.1.13"
   }
 }

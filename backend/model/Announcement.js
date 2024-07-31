@@ -10,10 +10,6 @@ const AnnouncementSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    date: {
-      type: Date,
-      required: true,
-    }, // Date of announcement (not the date of creation)
   },
   { timestamps: true }
 );

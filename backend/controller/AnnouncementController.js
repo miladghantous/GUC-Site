@@ -80,7 +80,7 @@ const removeAnnouncement = asyncHandler(async (req, res) => {
         res.status(200).json(announcement);
         } catch (error) {
             res.status(400);
-            throw new Error("hh");
+            throw new Error("Announcement not found");
         }
 });
 module.exports = {

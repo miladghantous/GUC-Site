@@ -20,7 +20,6 @@ const Navbar = () => {
   return (
     <StyledAppBar position="fixed">
       <Toolbar>
-        {/* Add logo here from the assets folder */}
         <Box
           component="img"
           src={logo}

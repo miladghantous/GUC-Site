@@ -12,6 +12,10 @@ server.use(express.urlencoded({ extended: false }));
 server.use(cookieParser());
 server.use(bodyParser.json());
 
+
+var cors = require("cors");
+server.use(cors());
+
 server.listen(port,() => console.log(`Server is listening on port ${port}`))
 connectToDb()
 
