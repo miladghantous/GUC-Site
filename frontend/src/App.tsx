@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Announcement from "./pages/Announcment";
 import Fund from "./pages/Fund";
 import Conference from "./pages/Conference";
+import FileLink from "./pages/FileLink";
+
 
 const queryClient = new QueryClient();
 
@@ -17,6 +19,7 @@ function App() {
           <Route path="/announcements" element={<Announcement />} />
           <Route path="/funds" element={<Fund />} />
           <Route path="/conferences" element={<Conference />} />
+          <Route path="/filelinks" element={<FileLink />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

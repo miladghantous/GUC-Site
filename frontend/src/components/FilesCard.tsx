@@ -1,10 +1,12 @@
-import { Card } from "@mui/material";
+import { Card, CardActionArea } from "@mui/material";
 import { CardHeader } from "@mui/material";
 import { CardContent } from "@mui/material";
 import FileCopyOutlinedIcon from "@mui/icons-material/FileCopyOutlined";
+import { Link } from "react-router-dom";
 
 const FilesCard = () => {
   return (
+    <Link to="/filelinks" style={{ textDecoration: "none" }}>
     <Card
       sx={{
         width: 300, // Set the width of the card
@@ -22,6 +24,7 @@ const FilesCard = () => {
         },
       }}
     >
+      <CardActionArea>
       <CardHeader
         title="Files"
         sx={{
@@ -40,7 +43,10 @@ const FilesCard = () => {
       >
         <FileCopyOutlinedIcon sx={{ fontSize: 100 }} />
       </CardContent>
+      </CardActionArea>
+
     </Card>
+    </Link>
   );
 };
 

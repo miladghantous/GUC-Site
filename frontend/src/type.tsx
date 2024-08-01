@@ -19,3 +19,10 @@ export type ConferenceResponse = {
   link: string;
 
 }
+
+//Subject, Link
+export type FileLinkResponse = {
+  _id: string;
+  subject: string;
+  link: string;
+}
