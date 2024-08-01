@@ -1,10 +1,12 @@
-import { Card } from "@mui/material";
+import { Card, CardActionArea } from "@mui/material";
 import { CardHeader } from "@mui/material";
 import { CardContent } from "@mui/material";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
+import { Link } from "react-router-dom";
 
 const FundsCard = () => {
   return (
+    <Link to="/funds" style={{ textDecoration: "none" }}>
     <Card
       sx={{
         width: 300, // Set the width of the card
@@ -22,6 +24,9 @@ const FundsCard = () => {
         },
       }}
     >
+      <CardActionArea>
+
+        
       <CardHeader
         title="Funds"
         sx={{
@@ -34,13 +39,15 @@ const FundsCard = () => {
           borderBottomRightRadius: "inherit", // Inherit border radius from the parent Card
           color: "#F57C00", // Set the color of the text
         }}
-      />
+        />
       <CardContent
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }} // Style the CardContent
-      >
+        >
         <AttachMoneyOutlinedIcon sx={{ fontSize: 100 }} />
       </CardContent>
+          </CardActionArea>
     </Card>
+    </Link>
   );
 };
 
