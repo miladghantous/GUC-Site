@@ -1,10 +1,13 @@
-import { Card } from "@mui/material";
+import { Card, CardActionArea } from "@mui/material";
 import { CardHeader } from "@mui/material";
 import { CardContent } from "@mui/material";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
+import { Link } from "react-router-dom";
+
 
 const AnnouncementCard = () => {
   return (
+    <Link to="/announcements" style={{ textDecoration: "none" }}>
     <Card
       sx={{
         width: 300, // Set the width of the card
@@ -22,6 +25,8 @@ const AnnouncementCard = () => {
         },
       }}
     >
+            <CardActionArea>
+
       <CardHeader
         title="Announcements"
         sx={{
@@ -40,7 +45,9 @@ const AnnouncementCard = () => {
       >
         <CampaignOutlinedIcon sx={{ fontSize: 100 }} />
       </CardContent>
+</CardActionArea>
     </Card>
+    </Link>
   );
 };
 

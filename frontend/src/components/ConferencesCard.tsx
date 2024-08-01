@@ -1,10 +1,12 @@
-import { Card } from "@mui/material";
+import { Card, CardActionArea } from "@mui/material";
 import { CardHeader } from "@mui/material";
 import { CardContent } from "@mui/material";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
+import { Link } from "react-router-dom";
 
 const ConferencesCard = () => {
   return (
+    <Link to="/conferences" style={{ textDecoration: "none" }}>
     <Card
       sx={{
         width: 300, // Set the width of the card
@@ -22,6 +24,9 @@ const ConferencesCard = () => {
         },
       }}
     >
+      <CardActionArea>
+
+
       <CardHeader
         title="Conferences"
         sx={{
@@ -34,13 +39,15 @@ const ConferencesCard = () => {
           borderBottomRightRadius: "inherit", // Inherit border radius from the parent Card
           color: "#F57C00", // Set the color of the text
         }}
-      />
+        />
       <CardContent
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }} // Style the CardContent
-      >
+        >
         <Groups2OutlinedIcon sx={{ fontSize: 100 }} />
       </CardContent>
+        </CardActionArea>
     </Card>
+    </Link>
   );
 };
 

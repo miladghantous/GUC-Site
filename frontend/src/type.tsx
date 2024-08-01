@@ -11,3 +11,11 @@ export type FundResponse = {
   description: string;
   deadline: Date;
 }
+
+//Title, link
+export type ConferenceResponse = {
+  _id: string;
+  title: string;
+  link: string;
+
+}
