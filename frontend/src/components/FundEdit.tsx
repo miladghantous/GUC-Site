@@ -13,8 +13,13 @@ interface FundEditProps {
   open: boolean;
   fund: FundResponse;
   header: string;
-  // Title, link, description, deadline
-  onSave: (id:string, title: string, link: string, description: string, deadline: Date | null) => void;
+  onSave: (
+    title: string,
+    link: string,
+    description: string,
+    deadline: Date | null,
+    id: string
+  ) => void;
   onCancel: () => void;
 }
 
@@ -26,21 +31,20 @@ const FundEdit: React.FC<FundEditProps> = ({
   onCancel,
 }) => {
   const [formValues, setFormValues] = useState({
-  // Title, link, description, deadline
+    // Title, link, description, deadline
     title: fund.title,
     link: fund.link,
     description: fund.description,
-    deadline: fund.deadline ? fund.deadline.toISOString().split('T')[0] : "" // Format date as string for input field
+    deadline: fund.deadline ? fund.deadline.toISOString().split("T")[0] : "",
   });
 
   useEffect(() => {
     setFormValues({
-          // Title, link, description, deadline
-          title: fund.title,
-          link: fund.link,
-          description: fund.description,
-          deadline: fund.deadline ? fund.deadline.toISOString().split('T')[0] : ""
-        });
+      title: fund.title,
+      link: fund.link,
+      description: fund.description,
+      deadline: fund.deadline ? fund.deadline.toISOString().split("T")[0] : "",
+    });
   }, [fund]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,27 +53,33 @@ const FundEdit: React.FC<FundEditProps> = ({
   };
 
   const handleSave = () => {
-    if(header === "Add Fund") {
-          // Title, link, description, deadline
-      if(formValues.title === "" ||
+    if (header === "Add Fund") {
+      if (
+        formValues.title === "" ||
         formValues.link === "" ||
         formValues.description === "" ||
-        formValues.deadline === "") {
+        formValues.deadline === ""
+      ) {
         onCancel();
         return;
+      } else {
+        onSave(
+          formValues.title,
+          formValues.link,
+          formValues.description,
+          new Date(formValues.deadline),
+          ""
+        );
+        return;
       }
-      else{
-
-          onSave('',formValues.title
-            , formValues.link
-            , formValues.description
-            , new Date(formValues.deadline));
-            return;
-        }
-    }
-    else{
-
-        onSave(fund._id, formValues.title, formValues.link, formValues.description, new Date(formValues.deadline));
+    } else {
+      onSave(
+        formValues.title,
+        formValues.link,
+        formValues.description,
+        new Date(formValues.deadline),
+        fund._id,
+      );
     }
   };
 
@@ -77,7 +87,6 @@ const FundEdit: React.FC<FundEditProps> = ({
     <Dialog open={open} onClose={onCancel}>
       <DialogTitle>{header}</DialogTitle>
       <DialogContent>
-        {/* Title, link, description, deadline  */}
         <TextField
           autoFocus
           margin="dense"

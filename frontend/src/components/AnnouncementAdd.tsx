@@ -32,7 +32,7 @@ const AnnouncementAdd = () => {
 
   return (
     <>
-      <Box display="flex" alignItems="center" sx={{ cursor: "pointer" }}>
+      <Box display="flex" alignItems="center">
         <IconButton
           onClick={() => setOpen(true)}
           sx={{
@@ -40,6 +40,7 @@ const AnnouncementAdd = () => {
             marginBottom: 2,
             padding: 1,
             boxShadow: 3,
+            cursor: "pointer",
             "&:hover": {
               backgroundColor: "#F57C00",
               boxShadow: 6,

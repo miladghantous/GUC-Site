@@ -1,13 +1,12 @@
 import axios from "axios";
 import { FundResponse } from "../type";
 
-var port = "http://localhost:4000/api/fund";
 
 export const getAllFunds = async (): Promise<
   FundResponse[]
 > => {
   const response = await axios.get(
-    `${port}/viewAllFunds`
+    `${import.meta.env.VITE_API_URL}/api/fund/viewAllFunds`
   );
   return response.data;
 };
@@ -21,7 +20,7 @@ export const createFund = async (
 
 ): Promise<FundResponse> => {
   const response = await axios.post(
-    `${port}/addFund`,
+    `${import.meta.env.VITE_API_URL}/api/fund/addFund`,
     { title, link, description, deadline },
     {
       headers: {
@@ -40,7 +39,7 @@ export const editFund = async (
   deadline: Date | null
 ): Promise<FundResponse> => {
   const response = await axios.patch(
-    `${port}/updateFund/${id}`,
+    `${import.meta.env.VITE_API_URL}/api/fund/updateFund/${id}`,
     { title, link, description, deadline }
   );
   return response.data;
@@ -48,6 +47,6 @@ export const editFund = async (
 
 export const deleteFund = async (id: string): Promise<void> => {
   await axios.delete(
-    `${port}/removeFund/${id}`
+    `${import.meta.env.VITE_API_URL}/api/fund/removeFund/${id}`
   );
 };

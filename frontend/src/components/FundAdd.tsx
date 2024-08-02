@@ -8,9 +8,10 @@ import { createFund } from "../api/FundApi";
 //Why is there errors
 
 const FundAdd = () => {
+  
   const [open, setOpen] = useState(false);
 
-        // Title, link, description, deadline
+  // Title, link, description, deadline
   const handleSave = async (title: string,link: string, description: string, deadline: Date | any
   ) => {
     try {
@@ -39,7 +40,7 @@ const FundAdd = () => {
 
   return (
     <>
-      <Box display="flex" alignItems="center" sx={{ cursor: "pointer" }}>
+      <Box display="flex" alignItems="center" >
         <IconButton
           onClick={() => setOpen(true)}
           sx={{
@@ -47,6 +48,7 @@ const FundAdd = () => {
             marginBottom: 2,
             padding: 1,
             boxShadow: 3,
+            cursor: "pointer",
             "&:hover": {
               backgroundColor: "#F57C00",
               boxShadow: 6,

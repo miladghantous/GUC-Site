@@ -52,7 +52,7 @@ const FileLinkAdd = () => {
           variant="h6"
           sx={{ color: "black", paddingLeft: 4, paddingBottom: 3 }}
         >
-          Add a new filelink
+          Add a new file link
         </Typography>
       </Box>
 

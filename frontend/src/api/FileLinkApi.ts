@@ -1,13 +1,12 @@
 import axios from "axios";
 import { FileLinkResponse } from "../type";
-var port = "http://localhost:4000/api/filelink";
 
 
 export const getAllFileLinks = async (): Promise<
   FileLinkResponse[]
 > => {
   const response = await axios.get(
-    `${port}/viewAllFileLinks`
+    `${import.meta.env.VITE_API_URL}/api/filelink/viewAllFileLinks`
   );
   return response.data;
 };
@@ -17,7 +16,7 @@ export const createFileLink = async (
   link: string
 ): Promise<FileLinkResponse> => {
   const response = await axios.post(
-    `${port}/addFileLink`,
+    `${import.meta.env.VITE_API_URL}/api/filelink/addFileLink`,
     { subject, link },
     {
       headers: {
@@ -34,7 +33,7 @@ export const editFileLink = async (
   link: string
 ): Promise<FileLinkResponse> => {
   const response = await axios.patch(
-    `${port}/updateFileLink/${id}`,
+    `${import.meta.env.VITE_API_URL}/api/filelink/updateFileLink/${id}`,
     { subject, link }
   );
   return response.data;
@@ -42,6 +41,6 @@ export const editFileLink = async (
 
 export const deleteFileLink = async (id: string): Promise<void> => {
   await axios.delete(
-    `${port}/removeFileLink/${id}`
+    `${import.meta.env.VITE_API_URL}/api/filelink/removeFileLink/${id}`
   );
 };

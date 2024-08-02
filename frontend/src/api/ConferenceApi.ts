@@ -1,13 +1,12 @@
 import axios from "axios";
 import { ConferenceResponse } from "../type";
-var port = "http://localhost:4000/api/conference";
 
 
 export const getAllConferences = async (): Promise<
   ConferenceResponse[]
 > => {
   const response = await axios.get(
-    `${port}/viewAllConferences`
+    `${import.meta.env.VITE_API_URL}/api/conference/viewAllConferences`
   );
   return response.data;
 };
@@ -17,7 +16,7 @@ export const createConference = async (
   link: string
 ): Promise<ConferenceResponse> => {
   const response = await axios.post(
-    `${port}/addConference`,
+    `${import.meta.env.VITE_API_URL}/api/conference/addConference`,
     { title, link },
     {
       headers: {
@@ -34,7 +33,7 @@ export const editConference = async (
   link: string
 ): Promise<ConferenceResponse> => {
   const response = await axios.patch(
-    `${port}/updateConference/${id}`,
+    `${import.meta.env.VITE_API_URL}/api/conference/updateConference/${id}`,
     { title, link }
   );
   return response.data;
@@ -42,6 +41,6 @@ export const editConference = async (
 
 export const deleteConference = async (id: string): Promise<void> => {
   await axios.delete(
-    `${port}/removeConference/${id}`
+    `${import.meta.env.VITE_API_URL}/api/conference/removeConference/${id}`
   );
 };
