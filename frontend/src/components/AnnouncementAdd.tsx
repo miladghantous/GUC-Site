@@ -3,10 +3,21 @@ import { IconButton, Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AnnouncementEdit from "./AnnouncementEdit";
 import { AnnouncementResponse } from "../type";
-import { createAnnouncement } from "../api/AnnouncementsApi";
+import {getAllAnnouncements ,createAnnouncement } from "../api/AnnouncementsApi";
+import { useQuery } from "@tanstack/react-query";
+
+import Snackbar from "@mui/material/Snackbar";
 
 const AnnouncementAdd = () => {
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const { refetch } = useQuery<
+    AnnouncementResponse[]
+  >({
+    queryKey: ["announcements"],
+    queryFn: getAllAnnouncements,
+  });
 
   const handleSave = async (title: string, details: string) => {
     try {
@@ -14,8 +25,13 @@ const AnnouncementAdd = () => {
       const response = await createAnnouncement(title, details);
       console.log("Announcement added:", response);
       setOpen(false);
-      //refresh the announcements to get the updated list
-      window.location.reload();
+      // fetch(
+      //   `${import.meta.env.VITE_API_URL}/api/announcement/viewAllAnnouncements`,
+      //   { method: "GET" }
+      // );
+      refetch();
+      setSnackBarOpen(true);
+      setSnackBarMessage("Announcement added successfully!");
     } catch (error) {
       console.error("Failed to add announcement:", error);
     }
@@ -28,6 +44,7 @@ const AnnouncementAdd = () => {
     _id: "",
     title: "",
     details: "",
+    createdAt: new Date(),
   };
 
   return (
@@ -63,6 +80,12 @@ const AnnouncementAdd = () => {
         header="Add Announcement"
         onSave={handleSave}
         onCancel={handleCancel}
+      />
+      <Snackbar
+        open={SnackBarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackBarOpen(false)}
+        message={snackBarMessage}
       />
     </>
   );

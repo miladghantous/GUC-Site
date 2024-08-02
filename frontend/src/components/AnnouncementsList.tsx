@@ -11,8 +11,12 @@ import {
 import AnnouncementEdit from "./AnnouncementEdit";
 import AnnouncementDelete from "./AnnouncementDelete";
 import { AnnouncementResponse } from "../type";
+import Snackbar from "@mui/material/Snackbar";
+
 
 const AnnouncementsList = () => {
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
   const { data, isLoading, isError, refetch } = useQuery<
     AnnouncementResponse[]
   >({
@@ -38,7 +42,9 @@ const AnnouncementsList = () => {
       const response = await editAnnouncement(id, title, details);
       console.log("Announcement edited:", response);
       setOpenEdit(false);
-      refetch(); // Refetch the announcements to get the updated list
+      refetch(); 
+      setSnackBarOpen(true);
+      setSnackBarMessage("Announcement edited successfully"); 
     } catch (error) {
       console.error("Failed to edit announcement:", error);
     }
@@ -58,7 +64,9 @@ const AnnouncementsList = () => {
       const response = await deleteAnnouncement(id);
       console.log("Announcement deleted:", response);
       setOpenDelete(false);
-      refetch(); // Refetch the announcements to get the updated list
+      refetch(); 
+      setSnackBarOpen(true);
+      setSnackBarMessage("Announcement deleted successfully");
     } catch (error) {
       console.error("Failed to delete announcement:", error);
     }
@@ -99,12 +107,16 @@ const AnnouncementsList = () => {
           }}
         >
           <Box>
+            <Typography variant="h2" sx={{ color: "black", fontSize: 20 }}>
+              {new Date(announcement.createdAt).toDateString()}
+            </Typography>
             <Typography
               variant="h1"
               sx={{ color: "black", fontSize: 40, fontWeight: "bold" }}
             >
               {announcement.title}
             </Typography>
+            <hr/>
             <Typography variant="h2" sx={{ color: "black", fontSize: 25 }}>
               {announcement.details}
             </Typography>
@@ -138,6 +150,12 @@ const AnnouncementsList = () => {
           onCancel={handleCancelDelete}
         />
       )}
+      <Snackbar
+        open={SnackBarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackBarOpen(false)}
+        message={snackBarMessage}
+      />
     </Box>
   );
 };

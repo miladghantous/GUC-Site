@@ -2,6 +2,7 @@ export type AnnouncementResponse = {
   _id: string;
   title: string;
   details: string;
+  createdAt: Date;
 }
 // Title, link, desc, deadline
 export type FundResponse = {

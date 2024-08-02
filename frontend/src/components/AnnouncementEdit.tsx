@@ -13,7 +13,7 @@ interface AnnouncementEditProps {
   open: boolean;
   announcement: AnnouncementResponse;
   header: string;
-  onSave: (id:string, title: string, details: string) => void;
+  onSave: (id: string, title: string, details: string) => void;
   onCancel: () => void;
 }
 
@@ -24,6 +24,7 @@ const AnnouncementEdit: React.FC<AnnouncementEditProps> = ({
   onSave,
   onCancel,
 }) => {
+
   const [formValues, setFormValues] = useState({
     title: announcement.title,
     details: announcement.details,
@@ -42,12 +43,12 @@ const AnnouncementEdit: React.FC<AnnouncementEditProps> = ({
   };
 
   const handleSave = () => {
-    if(header === "Add Announcement") {
-      if(formValues.title === "" || formValues.details === "") {
+    if (header === "Add Announcement") {
+      if (formValues.title === "" || formValues.details === "") {
         onCancel();
         return;
       }
-      onSave(formValues.title, formValues.details,"");
+      onSave(formValues.title, formValues.details, "");
       return;
     }
     onSave(announcement._id, formValues.title, formValues.details);
@@ -103,6 +104,7 @@ const AnnouncementEdit: React.FC<AnnouncementEditProps> = ({
           Save
         </Button>
       </DialogActions>
+
     </Dialog>
   );
 };
