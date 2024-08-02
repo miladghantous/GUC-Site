@@ -11,8 +11,11 @@ import {
 import FundEdit from "./FundEdit";
 import FundDelete  from "./FundDelete";
 import { FundResponse } from "../type";
+import Snackbar from "@mui/material/Snackbar";
 
 const FundsList = () => {
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
   const { data, isLoading, isError, refetch } = useQuery<
     FundResponse[]
   >({
@@ -33,14 +36,16 @@ const FundsList = () => {
     setOpenEdit(true);
   };
 //title, link, description, deadline
-  const handleSave = async (id: string, title: string, link: string, description: string, deadline: Date | null
+  const handleSave = async ( title: string, link: string, description: string, deadline: Date | null, id: string,
   ) => {
     try {
         
-        const response = await editFund(id, title, link, description, deadline);
+        const response = await editFund( title, link, description, deadline, id);
       console.log("Fund edited:", response);
       setOpenEdit(false);
       refetch(); // Refetch the funds to get the updated list
+      setSnackBarOpen(true);
+      setSnackBarMessage("Fund edited successfully"); 
     } catch (error) {
       console.error("Failed to edit fund:", error);
     }
@@ -61,6 +66,8 @@ const FundsList = () => {
       console.log("Fund deleted:", response);
       setOpenDelete(false);
       refetch(); // Refetch the funds to get the updated list
+      setSnackBarOpen(true);
+      setSnackBarMessage("Fund deleted successfully");
     } catch (error) {
       console.error("Failed to delete fund:", error);
     }
@@ -108,13 +115,16 @@ const FundsList = () => {
             >
               {fund.title}
             </Typography>
-            <Typography variant="h2" sx={{ color: "black", fontSize: 25 }}>
+            <hr></hr>
+            <Typography variant="h2" sx={{ color: "black", fontSize: 20 }}>
               {fund.link}
             </Typography>
-            <Typography variant="h2" sx={{ color: "black", fontSize: 2 }}>
+            <br></br>
+            <Typography variant="h2" sx={{ color: "black", fontSize: 20 }}>
               {fund.description}
             </Typography>
-            <Typography variant="body2" sx={{ color: "black", fontSize: 14 }}>
+            <br></br>
+            <Typography variant="body2" sx={{ color: "black", fontSize: 20 }}>
               Deadline: {fund.deadline ? new Date(fund.deadline).toLocaleDateString() : "No deadline set"}
             </Typography>
 
@@ -148,6 +158,12 @@ const FundsList = () => {
           onCancel={handleCancelDelete}
         />
       )}
+      <Snackbar
+        open={SnackBarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackBarOpen(false)}
+        message={snackBarMessage}
+      />
     </Box>
   );
 };

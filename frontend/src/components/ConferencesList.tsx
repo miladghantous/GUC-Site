@@ -11,8 +11,12 @@ import {
 import ConferenceEdit from "./ConferenceEdit";
 import ConferenceDelete from "./ConferenceDelete";
 import { ConferenceResponse } from "../type";
+import Snackbar from "@mui/material/Snackbar";
+
 
 const ConferencesList = () => {
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
   const { data, isLoading, isError, refetch } = useQuery<
     ConferenceResponse[]
   >({
@@ -39,6 +43,8 @@ const ConferencesList = () => {
       console.log("Conference edited:", response);
       setOpenEdit(false);
       refetch(); // Refetch the conferences to get the updated list
+      setSnackBarOpen(true);
+      setSnackBarMessage("Conference edited successfully"); 
     } catch (error) {
       console.error("Failed to edit conference:", error);
     }
@@ -59,6 +65,8 @@ const ConferencesList = () => {
       console.log("Conference deleted:", response);
       setOpenDelete(false);
       refetch(); // Refetch the conferences to get the updated list
+      setSnackBarOpen(true);
+      setSnackBarMessage("Conference deleted successfully");
     } catch (error) {
       console.error("Failed to delete conference:", error);
     }
@@ -138,6 +146,12 @@ const ConferencesList = () => {
           onCancel={handleCancelDelete}
         />
       )}
+      <Snackbar
+        open={SnackBarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackBarOpen(false)}
+        message={snackBarMessage}
+      />
     </Box>
   );
 };

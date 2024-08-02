@@ -9,6 +9,11 @@ import {
 } from "@mui/material";
 import { FundResponse } from "../type";
 
+// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 interface FundEditProps {
   open: boolean;
   fund: FundResponse;
@@ -35,7 +40,7 @@ const FundEdit: React.FC<FundEditProps> = ({
     title: fund.title,
     link: fund.link,
     description: fund.description,
-    deadline: fund.deadline ? fund.deadline.toISOString().split("T")[0] : "",
+    deadline: fund.deadline,
   });
 
   useEffect(() => {
@@ -43,7 +48,7 @@ const FundEdit: React.FC<FundEditProps> = ({
       title: fund.title,
       link: fund.link,
       description: fund.description,
-      deadline: fund.deadline ? fund.deadline.toISOString().split("T")[0] : "",
+      deadline: fund.deadline,
     });
   }, [fund]);
 
@@ -58,7 +63,7 @@ const FundEdit: React.FC<FundEditProps> = ({
         formValues.title === "" ||
         formValues.link === "" ||
         formValues.description === "" ||
-        formValues.deadline === ""
+        formValues.deadline === null
       ) {
         onCancel();
         return;
@@ -77,8 +82,8 @@ const FundEdit: React.FC<FundEditProps> = ({
         formValues.title,
         formValues.link,
         formValues.description,
-        new Date(formValues.deadline),
-        fund._id,
+        formValues.deadline,
+        fund._id
       );
     }
   };
@@ -115,7 +120,7 @@ const FundEdit: React.FC<FundEditProps> = ({
           value={formValues.description}
           onChange={handleChange}
         />
-        <TextField
+        {/* <TextField
           margin="dense"
           name="deadline"
           label="deadline"
@@ -123,7 +128,15 @@ const FundEdit: React.FC<FundEditProps> = ({
           fullWidth
           value={formValues.deadline}
           onChange={handleChange}
-        />
+
+        /> */}
+
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker label="Basic date picker" 
+          value={formValues.deadline}
+          onChange={handleChange}/>
+        </LocalizationProvider>
+
       </DialogContent>
       <DialogActions>
         <Button

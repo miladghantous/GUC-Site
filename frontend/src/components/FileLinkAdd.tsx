@@ -3,10 +3,22 @@ import { IconButton, Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FileLinkEdit from "./FileLinkEdit";
 import { FileLinkResponse } from "../type";
-import { createFileLink } from "../api/FileLinkApi";
+import { createFileLink,getAllFileLinks } from "../api/FileLinkApi";
+import Snackbar from "@mui/material/Snackbar";
+import { useQuery } from "@tanstack/react-query";
+
+
 
 const FileLinkAdd = () => {
   const [open, setOpen] = useState(false);
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const { refetch } = useQuery<
+    FileLinkResponse[]
+  >({
+    queryKey: ["filelinks"],
+    queryFn: getAllFileLinks,
+  });
 
   const handleSave = async (subject: string, link: string) => {
     try {
@@ -15,7 +27,9 @@ const FileLinkAdd = () => {
       console.log("FileLink added:", response);
       setOpen(false);
       //refresh the filelinks to get the updated list
-      window.location.reload();
+      refetch();
+      setSnackBarOpen(true);
+      setSnackBarMessage("Link added successfully");
     } catch (error) {
       console.error("Failed to add filelink:", error);
     }
@@ -62,6 +76,12 @@ const FileLinkAdd = () => {
         header="Add FileLink"
         onSave={handleSave}
         onCancel={handleCancel}
+      />
+      <Snackbar
+        open={SnackBarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackBarOpen(false)}
+        message={snackBarMessage}
       />
     </>
   );

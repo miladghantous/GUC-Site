@@ -10,7 +10,7 @@ export type FundResponse = {
   title: string;
   link: string;
   description: string;
-  deadline: Date;
+  deadline: Date |null;
 }
 
 //Title, link

@@ -11,8 +11,12 @@ import {
 import FileLinkEdit from "./FileLinkEdit";
 import FileLinkDelete from "./FileLinkDelete";
 import { FileLinkResponse } from "../type";
+import Snackbar from "@mui/material/Snackbar";
+
 
 const FileLinksList = () => {
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
   const { data, isLoading, isError, refetch } = useQuery<
     FileLinkResponse[]
   >({
@@ -39,6 +43,8 @@ const FileLinksList = () => {
       console.log("FileLink edited:", response);
       setOpenEdit(false);
       refetch(); // Refetch the filelinks to get the updated list
+      setSnackBarOpen(true);
+      setSnackBarMessage("Link edited successfully"); 
     } catch (error) {
       console.error("Failed to edit filelink:", error);
     }
@@ -59,6 +65,8 @@ const FileLinksList = () => {
       console.log("FileLink deleted:", response);
       setOpenDelete(false);
       refetch(); // Refetch the filelinks to get the updated list
+      setSnackBarOpen(true);
+      setSnackBarMessage("Link deleted successfully");
     } catch (error) {
       console.error("Failed to delete filelink:", error);
     }
@@ -138,6 +146,12 @@ const FileLinksList = () => {
           onCancel={handleCancelDelete}
         />
       )}
+      <Snackbar
+        open={SnackBarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackBarOpen(false)}
+        message={snackBarMessage}
+      />
     </Box>
   );
 };

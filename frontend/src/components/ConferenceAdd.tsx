@@ -4,9 +4,18 @@ import AddIcon from "@mui/icons-material/Add";
 import ConferenceEdit from "./ConferenceEdit";
 import { ConferenceResponse } from "../type";
 import { createConference } from "../api/ConferenceApi";
+import Snackbar from "@mui/material/Snackbar";
+import { useQuery } from "@tanstack/react-query";
+import { getAllConferences } from "../api/ConferenceApi";
 
 const ConferenceAdd = () => {
   const [open, setOpen] = useState(false);
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const { refetch } = useQuery<ConferenceResponse[]>({
+    queryKey: ["conferences"],
+    queryFn: getAllConferences,
+  });
 
   const handleSave = async (title: string, link: string) => {
     try {
@@ -15,7 +24,9 @@ const ConferenceAdd = () => {
       console.log("Conference added:", response);
       setOpen(false);
       //refresh the conferences to get the updated list
-      window.location.reload();
+      refetch();
+      setSnackBarOpen(true);
+      setSnackBarMessage("Conference added successfully");
     } catch (error) {
       console.error("Failed to add conference:", error);
     }
@@ -62,6 +73,12 @@ const ConferenceAdd = () => {
         header="Add Conference"
         onSave={handleSave}
         onCancel={handleCancel}
+      />
+      <Snackbar
+        open={SnackBarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackBarOpen(false)}
+        message={snackBarMessage}
       />
     </>
   );

@@ -32,11 +32,11 @@ export const createFund = async (
 };
 
 export const editFund = async (
-  id: string,
   title: string,
   link: string,
   description: string,
-  deadline: Date | null
+  deadline: Date | null,
+  id: string,
 ): Promise<FundResponse> => {
   const response = await axios.patch(
     `${import.meta.env.VITE_API_URL}/api/fund/updateFund/${id}`,
