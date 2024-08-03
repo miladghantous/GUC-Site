@@ -8,6 +8,10 @@ import {
   Button,
 } from "@mui/material";
 import { EvaluationFormResponse, InstructorResponse } from "../type";
+import BasicSelect from "./InstructorDropDownMenu";
+import { SelectChangeEvent } from "@mui/material/Select";
+import { useQuery } from "@tanstack/react-query";
+import { getAllInstructors } from "../api/InstructorApi";
 
 interface EvaluationFormEditProps {
   open: boolean;
@@ -24,6 +28,10 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
   onSave,
   onCancel,
 }) => {
+  const { data: instructors } = useQuery<InstructorResponse[]>({
+    queryKey: ["instructors"],
+    queryFn: getAllInstructors,
+  });
 
   const [formValues, setFormValues] = useState({
     title: evaluationform.title,
@@ -42,16 +50,26 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
     setFormValues({ ...formValues, [name]: value });
   };
 
+  const handleInstructorChange = (event: SelectChangeEvent<string>) => {
+    const selectedInstructor = instructors?.find(
+      (instructor) => instructor.username === event.target.value
+    );
+    setFormValues({ ...formValues, instructor: selectedInstructor || formValues.instructor });
+  };
+
   const handleSave = () => {
     if (header === "Add EvaluationForm") {
-      if (formValues.title === "" || formValues.instructor === null) {
+      if (formValues.title === "" || !formValues.instructor) {
         onCancel();
         return;
       }
-      onSave("" , formValues.title, formValues.instructor);
+      onSave("", formValues.title, formValues.instructor);
       return;
     }
+    console.log(formValues);
+
     onSave(evaluationform._id, formValues.title, formValues.instructor);
+    console.log(formValues);
   };
 
   return (
@@ -68,7 +86,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
           value={formValues.title}
           onChange={handleChange}
         />
-        
+        <BasicSelect value={formValues.instructor} onChange={handleInstructorChange} />
       </DialogContent>
       <DialogActions>
         <Button
@@ -96,7 +114,6 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
           Save
         </Button>
       </DialogActions>
-
     </Dialog>
   );
 };

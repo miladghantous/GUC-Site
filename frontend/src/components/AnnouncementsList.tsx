@@ -49,7 +49,6 @@ const AnnouncementsList = () => {
       console.error("Failed to edit announcement:", error);
     }
   };
-
   const handleCancelEdit = () => {
     setOpenEdit(false);
   };

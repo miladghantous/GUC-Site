@@ -189,7 +189,7 @@ const updateEvaluationForm = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Not allowed to update questions");
   }
-
+  console.log(evaluationformbody); 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(404);
     throw new Error("Evaluation Form not found");
@@ -201,6 +201,7 @@ const updateEvaluationForm = asyncHandler(async (req, res) => {
       evaluationformbody,
       { new: true }
     );
+    console.log(evaluationForm);
     res.status(200).json(evaluationForm);
   } catch (error) {
     res.status(400);

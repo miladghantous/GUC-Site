@@ -16,8 +16,8 @@ import Snackbar from "@mui/material/Snackbar";
 import {
   EvaluationFormResponse,
   InstructorResponse,
-  QuestionAnswerResponse,
 } from "../type";
+import EvaluationFormEdit from "./EvaluationFormEdit";
 
 const EvaluationFormsList = () => {
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
@@ -53,17 +53,15 @@ const EvaluationFormsList = () => {
   const handleSave = async (
     id: string,
     title: string,
-    questions: [QuestionAnswerResponse],
     instructor: InstructorResponse
   ) => {
     try {
       const response = await editEvaluationForm(
         id,
         title,
-        questions,
         instructor
       );
-      console.log("Announcement edited:", response);
+      console.log("Evaluation form edited:", response);
       setOpenEdit(false);
       refetch();
       setSnackBarOpen(true);
@@ -98,7 +96,7 @@ const EvaluationFormsList = () => {
     return <Typography>Error</Typography>;
   }
 
-
+  
   return (
     <Box sx={{ width: "100%", padding: 2 , alignItems:"center"}}>
       {data?.map((evaluationform, index) => (
@@ -130,7 +128,7 @@ const EvaluationFormsList = () => {
             </Typography>
             <hr/>
             <Typography variant="h2" sx={{ color: "black", fontSize: 25 }}>
-              Instructor: {evaluationform.instructor.username}
+              Instructor: {evaluationform.instructor._id}
             </Typography>
           </Box>
           <Box>
@@ -154,14 +152,14 @@ const EvaluationFormsList = () => {
         />
       )}
 
-      {evaluationformIdToDelete && (
+      {/* {evaluationformIdToDelete && (
         <EvaluationFormDelete
           open={openDelete}
           evaluationformId={evaluationformIdToDelete}
           onDelete={handleConfirmDelete}
           onCancel={handleCancelDelete}
         />
-      )}
+      )} */}
       <Snackbar
         open={SnackBarOpen}
         autoHideDuration={6000}

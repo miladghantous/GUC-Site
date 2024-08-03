@@ -48,7 +48,7 @@ const Navbar = () => {
           </Box>
           <Box
             component={Link}
-            to="/evaluation"
+            to="/evaluations"
             sx={{ textDecoration: "none" }}
           >
             <StyledMenuItem>Evaluation</StyledMenuItem>

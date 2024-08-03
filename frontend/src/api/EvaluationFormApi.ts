@@ -38,14 +38,13 @@ export const createEvaluationForm = async (
 export const editEvaluationForm = async (
   id: string,
   title: string,
-  questions: [QuestionAnswerResponse],
   instructor: InstructorResponse
 ): Promise<EvaluationFormResponse> => {
   const response = await axios.patch(
     `${
       import.meta.env.VITE_API_URL
     }/api/evaluationform/updateEvaluationForm/${id}`,
-    { title, questions, instructor }
+    { title, instructor }
   );
   return response.data;
 };
