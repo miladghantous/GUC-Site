@@ -9,10 +9,11 @@ import {
 } from "@mui/material";
 import { FundResponse } from "../type";
 
-// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface FundEditProps {
   open: boolean;
@@ -22,8 +23,8 @@ interface FundEditProps {
     title: string,
     link: string,
     description: string,
-    deadline: Date | null,
-    id: string
+    deadline: Dayjs | null,
+    id: string,
   ) => void;
   onCancel: () => void;
 }
@@ -36,11 +37,10 @@ const FundEdit: React.FC<FundEditProps> = ({
   onCancel,
 }) => {
   const [formValues, setFormValues] = useState({
-    // Title, link, description, deadline
     title: fund.title,
     link: fund.link,
     description: fund.description,
-    deadline: fund.deadline,
+    deadline: fund.deadline ? dayjs(fund.deadline) : null,
   });
 
   useEffect(() => {
@@ -48,13 +48,17 @@ const FundEdit: React.FC<FundEditProps> = ({
       title: fund.title,
       link: fund.link,
       description: fund.description,
-      deadline: fund.deadline,
+      deadline: fund.deadline ? dayjs(fund.deadline) : null,
     });
   }, [fund]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleDateChange = (date: Dayjs | null) => {
+    setFormValues({ ...formValues, deadline: date });
   };
 
   const handleSave = () => {
@@ -72,8 +76,8 @@ const FundEdit: React.FC<FundEditProps> = ({
           formValues.title,
           formValues.link,
           formValues.description,
-          new Date(formValues.deadline),
-          ""
+          formValues.deadline,
+          "",
         );
         return;
       }
@@ -83,7 +87,7 @@ const FundEdit: React.FC<FundEditProps> = ({
         formValues.link,
         formValues.description,
         formValues.deadline,
-        fund._id
+        fund._id,
       );
     }
   };
@@ -120,23 +124,16 @@ const FundEdit: React.FC<FundEditProps> = ({
           value={formValues.description}
           onChange={handleChange}
         />
-        {/* <TextField
-          margin="dense"
-          name="deadline"
-          label="deadline"
-          type="date"
-          fullWidth
-          value={formValues.deadline}
-          onChange={handleChange}
-
-        /> */}
-
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker label="Basic date picker" 
-          value={formValues.deadline}
-          onChange={handleChange}/>
+            <DatePicker
+              label="Deadline"
+              value={formValues.deadline}
+              onChange={handleDateChange}
+              // renderInput={(params) => (
+              //   <TextField fullWidth margin="dense" {...params} />
+              // )}
+            />
         </LocalizationProvider>
-
       </DialogContent>
       <DialogActions>
         <Button
