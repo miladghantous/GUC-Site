@@ -29,3 +29,33 @@ export type FileLinkResponse = {
   subject: string;
   link: string;
 }
+enum Answer{
+Strongly_Agree,
+ Agree,
+ Neutral,
+ Disagree,
+ Strongly_Disagree,
+}
+
+// Question, Answer
+export type QuestionAnswerResponse ={
+  _id: string;
+  question: string;
+  answer: Answer ;
+}
+
+export type InstructorResponse ={
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
+export type EvaluationFormResponse = {
+  _id: string;
+  title: string;
+  questions: [QuestionAnswerResponse];
+  instructor: InstructorResponse;
+
+}
+

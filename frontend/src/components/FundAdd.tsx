@@ -6,6 +6,7 @@ import { FundResponse } from "../type";
 import { createFund,getAllFunds } from "../api/FundApi";
 import { useQuery } from "@tanstack/react-query";
 import Snackbar from "@mui/material/Snackbar";
+import dayjs from 'dayjs';
 
 
 //Why is there errors
@@ -48,7 +49,7 @@ const FundAdd = () => {
     title: "",
     link: "",
     description: "",
-    deadline: new Date(),
+    deadline: dayjs(),
   };
 
   return (
