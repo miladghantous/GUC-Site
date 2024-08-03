@@ -12,6 +12,7 @@ import ConferenceEdit from "./ConferenceEdit";
 import ConferenceDelete from "./ConferenceDelete";
 import { ConferenceResponse } from "../type";
 import Snackbar from "@mui/material/Snackbar";
+import Link from "@mui/material/Link";
 
 
 const ConferencesList = () => {
@@ -113,9 +114,16 @@ const ConferencesList = () => {
             >
               {conference.title}
             </Typography>
-            <Typography variant="h2" sx={{ color: "black", fontSize: 25 }}>
+            <hr></hr>
+            <Link
+              href={conference.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ fontSize: "1.5rem" }}
+            >
+              {" "}
               {conference.link}
-            </Typography>
+            </Link>
           </Box>
           <Box>
             <IconButton onClick={() => handleEdit(conference)}>

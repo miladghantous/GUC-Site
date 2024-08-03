@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 export type AnnouncementResponse = {
   _id: string;
   title: string;
@@ -10,7 +12,7 @@ export type FundResponse = {
   title: string;
   link: string;
   description: string;
-  deadline: Date |null;
+  deadline: Dayjs |null;
 }
 
 //Title, link

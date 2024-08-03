@@ -1,6 +1,6 @@
 import axios from "axios";
 import { FundResponse } from "../type";
-
+import { Dayjs } from 'dayjs';
 
 export const getAllFunds = async (): Promise<
   FundResponse[]
@@ -16,7 +16,7 @@ export const createFund = async (
   title: string,
   link: string,
   description: string,
-  deadline: Date | null
+  deadline: Dayjs | null
 
 ): Promise<FundResponse> => {
   const response = await axios.post(
@@ -35,7 +35,7 @@ export const editFund = async (
   title: string,
   link: string,
   description: string,
-  deadline: Date | null,
+  deadline: Dayjs | null,
   id: string,
 ): Promise<FundResponse> => {
   const response = await axios.patch(

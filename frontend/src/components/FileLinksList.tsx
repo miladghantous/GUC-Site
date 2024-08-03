@@ -12,6 +12,8 @@ import FileLinkEdit from "./FileLinkEdit";
 import FileLinkDelete from "./FileLinkDelete";
 import { FileLinkResponse } from "../type";
 import Snackbar from "@mui/material/Snackbar";
+import Link from "@mui/material/Link";
+
 
 
 const FileLinksList = () => {
@@ -113,9 +115,16 @@ const FileLinksList = () => {
             >
               {filelink.subject}
             </Typography>
-            <Typography variant="h2" sx={{ color: "black", fontSize: 25 }}>
+            <hr></hr>
+            <Link
+              href={filelink.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ fontSize: "1.5rem" }}
+            >
+              {" "}
               {filelink.link}
-            </Typography>
+            </Link>
           </Box>
           <Box>
             <IconButton onClick={() => handleEdit(filelink)}>
