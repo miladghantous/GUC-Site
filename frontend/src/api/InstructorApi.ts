@@ -9,3 +9,13 @@ export const getAllInstructors = async (): Promise<
   );
   return response.data;
 };
+
+// const getInstructorName = async (evaluationFormId: string) => {
+//   try {
+//     const response = await getInstructorUserName(evaluationFormId);
+//     console.log("Instructor Name:", response);
+//     return response;
+//   } catch (error) {
+//     console.error("Failed to get Instructor Name:", error);
+//   }
+// }

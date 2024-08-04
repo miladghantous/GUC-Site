@@ -12,6 +12,7 @@ const {
   viewQuestionAnswer,
   updateQuestionAnswer,
   removeQuestionAnswer,
+  getInstructorUserName,
 } = require("../controller/EvaluationFormController");
 
 router.post("/addEvaluationForm", addEvaluationForm);
@@ -24,5 +25,6 @@ router.get("/viewAllQuestionAnswers", viewAllQuestionAnswers);
 router.get("/viewQuestionAnswer/:id", viewQuestionAnswer);
 router.delete("/removeQuestionAnswer/:id", removeQuestionAnswer);
 router.patch("/updateQuestionAnswer/:id", updateQuestionAnswer);
+router.get("/getInstructorUserName/:evaluationFormId", getInstructorUserName);
 
 module.exports = router;

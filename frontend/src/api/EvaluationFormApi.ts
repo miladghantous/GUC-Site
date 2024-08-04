@@ -16,14 +16,12 @@ export const getAllEvaluationForms = async (): Promise<
 
 export const createEvaluationForm = async (
   title: string,
-  questions: [QuestionAnswerResponse],
   instructor: InstructorResponse
 ): Promise<EvaluationFormResponse> => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/evaluationform/addEvaluationForm`,
     {
       title,
-      questions,
       instructor,
     },
     {
@@ -36,9 +34,9 @@ export const createEvaluationForm = async (
 };
 
 export const editEvaluationForm = async (
-  id: string,
   title: string,
-  instructor: InstructorResponse
+  instructor: InstructorResponse,
+  id: string
 ): Promise<EvaluationFormResponse> => {
   const response = await axios.patch(
     `${
@@ -97,3 +95,12 @@ export const deleteQuestionAnswer = async (id: string): Promise<void> => {
     }/api/evaluationform/removeQuestionAnswer/${id}`
   );
 };
+
+export const getInstructorUserName = async (id: string): Promise<InstructorResponse> => {
+  const response = await axios.get(
+    `${
+      import.meta.env.VITE_API_URL
+    }/api/evaluationform/getInstructorUserName/${id}`
+  );
+  return response.data;
+}

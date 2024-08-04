@@ -52,10 +52,10 @@ export type InstructorResponse ={
 }
 
 export type EvaluationFormResponse = {
-  _id: string;
   title: string;
-  questions: [QuestionAnswerResponse];
+  questions?: [QuestionAnswerResponse];
   instructor: InstructorResponse;
+  _id: string;
 
 }
 

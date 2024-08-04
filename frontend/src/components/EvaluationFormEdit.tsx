@@ -17,7 +17,7 @@ interface EvaluationFormEditProps {
   open: boolean;
   evaluationform: EvaluationFormResponse;
   header: string;
-  onSave: (id: string, title: string, instructor: InstructorResponse) => void;
+  onSave: ( title: string, instructor: InstructorResponse,id: string) => void;
   onCancel: () => void;
 }
 
@@ -63,13 +63,11 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
         onCancel();
         return;
       }
-      onSave("", formValues.title, formValues.instructor);
+      onSave(formValues.title, formValues.instructor,"");
       return;
     }
-    console.log(formValues);
 
-    onSave(evaluationform._id, formValues.title, formValues.instructor);
-    console.log(formValues);
+    onSave( formValues.title, formValues.instructor , evaluationform._id);
   };
 
   return (

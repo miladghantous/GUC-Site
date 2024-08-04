@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Box, Stack, Typography, IconButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Snackbar,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   getAllEvaluationForms,
   deleteEvaluationForm,
-//   createEvaluationForm,
   editEvaluationForm,
-//   addQuestionAnswer,
-//   updateQuestionAnswer,
-//   deleteQuestionAnswer,
 } from "../api/EvaluationFormApi";
-import Snackbar from "@mui/material/Snackbar";
-import {
-  EvaluationFormResponse,
-  InstructorResponse,
-} from "../type";
+import { EvaluationFormResponse, InstructorResponse } from "../type";
 import EvaluationFormEdit from "./EvaluationFormEdit";
+import InstructorUserName from "./InstructorUserName";
+import EvaluationFormDelete from "./EvaluationFormDelete";
 
 const EvaluationFormsList = () => {
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
@@ -28,6 +31,7 @@ const EvaluationFormsList = () => {
     queryKey: ["evaluationforms"],
     queryFn: getAllEvaluationForms,
   });
+  // const queryClient = useQueryClient();
 
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -46,21 +50,18 @@ const EvaluationFormsList = () => {
     setOpenDelete(true);
     setEvaluationFormIdToDelete(evaluationformId);
   };
+
   const handleCancelEdit = () => {
     setOpenEdit(false);
   };
 
   const handleSave = async (
-    id: string,
     title: string,
-    instructor: InstructorResponse
+    instructor: InstructorResponse,
+    id: string
   ) => {
     try {
-      const response = await editEvaluationForm(
-        id,
-        title,
-        instructor
-      );
+      const response = await editEvaluationForm(title, instructor, id);
       console.log("Evaluation form edited:", response);
       setOpenEdit(false);
       refetch();
@@ -74,13 +75,13 @@ const EvaluationFormsList = () => {
   const handleCancelDelete = () => {
     setOpenDelete(false);
   };
-  
+
   const handleConfirmDelete = async (id: string) => {
     try {
       const response = await deleteEvaluationForm(id);
       console.log("Evaluation Form deleted:", response);
       setOpenDelete(false);
-      refetch(); 
+      refetch();
       setSnackBarOpen(true);
       setSnackBarMessage("Evaluation Form deleted successfully");
     } catch (error) {
@@ -96,18 +97,14 @@ const EvaluationFormsList = () => {
     return <Typography>Error</Typography>;
   }
 
-  
   return (
-    <Box sx={{ width: "100%", padding: 2 , alignItems:"center"}}>
+    <Box sx={{ width: "100%", padding: 2, alignItems: "center" }}>
       {data?.map((evaluationform, index) => (
-        <Stack
+        <Accordion
           key={index}
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
           sx={{
-            backgroundColor: "#f5f5f5",
             marginBottom: 2,
+            backgroundColor: "#f5f5f5",
             padding: 1,
             boxShadow: 3, // Add shadow
             borderRadius: 2,
@@ -119,27 +116,33 @@ const EvaluationFormsList = () => {
             },
           }}
         >
-          <Box>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            sx={{ backgroundColor: "#f5f5f5", boxShadow: 3 }}
+          >
             <Typography
               variant="h1"
-              sx={{ color: "black", fontSize: 40, fontWeight: "bold" }}
+              sx={{ color: "black", fontSize: 20, fontWeight: "bold" }}
             >
               {evaluationform.title}
             </Typography>
-            <hr/>
-            <Typography variant="h2" sx={{ color: "black", fontSize: 25 }}>
-              Instructor: {evaluationform.instructor._id}
+            <Box sx={{ flexGrow: 1 }} />
+            <Box>
+              <IconButton onClick={() => handleEdit(evaluationform)}>
+                <EditIcon fontSize={"large"} />
+              </IconButton>
+              <IconButton onClick={() => handleDelete(evaluationform._id)}>
+                <DeleteIcon fontSize={"large"} color="action" />
+              </IconButton>
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails sx={{ backgroundColor: "#fff", padding: 2 }}>
+            <Typography variant="h2" sx={{ color: "black", fontSize: 15 }}>
+              Instructor:{" "}
+              <InstructorUserName evaluationFormId={evaluationform._id} />
             </Typography>
-          </Box>
-          <Box>
-            <IconButton onClick={() => handleEdit(evaluationform)}>
-              <EditIcon fontSize={"large"} />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(evaluationform._id)}>
-              <DeleteIcon fontSize={"large"} color="action" />
-            </IconButton>
-          </Box>
-        </Stack>
+          </AccordionDetails>
+        </Accordion>
       ))}
 
       {currentEvaluationForm && (
@@ -152,14 +155,14 @@ const EvaluationFormsList = () => {
         />
       )}
 
-      {/* {evaluationformIdToDelete && (
+      {evaluationformIdToDelete && (
         <EvaluationFormDelete
           open={openDelete}
-          evaluationformId={evaluationformIdToDelete}
+          evaluationFormId={evaluationformIdToDelete}
           onDelete={handleConfirmDelete}
           onCancel={handleCancelDelete}
         />
-      )} */}
+      )}
       <Snackbar
         open={SnackBarOpen}
         autoHideDuration={6000}
@@ -168,7 +171,6 @@ const EvaluationFormsList = () => {
       />
     </Box>
   );
-
 };
 
 export default EvaluationFormsList;

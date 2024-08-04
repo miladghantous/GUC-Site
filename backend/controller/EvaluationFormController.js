@@ -1,5 +1,6 @@
 const EvaluationFormModel = require("../model/EvaluationForm");
 const QuestionAnswerModel = require("../model/QuestionAnswer");
+const InstructorModel = require("../model/Instructor");
 const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
 
@@ -30,6 +31,19 @@ const addQuestionAnswer = asyncHandler(async (req, res) => {
     evaluationForm.questions.push(questionAnswer);
     await evaluationForm.save();
     res.status(200).json(evaluationForm);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+const getInstructorUserName = asyncHandler(async (req , res) =>{
+  const { evaluationFormId } = req.params;
+  try {
+    const evaluationForm = await EvaluationFormModel.findById(evaluationFormId);
+    const instructor = evaluationForm.instructor;
+    const Instructor = await InstructorModel.findById(instructor);
+    res.status(200).json(Instructor);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
@@ -242,4 +256,5 @@ module.exports = {
   viewQuestionAnswer,
   updateQuestionAnswer,
   removeQuestionAnswer,
+  getInstructorUserName,
 };
