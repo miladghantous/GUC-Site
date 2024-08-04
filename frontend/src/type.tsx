@@ -59,3 +59,9 @@ export type EvaluationFormResponse = {
 
 }
 
+export type ComplaintResponse = {
+  _id: string;
+  title: string;
+  details: string;
+  createdAt: Date;
+}

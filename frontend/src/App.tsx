@@ -6,6 +6,9 @@ import Fund from "./pages/Fund";
 import Conference from "./pages/Conference";
 import FileLink from "./pages/FileLink";
 import Evaluation from "./pages/Evaluation";
+import Complaint from "./pages/Complaint";
+
+
 
 
 const queryClient = new QueryClient();
@@ -22,6 +25,7 @@ function App() {
           <Route path="/conferences" element={<Conference />} />
           <Route path="/filelinks" element={<FileLink />} />
           <Route path="/evaluations" element={<Evaluation />} />
+          <Route path="/complaints" element={<Complaint />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

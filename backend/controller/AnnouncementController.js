@@ -49,7 +49,6 @@ const viewAllAnnouncements = asyncHandler(async (req, res) => {
 // Update Announcement by ID (U)
 const updateAnnouncement = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { title, description, image } = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) {
         res.status(404);
