@@ -96,10 +96,6 @@ const searchBySubject = asyncHandler(async (req, res) => {
   }
   try {
     const links = await FileLinkModel.find(query);
-    if (links.length === 0) {
-      res.status(400);
-      throw new Error("No links found!");
-    }
     res.status(200).json(links);
   } catch (err) {
     res.status(400);

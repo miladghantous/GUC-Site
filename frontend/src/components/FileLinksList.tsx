@@ -14,17 +14,21 @@ import { FileLinkResponse } from "../type";
 import Snackbar from "@mui/material/Snackbar";
 import Link from "@mui/material/Link";
 
+interface linkProps {
+  data : FileLinkResponse[]
+}
 
-
-const FileLinksList = () => {
+const FileLinksList = (
+  {data} : linkProps
+) => {
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  const { data, isLoading, isError, refetch } = useQuery<
-    FileLinkResponse[]
-  >({
-    queryKey: ["filelinks"],
-    queryFn: getAllFileLinks,
-  });
+  // const { data, isLoading, isError, refetch } = useQuery<
+  //   FileLinkResponse[]
+  // >({
+  //   queryKey: ["filelinks"],
+  //   queryFn: getAllFileLinks,
+  // });
 
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -44,7 +48,7 @@ const FileLinksList = () => {
       const response = await editFileLink(id, subject, link);
       console.log("FileLink edited:", response);
       setOpenEdit(false);
-      refetch(); // Refetch the filelinks to get the updated list
+      // refetch(); // Refetch the filelinks to get the updated list
       setSnackBarOpen(true);
       setSnackBarMessage("Link edited successfully"); 
     } catch (error) {
@@ -66,7 +70,7 @@ const FileLinksList = () => {
       const response = await deleteFileLink(id);
       console.log("FileLink deleted:", response);
       setOpenDelete(false);
-      refetch(); // Refetch the filelinks to get the updated list
+      // refetch(); // Refetch the filelinks to get the updated list
       setSnackBarOpen(true);
       setSnackBarMessage("Link deleted successfully");
     } catch (error) {
@@ -78,13 +82,13 @@ const FileLinksList = () => {
     setOpenDelete(false);
   };
 
-  if (isLoading) {
-    return <Typography>Loading...</Typography>;
-  }
+  // if (isLoading) {
+  //   return <Typography>Loading...</Typography>;
+  // }
 
-  if (isError) {
-    return <Typography>Error</Typography>;
-  }
+  // if (isError) {
+  //   return <Typography>Error</Typography>;
+  // }
 
   return (
     <Box sx={{ width: "100%", padding: 2 , alignItems:"center"}}>

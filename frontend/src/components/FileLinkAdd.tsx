@@ -46,7 +46,7 @@ const FileLinkAdd = () => {
 
   return (
     <>
-      <Box display="flex" alignItems="center" sx={{ cursor: "pointer" }}>
+      <Box display="flex" alignItems="center" >
         <IconButton
           onClick={() => setOpen(true)}
           sx={{
