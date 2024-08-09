@@ -44,3 +44,8 @@ export const deleteFileLink = async (id: string): Promise<void> => {
     `${import.meta.env.VITE_API_URL}/api/filelink/removeFileLink/${id}`
   );
 };
+
+export const searchBySubject = async(subject: string): Promise<FileLinkResponse> => {
+  const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/filelink/searchBySubject/${subject}`);
+  return response.data;
+};

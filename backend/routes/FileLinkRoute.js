@@ -7,7 +7,8 @@ const {
     viewFileLink,
     removeFileLink,
     updateFileLink,
-    viewAllFileLinks
+    viewAllFileLinks,
+    searchBySubject
 
 } = require('../controller/FileLinkController')
 
@@ -16,6 +17,7 @@ router.get('/viewAllFileLinks', viewAllFileLinks)
 router.get('/viewFileLink/:id', viewFileLink)
 router.delete('/removeFileLink/:id', removeFileLink)
 router.patch('/updateFileLink/:id', updateFileLink)
+router.get('/searchBySubject/:subject', searchBySubject)
 
 
 module.exports = router
