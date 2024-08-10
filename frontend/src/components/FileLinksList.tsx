@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Box, Stack, Typography, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
-  getAllFileLinks,
   editFileLink,
   deleteFileLink,
 } from "../api/FileLinkApi";
@@ -15,28 +13,22 @@ import Snackbar from "@mui/material/Snackbar";
 import Link from "@mui/material/Link";
 
 interface linkProps {
-  data : FileLinkResponse[]
+  data: FileLinkResponse[];
+  onEditOrDelete: () => void;
 }
 
-const FileLinksList = (
-  {data} : linkProps
-) => {
+const FileLinksList = ({ data , onEditOrDelete }: linkProps) => {
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  // const { data, isLoading, isError, refetch } = useQuery<
-  //   FileLinkResponse[]
-  // >({
-  //   queryKey: ["filelinks"],
-  //   queryFn: getAllFileLinks,
-  // });
+
 
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [currentFileLink, setCurrentFileLink] =
     useState<FileLinkResponse | null>(null);
-  const [filelinkIdToDelete, setFileLinkIdToDelete] = useState<
-    string | null
-  >(null);
+  const [filelinkIdToDelete, setFileLinkIdToDelete] = useState<string | null>(
+    null
+  );
 
   const handleEdit = (filelink: FileLinkResponse) => {
     setCurrentFileLink(filelink);
@@ -48,9 +40,9 @@ const FileLinksList = (
       const response = await editFileLink(id, subject, link);
       console.log("FileLink edited:", response);
       setOpenEdit(false);
-      // refetch(); // Refetch the filelinks to get the updated list
+      onEditOrDelete();
       setSnackBarOpen(true);
-      setSnackBarMessage("Link edited successfully"); 
+      setSnackBarMessage("Link edited successfully");
     } catch (error) {
       console.error("Failed to edit filelink:", error);
     }
@@ -70,7 +62,7 @@ const FileLinksList = (
       const response = await deleteFileLink(id);
       console.log("FileLink deleted:", response);
       setOpenDelete(false);
-      // refetch(); // Refetch the filelinks to get the updated list
+      onEditOrDelete();
       setSnackBarOpen(true);
       setSnackBarMessage("Link deleted successfully");
     } catch (error) {
@@ -82,16 +74,8 @@ const FileLinksList = (
     setOpenDelete(false);
   };
 
-  // if (isLoading) {
-  //   return <Typography>Loading...</Typography>;
-  // }
-
-  // if (isError) {
-  //   return <Typography>Error</Typography>;
-  // }
-
   return (
-    <Box sx={{ width: "100%", padding: 2 , alignItems:"center"}}>
+    <Box sx={{ width: "100%", padding: 2, alignItems: "center" }}>
       {data?.map((filelink, index) => (
         <Stack
           key={index}

@@ -3,22 +3,18 @@ import { IconButton, Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FileLinkEdit from "./FileLinkEdit";
 import { FileLinkResponse } from "../type";
-import { createFileLink,getAllFileLinks } from "../api/FileLinkApi";
+import { createFileLink} from "../api/FileLinkApi";
 import Snackbar from "@mui/material/Snackbar";
-import { useQuery } from "@tanstack/react-query";
 
-
-
-const FileLinkAdd = () => {
+interface FileLinkAddProps {
+  onAdd: () => void;
+}
+const FileLinkAdd = (
+  { onAdd }: FileLinkAddProps
+) => {
   const [open, setOpen] = useState(false);
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  const { refetch } = useQuery<
-    FileLinkResponse[]
-  >({
-    queryKey: ["filelinks"],
-    queryFn: getAllFileLinks,
-  });
 
   const handleSave = async (subject: string, link: string) => {
     try {
@@ -26,8 +22,7 @@ const FileLinkAdd = () => {
       const response = await createFileLink(subject, link);
       console.log("FileLink added:", response);
       setOpen(false);
-      //refresh the filelinks to get the updated list
-      refetch();
+      onAdd();
       setSnackBarOpen(true);
       setSnackBarMessage("Link added successfully");
     } catch (error) {

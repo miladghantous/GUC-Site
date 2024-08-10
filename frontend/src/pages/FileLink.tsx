@@ -1,9 +1,10 @@
+import { useState } from "react";
 import FileLinksList from "../components/FileLinksList";
 import FileLinkAdd from "../components/FileLinkAdd";
 import Navbar from "../components/NavBar";
 import SearchBar from "../components/SearchBar";
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FileLinkResponse } from "../type";
 import { getAllFileLinks } from "../api/FileLinkApi";
 
@@ -20,14 +21,17 @@ const FileLink = () => {
     });
   }, []);
 
+  const handleEditOrDelete = () => {
+    getAllFileLinks().then((response) => {
+      setData(response);
+    });
+    console.log("FileLink edited or deleted");
+  };
+
   return (
     <>
       <Navbar />
-      <Box
-        sx={{
-          paddingTop: 8,
-        }}
-      >
+      <Box sx={{ paddingTop: 8 }}>
         <Box
           sx={{
             flexDirection: "row",
@@ -38,7 +42,7 @@ const FileLink = () => {
             marginLeft: 4,
           }}
         >
-          <FileLinkAdd />
+          <FileLinkAdd onAdd={handleEditOrDelete} />
           <Box
             sx={{
               flexDirection: "row",
@@ -60,7 +64,7 @@ const FileLink = () => {
             alignItems: "center",
           }}
         >
-          <FileLinksList data={data} />
+          <FileLinksList data={data} onEditOrDelete={handleEditOrDelete} />
         </Box>
       </Box>
     </>
