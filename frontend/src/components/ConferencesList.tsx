@@ -13,14 +13,12 @@ import ConferenceDelete from "./ConferenceDelete";
 import { ConferenceResponse } from "../type";
 import Snackbar from "@mui/material/Snackbar";
 import Link from "@mui/material/Link";
-
+import dayjs, { Dayjs } from "dayjs";
 
 const ConferencesList = () => {
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  const { data, isLoading, isError, refetch } = useQuery<
-    ConferenceResponse[]
-  >({
+  const { data, isLoading, isError, refetch } = useQuery<ConferenceResponse[]>({
     queryKey: ["conferences"],
     queryFn: getAllConferences,
   });
@@ -38,14 +36,19 @@ const ConferencesList = () => {
     setOpenEdit(true);
   };
 
-  const handleSave = async (id: string, title: string, link: string) => {
+  const handleSave = async (
+    title: string,
+    link: string,
+    deadline: Dayjs | null,
+    id: string,
+  ) => {
     try {
-      const response = await editConference(id, title, link);
+      const response = await editConference(id, title, link, deadline);
       console.log("Conference edited:", response);
       setOpenEdit(false);
       refetch(); // Refetch the conferences to get the updated list
       setSnackBarOpen(true);
-      setSnackBarMessage("Conference edited successfully"); 
+      setSnackBarMessage("Conference edited successfully");
     } catch (error) {
       console.error("Failed to edit conference:", error);
     }
@@ -86,7 +89,7 @@ const ConferencesList = () => {
   }
 
   return (
-    <Box sx={{ width: "100%", padding: 2 , alignItems:"center"}}>
+    <Box sx={{ width: "100%", padding: 2, alignItems: "center" }}>
       {data?.map((conference, index) => (
         <Stack
           key={index}
@@ -124,6 +127,12 @@ const ConferencesList = () => {
               {" "}
               {conference.link}
             </Link>
+            <Typography variant="body2" sx={{ color: "black", fontSize: 20 }}>
+              Deadline:{" "}
+              {conference.deadline
+                ? dayjs(conference.deadline).format("YYYY-MM-DD")
+                : ""}
+            </Typography>
           </Box>
           <Box>
             <IconButton onClick={() => handleEdit(conference)}>

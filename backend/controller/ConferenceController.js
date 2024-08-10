@@ -7,6 +7,7 @@ const addConference = asyncHandler(async (req, res) => {
   const conferencebody = req.body;
   try {
     const conference = await ConferenceModel.create(conferencebody);
+    
     res.status(200).json(conference);
   } catch (error) {
     res.status(400);
@@ -36,7 +37,7 @@ const removeConference = asyncHandler(async (req, res) => {
 // View Conferencess
 const viewAllConferences = asyncHandler(async (req, res) => {
   try {
-    const conferences = await ConferenceModel.find({}).sort({ createdAt: -1 });
+    const conferences = await ConferenceModel.find({}).sort({ deadline: +1 });
     res.status(200).json(conferences);
   } catch (error) {
     res.status(400);

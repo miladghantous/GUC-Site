@@ -66,8 +66,7 @@ const FundEdit: React.FC<FundEditProps> = ({
       if (
         formValues.title === "" ||
         formValues.link === "" ||
-        formValues.description === "" ||
-        formValues.deadline === null
+        formValues.description === ""
       ) {
         onCancel();
         return;
@@ -129,9 +128,11 @@ const FundEdit: React.FC<FundEditProps> = ({
               label="Deadline"
               value={formValues.deadline}
               onChange={handleDateChange}
-              // renderInput={(params) => (
-              //   <TextField fullWidth margin="dense" {...params} />
-              // )}
+              slotProps={{
+                actionBar: {
+                  actions: ['clear']
+                }
+              }}
             />
         </LocalizationProvider>
       </DialogContent>

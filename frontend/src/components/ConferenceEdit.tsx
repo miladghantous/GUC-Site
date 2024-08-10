@@ -8,12 +8,21 @@ import {
   Button,
 } from "@mui/material";
 import { ConferenceResponse } from "../type";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs";
 
 interface ConferenceEditProps {
   open: boolean;
   conference: ConferenceResponse;
   header: string;
-  onSave: (id:string, title: string, link: string) => void;
+  onSave: (
+    title: string,
+    link: string,
+    deadline: Dayjs | null,
+    id: string,
+  ) => void;
   onCancel: () => void;
 }
 
@@ -27,12 +36,14 @@ const ConferenceEdit: React.FC<ConferenceEditProps> = ({
   const [formValues, setFormValues] = useState({
     title: conference.title,
     link: conference.link,
+    deadline: conference.deadline ? dayjs(conference.deadline) : null,
   });
 
   useEffect(() => {
     setFormValues({
       title: conference.title,
       link: conference.link,
+      deadline: conference.deadline ? dayjs(conference.deadline) : null,
     });
   }, [conference]);
 
@@ -41,16 +52,27 @@ const ConferenceEdit: React.FC<ConferenceEditProps> = ({
     setFormValues({ ...formValues, [name]: value });
   };
 
+  const handleDateChange = (date: Dayjs | null) => {
+    setFormValues({ ...formValues, deadline: date });
+  };
+
   const handleSave = () => {
-    if(header === "Add Conference") {
-      if(formValues.title === "" || formValues.link === "") {
+    if (header === "Add Conference") {
+      if (
+        (formValues.title === "" || formValues.link === "" )
+      ) {
         onCancel();
         return;
       }
-      onSave(formValues.title, formValues.link,"");
+      onSave( formValues.title, formValues.link, formValues.deadline, "");
       return;
     }
-    onSave(conference._id, formValues.title, formValues.link);
+    onSave(
+      formValues.title,
+      formValues.link,
+      formValues.deadline,
+      conference._id,
+    );
   };
 
   return (
@@ -76,6 +98,19 @@ const ConferenceEdit: React.FC<ConferenceEditProps> = ({
           value={formValues.link}
           onChange={handleChange}
         />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+  <DatePicker
+  //i want the date to be null initially
+    label="Deadline"
+    value={formValues.deadline != null ? dayjs(formValues.deadline) :null} // Set initial value to null
+    onChange={handleDateChange}
+    slotProps={{
+      actionBar: {
+        actions: ['clear']
+      }
+    }}
+  />
+</LocalizationProvider>
       </DialogContent>
       <DialogActions>
         <Button

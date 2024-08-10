@@ -20,7 +20,7 @@ export type ConferenceResponse = {
   _id: string;
   title: string;
   link: string;
-
+  deadline: Dayjs | null;
 }
 
 //Subject, Link

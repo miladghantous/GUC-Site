@@ -36,7 +36,7 @@ const removeFund = asyncHandler(async (req, res) => {
 // View Funds
 const viewAllFunds = asyncHandler(async (req, res) => {
   try {
-    const funds = await FundModel.find({}).sort({ createdAt: -1 });
+    const funds = await FundModel.find({}).sort({ deadline: +1 });
     res.status(200).json(funds);
   } catch (error) {
     res.status(400);

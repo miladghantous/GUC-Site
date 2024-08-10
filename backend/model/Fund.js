@@ -17,7 +17,6 @@ const FundSchema = new mongoose.Schema({
     },
     deadline: {
         type: Date,
-        required: true,
     }
 
 },{ timestamps: true });

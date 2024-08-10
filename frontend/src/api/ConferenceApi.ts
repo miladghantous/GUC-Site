@@ -1,10 +1,8 @@
 import axios from "axios";
 import { ConferenceResponse } from "../type";
+import { Dayjs } from "dayjs";
 
-
-export const getAllConferences = async (): Promise<
-  ConferenceResponse[]
-> => {
+export const getAllConferences = async (): Promise<ConferenceResponse[]> => {
   const response = await axios.get(
     `${import.meta.env.VITE_API_URL}/api/conference/viewAllConferences`
   );
@@ -13,11 +11,12 @@ export const getAllConferences = async (): Promise<
 
 export const createConference = async (
   title: string,
-  link: string
+  link: string,
+  deadline: Dayjs | null
 ): Promise<ConferenceResponse> => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/conference/addConference`,
-    { title, link },
+    { title, link, deadline },
     {
       headers: {
         "Content-Type": "application/json",
@@ -30,11 +29,12 @@ export const createConference = async (
 export const editConference = async (
   id: string,
   title: string,
-  link: string
+  link: string,
+  deadline: Dayjs | null
 ): Promise<ConferenceResponse> => {
   const response = await axios.patch(
     `${import.meta.env.VITE_API_URL}/api/conference/updateConference/${id}`,
-    { title, link }
+    { title, link, deadline }
   );
   return response.data;
 };

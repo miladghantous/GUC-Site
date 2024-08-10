@@ -11,6 +11,9 @@ const ConferenceSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    deadline: {
+      type: Date,
+    }
   },
   { timestamps: true }
 );

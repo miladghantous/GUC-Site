@@ -7,6 +7,8 @@ import { createConference } from "../api/ConferenceApi";
 import Snackbar from "@mui/material/Snackbar";
 import { useQuery } from "@tanstack/react-query";
 import { getAllConferences } from "../api/ConferenceApi";
+import dayjs from "dayjs";
+// import zustand from "react"
 
 const ConferenceAdd = () => {
   const [open, setOpen] = useState(false);
@@ -17,10 +19,14 @@ const ConferenceAdd = () => {
     queryFn: getAllConferences,
   });
 
-  const handleSave = async (title: string, link: string) => {
+  const handleSave = async (
+    title: string,
+    link: string,
+    deadline: Date | any
+  ) => {
     try {
       console.log(title, link);
-      const response = await createConference(title, link);
+      const response = await createConference(title, link, deadline);
       console.log("Conference added:", response);
       setOpen(false);
       //refresh the conferences to get the updated list
@@ -39,11 +45,12 @@ const ConferenceAdd = () => {
     _id: "",
     title: "",
     link: "",
+    deadline: dayjs(),
   };
 
   return (
     <>
-      <Box display="flex" alignItems="center" >
+      <Box display="flex" alignItems="center">
         <IconButton
           onClick={() => setOpen(true)}
           sx={{
