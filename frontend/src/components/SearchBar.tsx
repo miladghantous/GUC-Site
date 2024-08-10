@@ -3,19 +3,14 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import { searchBySubject, getAllFileLinks } from "../api/FileLinkApi";
+import { searchBySubject} from "../api/FileLinkApi";
 import { FileLinkResponse } from "../type";
-import { useQuery } from "@tanstack/react-query";
 
 interface SearchBarProps {
   onData: (data: FileLinkResponse[]) => void;
 }
 function SearchBar({ onData }: SearchBarProps) {
   const [search, setSearch] = useState<string>("");
-  const { data, refetch } = useQuery<FileLinkResponse[]>({
-    queryKey: ["filelinks"],
-    queryFn: getAllFileLinks,
-  });
 
   const handleSearch = async () => {
     if (!search.trim()) return; // Avoid searching if the input is empty
@@ -31,7 +26,6 @@ function SearchBar({ onData }: SearchBarProps) {
   const handleClear = () => {
     setSearch("");
     onData(data || []);
-    refetch();
   };
 
   return (
