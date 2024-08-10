@@ -28,6 +28,8 @@ const announcementRoutes = require('./routes/AnnouncementRoute')
 const filelinkRoutes = require('./routes/FileLinkRoute')
 const evaluationformRoutes = require('./routes/EvaluationFormRoute')
 const complaintRoutes = require('./routes/ComplaintRoute')
+const userRoutes= require('./routes/UserRoute')
+
 
 
 
@@ -40,6 +42,7 @@ server.use('/api/announcement',announcementRoutes)
 server.use('/api/filelink',filelinkRoutes)
 server.use('/api/evaluationform',evaluationformRoutes)
 server.use('/api/complaint',complaintRoutes)
+server.use('/api/user',userRoutes)
 
 
 server.use(ErrorHandler)

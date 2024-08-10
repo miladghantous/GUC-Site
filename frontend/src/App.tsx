@@ -7,7 +7,7 @@ import Conference from "./pages/Conference";
 import FileLink from "./pages/FileLink";
 import Evaluation from "./pages/Evaluation";
 import Complaint from "./pages/Complaint";
-
+import Login from "./pages/Login";
 
 
 
@@ -19,6 +19,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/announcements" element={<Announcement />} />
           <Route path="/funds" element={<Fund />} />
