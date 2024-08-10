@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import { searchBySubject} from "../api/FileLinkApi";
+import { searchBySubject , getAllFileLinks} from "../api/FileLinkApi";
 import { FileLinkResponse } from "../type";
 
 interface SearchBarProps {
@@ -25,7 +25,9 @@ function SearchBar({ onData }: SearchBarProps) {
 
   const handleClear = () => {
     setSearch("");
-    onData(data || []);
+    getAllFileLinks().then((response) => {
+      onData(response);
+    } );
   };
 
   return (
