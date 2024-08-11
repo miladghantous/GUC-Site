@@ -19,11 +19,9 @@ const login = asyncHandler(async (req,res) => {
         throw new Error('Invalid email')
     }
     const salt = await bcrypt.genSalt(10)
-    // print password and user.password to check if they are the same
-    console.log(password);
-    console.log(user.password);
     const comparePassword = await bcrypt.compare(password,user.password)
-    console.log("comparePassword: ", comparePassword)
+    console.log(password);
+
     if (!comparePassword) {
         res.status(400)
         console.log("Not password")

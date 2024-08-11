@@ -9,7 +9,7 @@ import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 
 
-const Home = () => {
+const HomeAdmin = () => {
   return (
     <div>
       <Navbar />
@@ -59,4 +59,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeAdmin;

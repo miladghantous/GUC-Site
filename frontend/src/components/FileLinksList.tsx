@@ -129,7 +129,7 @@ const FileLinksList = ({ data , onEditOrDelete }: linkProps) => {
         <FileLinkEdit
           open={openEdit}
           filelink={currentFileLink}
-          header="Edit FileLink"
+          header="Edit Link"
           onSave={handleSave}
           onCancel={handleCancelEdit}
         />

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const {protect} = require("../middleware/AuthenticationHandler")
 
 const {
   addEvaluationForm,
@@ -15,16 +16,16 @@ const {
   getInstructorUserName,
 } = require("../controller/EvaluationFormController");
 
-router.post("/addEvaluationForm", addEvaluationForm);
-router.get("/viewEvaluationForm/:id", viewEvaluationForm);
-router.get("/viewAllEvaluationForms", viewAllEvaluationForms);
-router.patch("/updateEvaluationForm/:id", updateEvaluationForm);
-router.delete("/removeEvaluationForm/:id", removeEvaluationForm);
-router.post("/addQuestionAnswer/:id", addQuestionAnswer);
-router.get("/viewAllQuestionAnswers", viewAllQuestionAnswers);
-router.get("/viewQuestionAnswer/:id", viewQuestionAnswer);
-router.delete("/removeQuestionAnswer/:id", removeQuestionAnswer);
-router.patch("/updateQuestionAnswer/:id", updateQuestionAnswer);
-router.get("/getInstructorUserName/:evaluationFormId", getInstructorUserName);
+router.post("/addEvaluationForm", protect, addEvaluationForm);
+router.get("/viewEvaluationForm/:id",protect, viewEvaluationForm);
+router.get("/viewAllEvaluationForms", protect,viewAllEvaluationForms);
+router.patch("/updateEvaluationForm/:id",protect, updateEvaluationForm);
+router.delete("/removeEvaluationForm/:id",protect, removeEvaluationForm);
+router.post("/addQuestionAnswer/:id",protect, addQuestionAnswer);
+router.get("/viewAllQuestionAnswers", protect,viewAllQuestionAnswers);
+router.get("/viewQuestionAnswer/:id", protect,viewQuestionAnswer);
+router.delete("/removeQuestionAnswer/:id",protect, removeQuestionAnswer);
+router.patch("/updateQuestionAnswer/:id",protect, updateQuestionAnswer);
+router.get("/getInstructorUserName/:evaluationFormId", protect,getInstructorUserName);
 
 module.exports = router;

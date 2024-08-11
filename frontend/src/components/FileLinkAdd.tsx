@@ -61,14 +61,14 @@ const FileLinkAdd = (
           variant="h6"
           sx={{ color: "black", paddingLeft: 4, paddingBottom: 3 }}
         >
-          Add a new file link
+          Add a new link
         </Typography>
       </Box>
 
       <FileLinkEdit
         open={open}
         filelink={newFileLink}
-        header="Add FileLink"
+        header="Add Link"
         onSave={handleSave}
         onCancel={handleCancel}
       />

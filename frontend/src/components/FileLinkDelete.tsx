@@ -30,7 +30,7 @@ const FileLinkDelete: React.FC<FileLinkDeleteProps> = ({
       <DialogTitle>Confirm Deletion</DialogTitle>
       <DialogContent>
         <Typography>
-          Are you sure you want to delete this filelink?
+          Are you sure you want to delete this link?
         </Typography>
       </DialogContent>
       <DialogActions>

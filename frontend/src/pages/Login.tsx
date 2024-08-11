@@ -1,96 +1,119 @@
-import { useState} from "react";
-//import "../css/login.css"
-
-import {Link, useNavigate} from "react-router-dom";
+import { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import guc from "../assets/guc.png";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-    // const isLogged = window.localStorage.getItem("logged");
-    const handleLogin = async() => {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/login`, {
-            method: 'POST',
-            body: JSON.stringify({email,password}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        if(response.ok){
-            const result = await response.json()
-            // window.localStorage.setItem("logged",true)
-            window.localStorage.setItem("role",result.role)
-            window.localStorage.setItem("name", result.name);
-            window.localStorage.setItem("username",result.username)
-            window.localStorage.setItem("id",result.id)
-            navigate('/Home')
-            window.location.reload()
-        }
-        if (!response.ok) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-            alert("Invalid username or password")
-            // setEmail("")
-            // setPassword("")
-        }
-    };
-
-    return (
-        <body className="my-custom-background">
-        <div className="container mt-lg-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <div className="card box login-card">
-                        <h4 className="login-header-edit">Login</h4>
-                        <h5 className="welcome-text-edit">Welcome to El7a2ni</h5>
-
-                        <div className="card-body">
-                            <form>
-                                <div className="form-group">
-                                    <label htmlFor="username">Username</label>
-                                    <input
-                                        type="text"
-                                        className="form-control input-danger fontMed"
-                                        id="username"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="password">Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control input-danger"
-                                        id="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                    />
-                                </div>
-                                <br/>
-                                <button
-                                    type="button"
-                                    className="btn btn-danger buttons"
-                                    onClick={handleLogin}
-                                >
-                                    Login
-                                </button>
-                                <br/>
-
-                                <p className="text-center">
-                                    <Link className="link-edit" to="/EnterEmailReset">Forgot Password?</Link>
-                                </p>
-                                <p className="text-center">
-                                    <Link className="link-edit" to="/Register">Sign Up</Link>
-                                </p>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </body>
-
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevents the default form submission behavior
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/user/login`,
+      {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
+    if (response.ok) {
+      const result = await response.json();
+      window.localStorage.setItem("logged", "true");
+      window.localStorage.setItem("role", result.role);
+      window.localStorage.setItem("name", result.name);
+      window.localStorage.setItem("username", result.username);
+      window.localStorage.setItem("id", result.id);
+      navigate("/home");
+      window.location.reload();
+    } else {
+      alert("Invalid username or password");
+      setEmail("");
+      setPassword("");
+    }
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          component="img"
+          sx={{
+            height: 100,
+            mb: 2,
+          }}
+          alt="guc"
+          src={guc}
+        />
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Typography
+            component={Link}
+            to="/EnterEmailReset"
+            sx={{ textDecoration: "underline", color: "inherit" }}
+          >
+            Forgot your password?
+          </Typography>
+        </Box>
+      </Box>
+    </Container>
+  );
 };
 
 export default Login;
