@@ -7,20 +7,33 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
-
+import AddNewUser from "../components/AddNewUser";
 
 const HomeAdmin = () => {
   return (
     <div>
       <Navbar />
-      <Box sx={{ mt: 8 }}>
+      <Box
+sx={{
+  marginTop: 10,
+  marginLeft: 10,
+}}
+      >
+        <AddNewUser />
+      </Box>
+      <Box sx={{  }}>
         <Box
           sx={{
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-around",
             alignItems: "center",
-            gap: 5,
+            gap: 2,
+            width: "80%", // Adjust the width to make the container smaller
+            maxWidth: 1500, // Optional: set a maximum width
+            margin: "0 auto", // Center the box horizontally
+            height: "70%", // Optional: set the height
+            maxHeight: 1000, // Optional: set the maximum height
           }}
         >
           <Card

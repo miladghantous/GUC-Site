@@ -17,22 +17,26 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    console.log("1111111111111111");
     event.preventDefault(); // Prevents the default form submission behavior
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/user/login`,
       {
         method: "POST",
+        credentials:"include",
         body: JSON.stringify({ email, password }),
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
+    console.log("000000000000000000000000000000000");
+    const result = await response.json();
+    console.log(result);
     if (response.ok) {
-      const result = await response.json();
+      console.log(result);
       window.localStorage.setItem("logged", "true");
       window.localStorage.setItem("role", result.role);
-      window.localStorage.setItem("name", result.name);
       window.localStorage.setItem("username", result.username);
       window.localStorage.setItem("id", result.id);
       navigate("/home");

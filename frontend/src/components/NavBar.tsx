@@ -27,6 +27,7 @@ const Navbar = () => {
     try {
       const response = await fetch("api/user/logout", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -42,7 +43,6 @@ const Navbar = () => {
     }
     window.localStorage.removeItem("logged");
     window.localStorage.removeItem("role");
-    window.localStorage.removeItem("name");
     window.localStorage.removeItem("username");
     window.localStorage.removeItem("id");
     navigate("/login");

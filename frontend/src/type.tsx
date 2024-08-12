@@ -44,12 +44,13 @@ export type QuestionAnswerResponse ={
   answer: Answer ;
 }
 
-export type InstructorResponse ={
+export type UserResponse ={
   _id: string;
   username: string;
   email: string;
   password: string;
 }
+
 
 export type EvaluationFormResponse = {
   title: string;

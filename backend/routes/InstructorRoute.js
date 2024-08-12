@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {protect} = require("../middleware/AuthenticationHandler")
+const {checkAdminRole} = require('../middleware/AccessHandler')
 
 const {
   addInstructor,
@@ -10,7 +11,7 @@ const {
   updateInstructor,
 } = require("../controller/InstructorController");
 
-router.post("/addInstructor", protect ,addInstructor);
+router.post("/addInstructor", protect , checkAdminRole , addInstructor);
 router.delete("/removeInstructor/:id",protect, removeInstructor);
 router.get("/viewInstructor/:id",protect, viewInstructor);
 router.get("/viewAllInstructors",protect, viewAllInstructors);

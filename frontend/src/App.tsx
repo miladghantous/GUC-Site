@@ -18,6 +18,7 @@ const App = () => {
   const logged = window.localStorage.getItem("logged") === "true";
   console.log(logged);
   const role = window.localStorage.getItem("role");
+  console.log(role);
 
   const isAdmin = role === "ADMIN";
   const isInstructor = role === "INSTRUCTOR";

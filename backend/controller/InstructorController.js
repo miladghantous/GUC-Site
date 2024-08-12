@@ -1,27 +1,28 @@
 const InstructorModel = require('../model/Instructor')
+const UserModel = require('../model/User')
 const mongoose = require('mongoose')
 const asyncHandler = require('express-async-handler')
+const bcrypt = require('bcryptjs')
 
 // Add a new Instructor
-const addInstructor = asyncHandler(async (req, res) => {
-    const instructorbody = req.body
-    try {
-        if (instructorbody.password.search(/[a-z]/) < 0 ||
-        instructorbody.password.search(/[A-Z]/) < 0 ||
-        instructorbody.password.search(/[0-9]/) < 0) 
-        {
+const addInstructor= asyncHandler(async(req,res) => {
+    console.log(req.body);
+    const{username,password,email}= req.body
+    try{
+        if (password.search(/[a-z]/) < 0 || password.search(/[A-Z]/) < 0 || password.search(/[0-9]/) < 0) {
             res.status(400)
             throw new Error("Password must contain at least one number, one capital letter and one small letter")
         }
-        const instructor = await InstructorModel.create(instructorbody)
-        res.status(200).json(instructor)
-
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password,salt)
+        await UserModel.create({email,password:hashedPassword,'role':'INSTTRUCTOR'})
+        const ins =await InstructorModel.create({username,password:password,email:email})
+        res.status(200).json(ins)
     }
-    catch (error) {
+    catch(error) {
         res.status(400)
         throw new Error(error.message)
     }
-
 })
 
 // Remove/Block Instructor
