@@ -11,7 +11,7 @@ const {
 } = require('../controller/UserController')
 const {protect,localVariables} = require("../middleware/AuthenticationHandler");
 
-router.post('/login',login)
+router.post('/login', login)
 router.post('/logout',protect,logout)
 
 router.post('/generateOTP',localVariables,generateOTP)

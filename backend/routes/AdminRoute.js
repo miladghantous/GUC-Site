@@ -13,7 +13,7 @@ const {
 
 } = require('../controller/AdminController')
 
-router.post('/addAdmin', addAdmin)
+router.post('/addAdmin',protect,checkAdminRole, addAdmin)
 router.delete('/removeAdmin/:id', protect,removeAdmin)
 router.get('/viewAdmin/:id',protect, viewAdmin)
 router.get('/viewAllAdmins',protect, viewAllAdmins)

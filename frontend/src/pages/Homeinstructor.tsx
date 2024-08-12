@@ -7,12 +7,20 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
-
+import ChangePasswordComponent from "../components/ChangePasswordComponent";
 
 const HomeInstructor = () => {
   return (
     <div>
       <Navbar />
+      <Box
+        sx={{
+          marginTop: 10,
+          marginLeft: 10,
+        }}
+      >
+        <ChangePasswordComponent />
+      </Box>
       <Box sx={{ mt: 8 }}>
         <Box
           sx={{

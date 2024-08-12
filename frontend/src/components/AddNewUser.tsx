@@ -22,7 +22,7 @@ const AddNewUser = () => {
         console.log("Admin added:", response);
       }
       else{
-        const response = await addInstructor(username, email , "Aa1");
+        const response = await addInstructor( email,username , "Aa1");
         console.log("Instructor added:", response);
       }
       setOpen(false);

@@ -8,20 +8,28 @@ import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import AddNewUser from "../components/AddNewUser";
+import ChangePasswordComponent from "../components/ChangePasswordComponent";
 
 const HomeAdmin = () => {
   return (
     <div>
       <Navbar />
       <Box
-sx={{
-  marginTop: 10,
-  marginLeft: 10,
-}}
+        sx={{
+          marginTop: 11,
+          marginLeft: 25,
+          display: "flex", 
+          flexDirection: "row",
+          alignItems: "center", 
+          gap: 4, 
+        }}
       >
         <AddNewUser />
+        <Box sx={{ml:25 }}>
+        <ChangePasswordComponent />
+        </Box>
       </Box>
-      <Box sx={{  }}>
+      <Box sx={{}}>
         <Box
           sx={{
             display: "flex",

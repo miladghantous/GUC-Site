@@ -7,7 +7,6 @@ const nodemailer = require("nodemailer");
 
 // Add a new Admin
 const addAdmin = asyncHandler(async (req, res) => {
-  console.log("++++++++++++++++");
   const { username, password, email } = req.body;
   try {
     if (
@@ -22,17 +21,19 @@ const addAdmin = asyncHandler(async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log("****************");
-    const user = await UserModel.create({
+    console.log("-------------");
+    await UserModel.create({
       email,
       password: hashedPassword,
       role: "ADMIN",
     });
+    console.log("+++++++++++++++++++");
     const admin = await AdminModel.create({
       username,
       password: password,
       email: email,
     });
+    console.log("*******************");
     await sendEmail(email);
     res.status(200).json(admin);
   } catch (error) {
@@ -63,7 +64,7 @@ const sendEmail = async (email) => {
     },
     to: email,
     subject: "Invite to join GUC Site",
-    text: `Hello, you have been invited to join the GUC Site as an Admin. Your password is currently "Aa1". You can now login with this email an password = "Aa1" . You can change your password after login.`,
+    text: `Hello, you have been invited to join the GUC Site as an Admin. Your password is currently "Aa1". You can now login with this email an password "Aa1" . You can change your password after login.`,
   };
   //debug
   console.log("Email sent.");
