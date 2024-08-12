@@ -40,8 +40,7 @@ const login = asyncHandler(async (req, res) => {
   }
   const token = generateToken(user.email, user.role, id);
 
-
-  res.cookie('token', token, {
+  res.cookie("token", token, {
     maxAge: 3600000,
     httpOnly: true,
   });
@@ -205,7 +204,7 @@ const changePassword = async (req, res) => {
     });
   }
   if (newPassword != confirmPassword) {
-    return res.status(400).json({ error: "Password confirmation incorrect" });
+    return res.status(402).json({ error: "Password confirmation incorrect" });
   }
   try {
     const salt = await bcrypt.genSalt(10);

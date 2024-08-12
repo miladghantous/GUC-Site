@@ -17,6 +17,7 @@ const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [typoMessage,setTypoMessage] = useState(false);
   const navigate = useNavigate();
 
   const handleChangePassword = async (

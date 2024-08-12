@@ -66,3 +66,7 @@ export type ComplaintResponse = {
   details: string;
   createdAt: Date;
 }
+
+export type TaResponse ={
+  name: string;
+}

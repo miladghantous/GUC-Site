@@ -8,6 +8,7 @@ import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import AddNewUser from "../components/AddNewUser";
+import AddTa from "../components/AddTa"
 import ChangePasswordComponent from "../components/ChangePasswordComponent";
 
 const HomeAdmin = () => {
@@ -28,6 +29,11 @@ const HomeAdmin = () => {
         <Box sx={{ml:25 }}>
         <ChangePasswordComponent />
         </Box>
+
+        <Box sx={{ml:25 }}>
+        <AddTa />
+        </Box>
+
       </Box>
       <Box sx={{}}>
         <Box

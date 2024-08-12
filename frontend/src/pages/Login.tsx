@@ -14,6 +14,7 @@ import guc from "../assets/guc.png";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [typoOpen, setTypoOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -23,7 +24,7 @@ const Login = () => {
       `${import.meta.env.VITE_API_URL}/api/user/login`,
       {
         method: "POST",
-        credentials:"include",
+        credentials: "include",
         body: JSON.stringify({ email, password }),
         headers: {
           "Content-Type": "application/json",
@@ -42,9 +43,10 @@ const Login = () => {
       navigate("/home");
       window.location.reload();
     } else {
-      alert("Invalid username or password");
+      // alert("Invalid username or password");
       setEmail("");
       setPassword("");
+      setTypoOpen(true);
     }
   };
 
@@ -99,6 +101,19 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {typoOpen && (
+              <Typography sx={{ color: "red" }}>
+                *Invalid username or password{" "}
+              </Typography>
+            )}
+          </Box>
           <Button
             type="submit"
             fullWidth
