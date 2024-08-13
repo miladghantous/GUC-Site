@@ -29,7 +29,6 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
-
       }
     );
     console.log("000000000000000000000000000000000");
@@ -41,10 +40,12 @@ const Login = () => {
       sessionStorage.setItem("role", result.role);
       sessionStorage.setItem("username", result.username);
       sessionStorage.setItem("id", result.id);
-      
-      //wait for the local storage to be set
-      // await new Promise((r) => setTimeout(r, 1000));
-      
+       console.log(result.token);
+      if(!result.token || !result.role){
+        navigate("/login"); 
+        window.location.reload();
+      }
+
       navigate("/home");
       window.location.reload();
     } else {
