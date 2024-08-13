@@ -25,10 +25,11 @@ const Login = () => {
       {
         method: "POST",
         credentials: "include",
-        body: JSON.stringify({ email, password }),
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ email, password }),
+
       }
     );
     console.log("000000000000000000000000000000000");
@@ -40,10 +41,12 @@ const Login = () => {
       window.localStorage.setItem("role", result.role);
       window.localStorage.setItem("username", result.username);
       window.localStorage.setItem("id", result.id);
+      //wait for the local storage to be set
+      await new Promise((r) => setTimeout(r, 1000));
+      
       navigate("/home");
       window.location.reload();
     } else {
-      // alert("Invalid username or password");
       setEmail("");
       setPassword("");
       setTypoOpen(true);
