@@ -39,25 +39,26 @@ export const deleteTa = async (id: string): Promise<void> => {
   await axios.delete(`${import.meta.env.VITE_API_URL}/api/ta/removeTa/${id}`);
 };
 
-export const checkIfExists = async (name: string): Promise<TaResponse | null> => {
+export const checkIfExists = async (name: string): Promise<boolean> => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/ta/checkIfExists`,
+      `${import.meta.env.VITE_API_URL}/api/ta/checkIfExists/${name}`,
       {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name }),
       }
     );
 
     if (!response.ok) {
-      throw new Error("Failed to check if TA exists");
+      return false;
     }
 
-    return await response.json();
+    const data = await response.json();
+    return data.exists;
+
   } catch (error) {
     console.log("ana 3nd error bta3 front");
     console.error("Error occurred while checking if TA exists:", error);

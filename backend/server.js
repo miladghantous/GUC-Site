@@ -15,7 +15,6 @@ server.use(bodyParser.json());
 var cors = require("cors");
 server.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
-// server.listen(port,() => console.log(`Server is listening on port ${port}`))
 connectToDb();
 const httpServer = require("http").createServer(server);
 httpServer.listen(port, () =>

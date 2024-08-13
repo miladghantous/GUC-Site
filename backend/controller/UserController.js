@@ -198,13 +198,13 @@ const changePassword = async (req, res) => {
     newPassword.search(/[A-Z]/) < 0 ||
     newPassword.search(/[0-9]/) < 0
   ) {
-    return res.status(400).json({
+    return res.status(402).json({
       error:
         "Password must contain at least one number, one capital letter and one small letter",
     });
   }
   if (newPassword != confirmPassword) {
-    return res.status(402).json({ error: "Password confirmation incorrect" });
+    return res.status(403).json({ error: "Password confirmation incorrect" });
   }
   try {
     const salt = await bcrypt.genSalt(10);

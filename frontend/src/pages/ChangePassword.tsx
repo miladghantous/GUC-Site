@@ -17,7 +17,8 @@ const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [typoMessage,setTypoMessage] = useState(false);
+  const [typoMessage, setTypoMessage] = useState<string>("");
+  const [typoOpen, setTypoOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleChangePassword = async (
@@ -40,7 +41,18 @@ const ChangePassword = () => {
     );
     console.log(response);
     if (!response.ok) {
-      throw new Error("Failed to change password.");
+      setTypoOpen(true);
+      if (response.status === 401) {
+        setTypoMessage("The old password isn't correct. Please retype it.");
+      } else if (response.status === 402) {
+        setTypoMessage(
+          "The password you entered doesn't meet the minimum security requirements. Password must contain at least one number, one capital letter and one small letter"
+        );
+      } else if (response.status === 403) {
+        setTypoMessage(
+          "The passwords you typed don't match. Please try again."
+        );
+      }
     } else {
       window.localStorage.removeItem("logged");
       navigate("/login");
@@ -111,6 +123,19 @@ const ChangePassword = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {typoOpen && (
+              <Typography sx={{ color: "red" }}>
+                *{typoMessage}{" "}
+              </Typography>
+            )}
+          </Box>
           <Button
             type="submit"
             fullWidth

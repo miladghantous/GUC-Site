@@ -14,29 +14,21 @@ const addTa = asyncHandler(async (req, res) => {
   }
 });
 
+// Check if Ta exists
 const checkIfTaExists = asyncHandler(async (req, res) => {
-  const { name } = req.body; // Destructure the name property from req.body
-  console.log("Inside checkIfTaExists method");
-
+  const { name } = req.params;
   try {
-    const ta = await TaModel.findOne({ name: name });
-
-    if (ta) {
-      console.log("Ta exists.");
-      return res.status(200).json(ta);
-
-    } else {
-      console.log("Ta does not exist.");
-      return res.status(200).json(null);
+    const ta = await TaModel.findOne ({ name: name });
+    if (!ta) {
+      res.status(404);
+      throw new Error("Ta not found");
     }
+    res.status(200).json(ta);
   } catch (error) {
-    console.log("7aga momyza");
-    
-    console.error("Error while checking if TA exists:", error);
-    return res.status(500).json({ error: "An error occurred while checking if TA exists." });
+    res.status(400);
+    throw new Error(error.message);
   }
 });
-
 // Remove/Block Ta
 const removeTa = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -55,6 +47,7 @@ const removeTa = asyncHandler(async (req, res) => {
     throw new Error(error.message);
   }
 });
+
 
 // View Ta
 const viewTa = asyncHandler(async (req, res) => {

@@ -19,11 +19,9 @@ const AddTa = () => {
       const exists = await checkIfExists(name);
       console.log("does name exists:   " +exists);
       
-      if (exists === null) {
+      if (exists === false) {
         setTypoOpen(false);
-        console.log("A7aaaten");
       } else {
-        console.log("A7aaa");
         setTypoOpen(true);
       }
       const response = await addTa(name);

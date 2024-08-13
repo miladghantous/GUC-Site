@@ -20,6 +20,6 @@ router.get("/viewTa/:id", viewTa);
 router.get("/viewAllTas", viewAllTas);
 router.patch("/updateTa/:id", protect,checkAdminRole,  updateTa);
 router.get("/searchByName/:name", searchByName);
-router.post("/checkIfExists", protect,checkAdminRole,  checkIfTaExists);
+router.post("/checkIfExists/:name", protect,checkAdminRole,  checkIfTaExists);
 
 module.exports = router;
