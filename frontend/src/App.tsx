@@ -17,9 +17,9 @@ import ChangePassword from "./pages/ChangePassword";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const logged = window.localStorage.getItem("logged") === "true";
+  const logged = sessionStorage.getItem("logged") === "true";
   console.log(logged);
-  const role = window.localStorage.getItem("role");
+  const role = sessionStorage.getItem("role");
   console.log(role);
 
   const isAdmin = role === "ADMIN";

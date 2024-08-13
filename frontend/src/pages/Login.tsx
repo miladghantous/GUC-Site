@@ -37,12 +37,13 @@ const Login = () => {
     console.log(result);
     if (response.ok) {
       console.log(result);
-      window.localStorage.setItem("logged", "true");
-      window.localStorage.setItem("role", result.role);
-      window.localStorage.setItem("username", result.username);
-      window.localStorage.setItem("id", result.id);
+      sessionStorage.setItem("logged", "true");
+      sessionStorage.setItem("role", result.role);
+      sessionStorage.setItem("username", result.username);
+      sessionStorage.setItem("id", result.id);
+      
       //wait for the local storage to be set
-      await new Promise((r) => setTimeout(r, 1000));
+      // await new Promise((r) => setTimeout(r, 1000));
       
       navigate("/home");
       window.location.reload();
