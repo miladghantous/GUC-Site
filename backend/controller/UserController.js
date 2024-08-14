@@ -45,7 +45,7 @@ const login = asyncHandler(async (req, res) => {
     httpOnly: true,
   });
   // log cookie
-  console.log("r1 :" + req.cookies);
+  console.log("r1 :" + res.cookies);
 
   res.status(200).json({
     id: id,
