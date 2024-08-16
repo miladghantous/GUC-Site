@@ -23,6 +23,10 @@ const StyledMenuItem = styled(MenuItem)({
 const Navbar = () => {
   const navigate = useNavigate();
 
+  const role = sessionStorage.getItem("role");
+  const isAdmin = role === "ADMIN";
+  const isInstructor = role === "INSTRUCTOR";
+
   const handleLogout = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/logout`, {
@@ -97,13 +101,23 @@ const Navbar = () => {
           <Box component={Link} to="/funds" sx={{ textDecoration: "none" }}>
             <StyledMenuItem>Funds</StyledMenuItem>
           </Box>
-          <Box
-            component={Link}
-            to="/complaints"
-            sx={{ textDecoration: "none" }}
-          >
-            <StyledMenuItem>Complaints</StyledMenuItem>
-          </Box>
+          {isAdmin ? (
+            <Box
+              component={Link}
+              to="/complaintsAdmin"
+              sx={{ textDecoration: "none" }}
+            >
+              <StyledMenuItem>Complaints</StyledMenuItem>
+            </Box>
+          ) : (
+            <Box
+              component={Link}
+              to="/complaintsInstructor"
+              sx={{ textDecoration: "none" }}
+            >
+              <StyledMenuItem>Complaints</StyledMenuItem>
+            </Box>
+          )}
           {/* code for logout icon */}
           <Box
             sx={{
