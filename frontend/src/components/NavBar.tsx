@@ -25,7 +25,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("api/user/logout", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/logout`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -36,15 +36,14 @@ const Navbar = () => {
         const message = await response.json();
         console.log(message);
       } else {
-        console.log("7777777777777777");
       }
     } catch (error) {
       console.log("errr");
     }
-    window.localStorage.removeItem("logged");
-    window.localStorage.removeItem("role");
-    window.localStorage.removeItem("username");
-    window.localStorage.removeItem("id");
+    sessionStorage.removeItem("logged");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("id");
     navigate("/login");
     window.location.reload();
   };

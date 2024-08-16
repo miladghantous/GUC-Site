@@ -1,9 +1,10 @@
 import ComplaintsList from "../components/ComplaintsList";
 import ComplaintAdd from "../components/ComplaintAdd";
 import Navbar from "../components/NavBar";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import ComplaintsListAdmin from "../components/ComplaintListAdmin";
 
-const Announcment = () => {
+const ComplaintAdmin = () => {
   return (
     <>
       <Navbar />
@@ -21,7 +22,12 @@ const Announcment = () => {
             marginLeft: 4,
           }}
         >
-          <ComplaintAdd />
+          <Typography
+            variant="h6"
+            sx={{ color: "black",  paddingLeft: 4, paddingBottom: 3 }}
+          >
+            <h2>List Of Complaints</h2>
+          </Typography>{" "}
         </Box>
 
         <Box
@@ -31,11 +37,11 @@ const Announcment = () => {
             alignItems: "center",
           }}
         >
-          <ComplaintsList />
+          <ComplaintsListAdmin />
         </Box>
       </Box>
     </>
   );
 };
 
-export default Announcment;
+export default ComplaintAdmin;

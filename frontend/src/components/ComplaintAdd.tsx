@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IconButton, Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ComplaintEdit from "./ComplaintEdit";
-import { ComplaintResponse } from "../type";
+import { ComplaintResponse, Status } from "../type";
 import {getAllComplaints ,createComplaint } from "../api/ComplaintApi";
 import { useQuery } from "@tanstack/react-query";
 
@@ -37,10 +37,13 @@ const ComplaintAdd = () => {
     setOpen(false);
   };
   const newComplaint: ComplaintResponse = {
-    _id: "",
+    _id:"",
     title: "",
     details: "",
+    // user: "",
     createdAt: new Date(),
+    status: Status.Pending, // Set the default status to Pending from the enum
+    reply: ""
   };
 
   return (

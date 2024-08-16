@@ -44,8 +44,6 @@ const login = asyncHandler(async (req, res) => {
     maxAge: 3600000,
     httpOnly: true,
   });
-  // log cookie
-  console.log("r1 :" + req.cookies);
 
   res.status(200).json({
     id: id,
@@ -60,6 +58,7 @@ const logout = async (req, res) => {
   try {
     res.clearCookie("token");
     // log cookie
+    console.log("logout function backend");
     console.log(req.cookies);
     res.status(200).json("Successfully logged out ");
   } catch (error) {

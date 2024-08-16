@@ -68,7 +68,7 @@ const HomeAdmin = () => {
           <Card
             title="Complaints"
             icon={<WarningAmberOutlinedIcon sx={{ fontSize: 100 }} />}
-            link="/complaints"
+            link="/complaintsAdmin"
           />
           <Card
             title="Conferences"

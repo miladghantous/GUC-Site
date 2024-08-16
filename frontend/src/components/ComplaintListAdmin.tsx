@@ -1,47 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Box, Stack, Typography, IconButton } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import { Box, Stack, Typography, IconButton, Checkbox } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
-  // getAllComplaints,
-  editComplaint,
+  getAllComplaints,
   deleteComplaint,
-  getUserComplaints,
+  changeStatus,
+  editReply,
 } from "../api/ComplaintApi";
-import ComplaintEdit from "./ComplaintEdit";
+// import ComplaintEdit from "./ComplaintEdit";
 import ComplaintDelete from "./ComplaintDelete";
 import { ComplaintResponse } from "../type";
 import Snackbar from "@mui/material/Snackbar";
+import ReplyIcon from "@mui/icons-material/Reply";
+import ComplaintEditAdmin from "./ComplaintEditAdmin";
 
-const ComplaintsList = () => {
-  const [data, setData] = useState<ComplaintResponse[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+const ComplaintsListAdmin = () => {
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  // const { data, isLoading, isError, refetch } = useQuery<ComplaintResponse[]>({
-  //   queryKey: ["complaints"],
-  //   queryFn: getUserComplaints,    
-  // });
-  // const [data,setData] = useState<ComplaintResponse[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getUserComplaints();
-        console.log(response);
-        
-        setData(response);
-        setIsLoading(false);
-      } catch (error) {
-        setIsError(true);
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  const { data, isLoading, isError, refetch } = useQuery<ComplaintResponse[]>({
+    queryKey: ["complaints"],
+    queryFn: getAllComplaints,
+  });
 
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -56,18 +36,40 @@ const ComplaintsList = () => {
     setOpenEdit(true);
   };
 
-  const handleSave = async (id: string, title: string, details: string) => {
+  const handleReply = async (id: string, replyText: string) => {
     try {
-      const response = await editComplaint(id, title, details);
-      console.log("Complaint edited:", response);
+      if (currentComplaint && currentComplaint.reply) {
+        console.log("Reply already exists for this complaint.");
+        setOpenEdit(false);
+        refetch();
+        setSnackBarOpen(true);
+        setSnackBarMessage("Reply already exists for this complaint");
+        return;
+      }
+
+      const response = await editReply(id, replyText);
+      console.log("Reply added:", response);
       setOpenEdit(false);
-      // refetch();
+      refetch();
       setSnackBarOpen(true);
-      setSnackBarMessage("Complaint edited successfully");
+      setSnackBarMessage("Reply added successfully");
     } catch (error) {
-      console.error("Failed to edit complaint:", error);
+      console.error("Failed to add reply:", error);
     }
   };
+
+  const handleStatusChange = async (id: string, currentStatus: string) => {
+    const newStatus = currentStatus === "Pending" ? "Resolved" : "Pending";
+    try {
+      await changeStatus(id, newStatus);
+      refetch();
+      setSnackBarOpen(true);
+      setSnackBarMessage(`Complaint status changed to ${newStatus}`);
+    } catch (error) {
+      console.error("Failed to change complaint status:", error);
+    }
+  };
+
   const handleCancelEdit = () => {
     setOpenEdit(false);
   };
@@ -82,7 +84,7 @@ const ComplaintsList = () => {
       const response = await deleteComplaint(id);
       console.log("Complaint deleted:", response);
       setOpenDelete(false);
-      // refetch();
+      refetch();
       setSnackBarOpen(true);
       setSnackBarMessage("Complaint deleted successfully");
     } catch (error) {
@@ -114,7 +116,7 @@ const ComplaintsList = () => {
             backgroundColor: "#f5f5f5",
             marginBottom: 2,
             padding: 1,
-            boxShadow: 3, // Add shadow
+            boxShadow: 3,
             borderRadius: 2,
             borderBottom: "1px solid #ddd",
             transition: "0.3s",
@@ -124,18 +126,29 @@ const ComplaintsList = () => {
             },
           }}
         >
-          <Box>
-            <Typography variant="h2" sx={{ color: "black", fontSize: 20 }}>
+          <Box sx={{ flex: 1 }}>
+            <Typography
+              variant="h4"
+              sx={{ color: "text.primary", fontSize: 16 }}
+            >
               {new Date(complaint.createdAt).toDateString()}
             </Typography>
             <Typography
-              variant="h1"
-              sx={{ color: "black", fontSize: 40, fontWeight: "bold" }}
+              variant="h2"
+              sx={{
+                color: "text.primary",
+                fontSize: 32,
+                fontWeight: "bold",
+                marginBottom: 1,
+              }}
             >
               {complaint.title}
             </Typography>
-            <hr />
-            <Typography variant="h2" sx={{ color: "black", fontSize: 25 }}>
+            <hr style={{ width: "100%", margin: "5px 0" }} />
+            <Typography
+              variant="body1"
+              sx={{ color: "text.primary", fontSize: 20, marginBottom: 1 }}
+            >
               {complaint.details}
             </Typography>
             {complaint.reply && (
@@ -148,34 +161,36 @@ const ComplaintsList = () => {
             )}
             <Typography
               variant="body1"
-              sx={{
-                color: "text.primary",
-                fontSize: 20,
-                marginBottom: 1,
-                fontWeight: "bold",
-              }}
+              sx={{ color: "text.primary", fontSize: 20, marginBottom: 1, fontWeight: 'bold' }}
             >
               Status: {complaint.status}
             </Typography>
           </Box>
           <Box>
+            <Checkbox
+              checked={(complaint.status as string) === "Resolved"}
+              onChange={() =>
+                handleStatusChange(complaint._id, complaint.status)
+              }
+            />
             <IconButton onClick={() => handleEdit(complaint)}>
-              <EditIcon fontSize={"large"} />
+              <ReplyIcon fontSize="large" />
             </IconButton>
             <IconButton onClick={() => handleDelete(complaint._id)}>
-              <DeleteIcon fontSize={"large"} color="action" />
+              <DeleteIcon fontSize="large" color="action" />
             </IconButton>
           </Box>
         </Stack>
       ))}
 
       {currentComplaint && (
-        <ComplaintEdit
+        <ComplaintEditAdmin
           open={openEdit}
           complaint={currentComplaint}
           header="Edit Complaint"
-          onSave={handleSave}
+          onSave={handleReply}
           onCancel={handleCancelEdit}
+          // onReply={handleReply} // Pass the handleReply function to handle reply functionality
         />
       )}
 
@@ -197,4 +212,4 @@ const ComplaintsList = () => {
   );
 };
 
-export default ComplaintsList;
+export default ComplaintsListAdmin;

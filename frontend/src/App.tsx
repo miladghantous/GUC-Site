@@ -7,11 +7,12 @@ import Fund from "./pages/Fund";
 import Conference from "./pages/Conference";
 import FileLink from "./pages/FileLink";
 import Evaluation from "./pages/Evaluation";
-import Complaint from "./pages/Complaint";
+import ComplaintInstructor from "./pages/ComplaintInstructor";
 import Login from "./pages/Login";
 import EnterEmailReset from "./components/EnterEmailReset";
 import ResetPassword from "./components/ResetPassword";
 import ChangePassword from "./pages/ChangePassword";
+import ComplaintAdmin from "./pages/ComplaintAdmin";
 
 
 const queryClient = new QueryClient();
@@ -74,8 +75,12 @@ const App = () => {
             element={logged ? <Evaluation /> : <Navigate to="/login" />}
           />
           <Route
-            path="/complaints"
-            element={logged ? <Complaint /> : <Navigate to="/login" />}
+            path="/complaintsInstructor"
+            element={logged && isInstructor ? <ComplaintInstructor /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/complaintsAdmin"
+            element={logged &&  isAdmin ? <ComplaintAdmin /> : <Navigate to="/login" />}
           />
           <Route path="/EnterEmailReset" element={<EnterEmailReset />} />
           <Route path="/ResetPassword/:email" element={<ResetPassword />} />
