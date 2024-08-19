@@ -1,35 +1,31 @@
 const EvaluationFormModel = require("../model/EvaluationForm");
 const QuestionAnswerModel = require("../model/QuestionAnswer");
-const InstructorModel = require("../model/Instructor");
 const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
 
 // Add Evaluation Form
 const addEvaluationForm = asyncHandler(async (req, res) => {
   const evaluationformbody = req.body;
-  try {
-    const evaluationform = await EvaluationFormModel.create(evaluationformbody);
-    res.status(200).json(evaluationform);
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
-});
 
-//Add Question Answer to Evaluation Form
-const addQuestionAnswer = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const questionAnswerBody = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404);
-    throw new Error("Evaluation Form not found");
-  }
+  console.log(evaluationformbody);
   try {
-    const evaluationForm = await EvaluationFormModel.findById(id);
-    const questionAnswer = await QuestionAnswerModel.create(questionAnswerBody);
-    evaluationForm.questions.push(questionAnswer);
-    await evaluationForm.save();
+    const defaultQuestions = await QuestionAnswerModel.find({});
+
+    // Map the default questions to include both question ID and default empty answer
+    const questionsWithEmptyAnswers = defaultQuestions.map((question) => ({
+      questionId: question._id,
+      answer: "",
+    }));
+
+    // Add the default questions (with empty answers) to the evaluation form body
+    evaluationformbody.questions = defaultQuestions.map(
+      (question) => question._id
+    );
+    evaluationformbody.answers = questionsWithEmptyAnswers;
+
+    // Create the evaluation form with default questions
+    const evaluationForm = await EvaluationFormModel.create(evaluationformbody);
+    console.log(evaluationForm);
     res.status(200).json(evaluationForm);
   } catch (error) {
     res.status(400);
@@ -37,142 +33,25 @@ const addQuestionAnswer = asyncHandler(async (req, res) => {
   }
 });
 
-const getInstructorUserName = asyncHandler(async (req , res) =>{
-  const { evaluationFormId } = req.params;
-  try {
-    const evaluationForm = await EvaluationFormModel.findById(evaluationFormId);
-    const instructor = evaluationForm.instructor;
-    const Instructor = await InstructorModel.findById(instructor);
-    res.status(200).json(Instructor);
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
-});
-
-// Get All Question Answers
-const viewAllQuestionAnswers = asyncHandler(async (req, res) => {
-  try {
-    const questionAnswers = await QuestionAnswerModel.find().sort({
-      createdAt: -1,
-    });
-    res.status(200).json(questionAnswers);
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
-});
-
-// Get a question answer by ID
-const viewQuestionAnswer = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404);
-    throw new Error("Question Answer not found");
-  }
-
-  try {
-    const questionAnswer = await QuestionAnswerModel.findById(id);
-    res.status(200).json(questionAnswer);
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
-});
-
-//update an answer in a question answer by ID
-const updateQuestionAnswer = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const questionAnswerBody = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404);
-    throw new Error("Question Answer not found");
-  }
-
-  try {
-    const questionAnswer = await QuestionAnswerModel.findByIdAndUpdate(
-      id,
-      questionAnswerBody,
-      { new: true }
-    );
-    // Find the Evaluation Form containing the QuestionAnswer
-    const evaluationForm = await EvaluationFormModel.findOne({
-      "questions._id": id,
-    });
-
-    if (!evaluationForm) {
-      res.status(404);
-      throw new Error("Evaluation Form not found");
-    }
-
-    // Update the specific question answer in the Evaluation Form
-    const questionIndex = evaluationForm.questions.findIndex((q) =>
-      q._id.equals(id)
-    );
-    if (questionIndex !== -1) {
-      evaluationForm.questions[questionIndex] = questionAnswer;
-      await evaluationForm.save();
-    }
-
-    res.status(200).json(questionAnswer);
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
-});
-
-// delete question answer by ID
-const removeQuestionAnswer = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404);
-    throw new Error("Question Answer not found");
-  }
-
-  try {
-    const questionAnswer = await QuestionAnswerModel.findByIdAndDelete(id);
-    // Find the Evaluation Form containing the QuestionAnswer
-    const evaluationForm = await EvaluationFormModel.findOne({
-      "questions._id": id,
-    });
-
-    if (!evaluationForm) {
-      res.status(404);
-      throw new Error("Evaluation Form not found");
-    }
-
-    // Remove the specific question answer in the Evaluation Form
-    const questionIndex = evaluationForm.questions.findIndex((q) =>
-      q._id.equals(id)
-    );
-    if (questionIndex !== -1) {
-      evaluationForm.questions.splice(questionIndex, 1);
-    }
-
-    await evaluationForm.save();
-
-    res.status(200).json(questionAnswer);
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
-});
-
-// Update question answer by ID
-
 // Get All Evaluation Forms
 const viewAllEvaluationForms = asyncHandler(async (req, res) => {
   try {
-    const evaluationForms = await EvaluationFormModel.find().sort({
-      createdAt: -1,
-    });
+    const evaluationForms = await EvaluationFormModel.find()
+      .sort({ createdAt: -1 })
+      .populate("questions")
+      .populate("evaluator", "username") // Populate evaluator with only the name field
+      .populate("evaluatedTA", "name"); // Populate evaluated TA with only the name field
+
+    // evaluationForms.forEach(form => {
+    //   form.questions.forEach(question) = form.answers.map(answer => ({
+    //     questionId: answer.questionId,
+    //     answer: answer.answer
+    //   }));
+    // });
+
     res.status(200).json(evaluationForms);
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -186,62 +65,78 @@ const viewEvaluationForm = asyncHandler(async (req, res) => {
   }
 
   try {
-    const evaluationForm = await EvaluationFormModel.findById(id);
+    const evaluationForm = await EvaluationFormModel.findById(id)
+      .populate("questions") // Populate the questions field with actual question data
+      .exec();
+
+    if (!evaluationForm) {
+      res.status(404).json({ error: "Evaluation Form not found" });
+      return;
+    }
+    
+    // Access the first answer in the answers array
+    // console.log(evaluationForm.answers[0].answer[0]);
+
     res.status(200).json(evaluationForm);
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 
 // Update evaluation form title or instructor by ID
 const updateEvaluationForm = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const evaluationformbody = req.body;
-
-  if (evaluationformbody.questions) {
-    res.status(400);
-    throw new Error("Not allowed to update questions");
-  }
-  console.log(evaluationformbody); 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404);
-    throw new Error("Evaluation Form not found");
-  }
+  const { evaluationFormId, questionAnswerId } = req.params;
+  const { answer, questionType } = req.body;
 
   try {
-    const evaluationForm = await EvaluationFormModel.findByIdAndUpdate(
-      id,
-      evaluationformbody,
-      { new: true }
-    );
-    console.log(evaluationForm);
-    res.status(200).json(evaluationForm);
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
-});
+    const evaluationForm = await EvaluationFormModel.findById(evaluationFormId);
 
-// Delete evaluation form by ID
-const removeEvaluationForm = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404);
-    throw new Error("Evaluation Form not found");
-  }
-
-  try {
-    for (const question of (await EvaluationFormModel.findById(id)).questions) {
-      await QuestionAnswerModel.findByIdAndDelete(question._id);
+    if (!evaluationForm) {
+      return res.status(404).json({ error: "Evaluation form not found" });
     }
-    const evaluationForm = await EvaluationFormModel.findByIdAndDelete(id);
 
-    res.status(200).json(evaluationForm);
+    const answerIndex = evaluationForm.answers.findIndex(
+      (a) => a.questionId.toString() === questionAnswerId
+    );
+
+    let updatedAnswer;
+
+    switch (questionType) {
+      case "Text":
+        updatedAnswer = [answer];
+        break;
+      case "Rating":
+        updatedAnswer = [parseInt(answer)];
+        break;
+      case "Multiple Choice":
+        updatedAnswer = [answer];
+        break;
+      case "Checkbox":
+        // For checkboxes, ensure answer is an array and update multiple selections
+        if (!Array.isArray(answer)) {
+          return res
+            .status(400)
+            .json({ error: "Checkbox answer should be an array" });
+        }
+        updatedAnswer = answer;
+        break;
+      default:
+        return res.status(400).json({ error: "Invalid question type" });
+    }
+
+    if (answerIndex > -1) {
+      evaluationForm.answers[answerIndex].answer = updatedAnswer;
+    } else {
+      evaluationForm.answers.push({
+        questionId: questionAnswerId,
+        answer: updatedAnswer,
+      });
+    }
+
+    const updatedEvaluationForm = await evaluationForm.save();
+    res.status(200).json(updatedEvaluationForm);
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -250,11 +145,4 @@ module.exports = {
   viewAllEvaluationForms,
   viewEvaluationForm,
   updateEvaluationForm,
-  removeEvaluationForm,
-  addQuestionAnswer,
-  viewAllQuestionAnswers,
-  viewQuestionAnswer,
-  updateQuestionAnswer,
-  removeQuestionAnswer,
-  getInstructorUserName,
 };

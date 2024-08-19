@@ -1,21 +1,41 @@
 const mongoose = require("mongoose");
-const QuestionAnswerSchema = require("./QuestionAnswer").schema;
+// const QuestionAnswerSchema = require("./QuestionAnswer").schema;
 
 const EvaluationFormSchema = new mongoose.Schema(
   {
-    instructor: {
+    evaluator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Instructor",
       required: true,
     },
-    title: {
+    evaluatedTA: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Ta",
+      required: true,
+    },
+    semester: {
       type: String,
       required: true,
     },
-    questions: {
-      type: [QuestionAnswerSchema],
-      default: [],
+    course: {
+      type: String,
+      required: true,
     },
+    questions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "QuestionAnswer",
+      },
+    ],
+    answers: [
+      {
+        questionId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "QuestionAnswer",
+        },
+        answer: mongoose.Schema.Types.Mixed, // For storing different types of answers
+      },
+    ],
   },
   { timestamps: true }
 );

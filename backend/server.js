@@ -32,6 +32,7 @@ const evaluationformRoutes = require("./routes/EvaluationFormRoute");
 const complaintRoutes = require("./routes/ComplaintRoute");
 const userRoutes = require("./routes/UserRoute");
 const taRoutes = require("./routes/TaRoute");
+const questionAnswerRoutes = require("./routes/QuestionAnswerRoute")
 
 // APIs
 server.use("/api/instructor", instructorRoutes);
@@ -44,5 +45,8 @@ server.use("/api/evaluationform", evaluationformRoutes);
 server.use("/api/complaint", complaintRoutes);
 server.use("/api/user", userRoutes);
 server.use("/api/ta", taRoutes);
+server.use("/api/questionanswer", questionAnswerRoutes);
+
+
 
 server.use(ErrorHandler);

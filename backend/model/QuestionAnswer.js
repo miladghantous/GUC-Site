@@ -1,18 +1,17 @@
 const mongoose = require("mongoose");
 
 const QuestionAnswerSchema = new mongoose.Schema({
-  question: {
+  questionText: {
     type: String,
+    required: true,
   },
-  answer: {
+  questionType: {
     type: String,
-    enum: [
-      "Strongly Agree",
-      "Agree",
-      "Neutral",
-      "Disagree",
-      "Strongly Disagree",
-    ],
+    enum: ["Text", "Rating", "Multiple Choice", "Checkbox"],
+    required: true,
+  },
+  options: {
+    type: [String],
   },
 });
 
