@@ -29,19 +29,12 @@ export type FileLinkResponse = {
   subject: string;
   link: string;
 };
-enum Answer {
-  Strongly_Agree,
-  Agree,
-  Neutral,
-  Disagree,
-  Strongly_Disagree,
-}
 
-// Question, Answer
 export type QuestionAnswerResponse = {
   _id: string;
-  question: string;
-  answer: Answer;
+  questionText: string;
+  questionType: "Text" | "Rating" | "Multiple Choice" | "Checkbox";
+  options: string[];
 };
 
 export type UserResponse = {
@@ -51,17 +44,27 @@ export type UserResponse = {
   password: string;
 };
 
+export type TaResponse = {
+  name: string;
+};
+
 export type EvaluationFormResponse = {
-  title: string;
-  questions?: [QuestionAnswerResponse];
-  instructor: UserResponse;
   _id: string;
+  evaluator: UserResponse; // Assuming UserResponse corresponds to the instructor's information
+  evaluatedTA: TaResponse; // Assuming UserResponse corresponds to the TA's information
+  semester: string;
+  course: string;
+  questions: QuestionAnswerResponse[]; // Array of QuestionAnswerResponse objects
+  answers: {
+    questionId: string; // Reference to QuestionAnswer _id
+    answer: any; // The answer field, which can be of various types
+  }[];
 };
 
 export enum Status {
   Pending = "Pending",
   Resolved = "Resolved",
-};
+}
 
 export type ComplaintResponse = {
   _id: string;
@@ -71,8 +74,4 @@ export type ComplaintResponse = {
   status: Status;
   reply: string;
   // user: string
-};
-
-export type TaResponse = {
-  name: string;
 };

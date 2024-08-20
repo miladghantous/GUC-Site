@@ -73,9 +73,9 @@ const viewEvaluationForm = asyncHandler(async (req, res) => {
       res.status(404).json({ error: "Evaluation Form not found" });
       return;
     }
-    
+
     // Access the first answer in the answers array
-    // console.log(evaluationForm.answers[0].answer[0]);
+    // console.log(evaluationForm.answers[1].answer);
 
     res.status(200).json(evaluationForm);
   } catch (error) {
@@ -103,13 +103,13 @@ const updateEvaluationForm = asyncHandler(async (req, res) => {
 
     switch (questionType) {
       case "Text":
-        updatedAnswer = [answer];
+        updatedAnswer = [answer]; // Might remove array brackects, since the it is only a single answer
         break;
       case "Rating":
-        updatedAnswer = [parseInt(answer)];
+        updatedAnswer = [parseInt(answer)]; // Might remove array brackects, since the it is only a single answer
         break;
       case "Multiple Choice":
-        updatedAnswer = [answer];
+        updatedAnswer = [answer]; // Might remove array brackects, since the it is only a single answer
         break;
       case "Checkbox":
         // For checkboxes, ensure answer is an array and update multiple selections
@@ -140,9 +140,33 @@ const updateEvaluationForm = asyncHandler(async (req, res) => {
   }
 });
 
+// Delete Eval Form Controller
+const deleteEvaluationForm = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Invalid Evaluation Form ID" });
+  }
+
+  try {
+    const evaluationForm = await EvaluationFormModel.findById(id);
+
+    if (!evaluationForm) {
+      return res.status(404).json({ error: "Evaluation Form not found" });
+    }
+
+    await evaluationForm.remove();
+
+    res.status(200).json({ message: "Evaluation Form deleted successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 module.exports = {
   addEvaluationForm,
   viewAllEvaluationForms,
   viewEvaluationForm,
   updateEvaluationForm,
+  deleteEvaluationForm
 };

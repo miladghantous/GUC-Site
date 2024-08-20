@@ -1,7 +1,8 @@
 import axios from "axios";
 import {
   EvaluationFormResponse,
-  InstructorResponse,
+  UserResponse,
+  TaResponse,
   QuestionAnswerResponse,
 } from "../type";
 
@@ -15,14 +16,25 @@ export const getAllEvaluationForms = async (): Promise<
 };
 
 export const createEvaluationForm = async (
-  title: string,
-  instructor: InstructorResponse
+  evaluator: UserResponse, // Assuming UserResponse corresponds to the instructor's information
+  evaluatedTA: TaResponse, // Assuming UserResponse corresponds to the TA's information
+  semester: string,
+  course: string,
+  questions: QuestionAnswerResponse[], // Array of QuestionAnswerResponse objects
+  answers: {
+    questionId: string; // Reference to QuestionAnswer _id
+    answer: any; // The answer field, which can be of various types
+  }[]
 ): Promise<EvaluationFormResponse> => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/evaluationform/addEvaluationForm`,
     {
-      title,
-      instructor,
+      evaluator,
+      evaluatedTA,
+      semester,
+      course,
+      questions,
+      answers,
     },
     {
       headers: {
@@ -34,15 +46,16 @@ export const createEvaluationForm = async (
 };
 
 export const editEvaluationForm = async (
-  title: string,
-  instructor: InstructorResponse,
-  id: string
+  evaluationFormId: string,
+  questionAnswerId: string,
+  answer: any, // The answer field, which can be of various types
+  questionType: string
 ): Promise<EvaluationFormResponse> => {
   const response = await axios.patch(
     `${
       import.meta.env.VITE_API_URL
-    }/api/evaluationform/updateEvaluationForm/${id}`,
-    { title, instructor }
+    }/api/evaluationform/updateEvaluationForm/${evaluationFormId}/answers/${questionAnswerId}`,
+    { answer, questionType }
   );
   return response.data;
 };
@@ -54,53 +67,3 @@ export const deleteEvaluationForm = async (id: string): Promise<void> => {
     }/api/evaluationform/removeEvaluationForm/${id}`
   );
 };
-
-export const addQuestionAnswer = async (
-  evaluationFormId: string,
-  question: string,
-  answer: string
-): Promise<QuestionAnswerResponse> => {
-  const response = await axios.post(
-    `${
-      import.meta.env.VITE_API_URL
-    }/api/evaluationform/addQuestionAnswer/${evaluationFormId}`,
-    { question, answer },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  return response.data;
-};
-
-export const updateQuestionAnswer = async (
-  id: string,
-  question: string,
-  answer: string
-): Promise<QuestionAnswerResponse> => {
-  const response = await axios.patch(
-    `${
-      import.meta.env.VITE_API_URL
-    }/api/evaluationform/updateQuestionAnswer/${id}`,
-    { question, answer }
-  );
-  return response.data;
-};
-
-export const deleteQuestionAnswer = async (id: string): Promise<void> => {
-  await axios.delete(
-    `${
-      import.meta.env.VITE_API_URL
-    }/api/evaluationform/removeQuestionAnswer/${id}`
-  );
-};
-
-export const getInstructorUserName = async (id: string): Promise<InstructorResponse> => {
-  const response = await axios.get(
-    `${
-      import.meta.env.VITE_API_URL
-    }/api/evaluationform/getInstructorUserName/${id}`
-  );
-  return response.data;
-}
