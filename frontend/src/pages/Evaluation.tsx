@@ -5,35 +5,35 @@ import Box from "@mui/material/Box";
 const Evaluation = () => {
   return (
     <>
-    <Navbar />
-    <Box
-      sx={{
-        paddingTop: 8,
-      }}
-    >
+      <Navbar />
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "start",
-          alignItems: "center",
-          marginTop: 6,
-          marginLeft: 4,
+          paddingTop: 8,
         }}
       >
-        <EvaluationFormAdd />
-      </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "center",
+            marginTop: 6,
+            marginLeft: 4,
+          }}
+        >
+          <EvaluationFormAdd />
+        </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <EvaluationList />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <EvaluationList/>
+        </Box>
       </Box>
-    </Box>
-  </>
+    </>
   );
 };
 

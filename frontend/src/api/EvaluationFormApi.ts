@@ -1,9 +1,9 @@
 import axios from "axios";
 import {
   EvaluationFormResponse,
-  UserResponse,
+  // UserResponse,
   TaResponse,
-  QuestionAnswerResponse,
+  // QuestionAnswerResponse,
 } from "../type";
 
 export const getAllEvaluationForms = async (): Promise<
@@ -16,15 +16,15 @@ export const getAllEvaluationForms = async (): Promise<
 };
 
 export const createEvaluationForm = async (
-  evaluator: UserResponse, // Assuming UserResponse corresponds to the instructor's information
-  evaluatedTA: TaResponse, // Assuming UserResponse corresponds to the TA's information
+  evaluator: string, // Assuming UserResponse corresponds to the instructor's information
+  evaluatedTA: string, // Assuming UserResponse corresponds to the TA's information
   semester: string,
-  course: string,
-  questions: QuestionAnswerResponse[], // Array of QuestionAnswerResponse objects
-  answers: {
-    questionId: string; // Reference to QuestionAnswer _id
-    answer: any; // The answer field, which can be of various types
-  }[]
+  course: string
+  // questions: QuestionAnswerResponse[], // Array of QuestionAnswerResponse objects
+  // answers: {
+  //   questionId: string; // Reference to QuestionAnswer _id
+  //   answer: any; // The answer field, which can be of various types
+  // }[]
 ): Promise<EvaluationFormResponse> => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/evaluationform/addEvaluationForm`,
@@ -33,8 +33,8 @@ export const createEvaluationForm = async (
       evaluatedTA,
       semester,
       course,
-      questions,
-      answers,
+      // questions,
+      // answers,
     },
     {
       headers: {
@@ -66,4 +66,45 @@ export const deleteEvaluationForm = async (id: string): Promise<void> => {
       import.meta.env.VITE_API_URL
     }/api/evaluationform/removeEvaluationForm/${id}`
   );
+};
+
+// Get Instructor id from name
+export const getInstructorId = async (
+  instructorName: string
+): Promise<string> => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/evaluationform/getInstructorId`,
+
+    {
+      instructorName,
+    }
+  );
+  return response.data;
+};
+
+// Get TA id from name
+export const getTAId = async (taName: string): Promise<string> => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/evaluationform/getTAId`,
+    {
+      taName,
+    }
+  );
+  return response.data;
+};
+
+// Get TA name from id
+export const getTAName = async (id: string): Promise<string> => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/evaluationform/getTAName/${id}`
+  );
+  return response.data;
+};
+
+// Get Instructor Name from id
+export const getInstructorName = async (id: string): Promise<string> => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/evaluationform/getInstructorName/${id}`
+  );
+  return response.data;
 };

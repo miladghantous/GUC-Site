@@ -2,6 +2,8 @@ const EvaluationFormModel = require("../model/EvaluationForm");
 const QuestionAnswerModel = require("../model/QuestionAnswer");
 const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
+const InstructorModel = require("../model/Instructor");
+const TaModel = require("../model/Ta");
 
 // Add Evaluation Form
 const addEvaluationForm = asyncHandler(async (req, res) => {
@@ -10,6 +12,7 @@ const addEvaluationForm = asyncHandler(async (req, res) => {
   console.log(evaluationformbody);
   try {
     const defaultQuestions = await QuestionAnswerModel.find({});
+    console.log(defaultQuestions);
 
     // Map the default questions to include both question ID and default empty answer
     const questionsWithEmptyAnswers = defaultQuestions.map((question) => ({
@@ -28,6 +31,8 @@ const addEvaluationForm = asyncHandler(async (req, res) => {
     console.log(evaluationForm);
     res.status(200).json(evaluationForm);
   } catch (error) {
+    console.log("mo4kela");
+
     res.status(400);
     throw new Error(error.message);
   }
@@ -163,10 +168,101 @@ const deleteEvaluationForm = asyncHandler(async (req, res) => {
   }
 });
 
+// Get instrutor id from name (with try catch)
+const getInstructorId = asyncHandler(async (req, res) => {
+  try {
+    const instructorName = req.body.instructorName;
+    const instructor = await InstructorModel.findOne({
+      username: instructorName,
+    });
+    if (!instructor) {
+      return res.status(404).json({ error: "Instructor not found" });
+    }
+    //get only the id field from instructor
+    const instructorId = instructor._id.toString();
+    console.log(instructorId);
+
+    res.status(200).json(instructorId);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Get TA id from name (with try catch)
+const getTAId = asyncHandler(async (req, res) => {
+  console.log("dm");
+  
+  try {
+    const taName = req.body.taName;
+    const ta = await TaModel.findOne({ name: taName });
+    if (!ta) {
+      console.log("no taaaaaaa");
+      
+      return res.status(404).json({ error: "TA not found" });
+    }
+    const taId = ta._id.toString();
+    console.log(taId);
+
+    res.status(200).json(taId);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Get Instructor Name from ID
+const getInstructorName = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params; // Use query parameter for GET requests
+    if (!id) {
+      return res.status(400).json({ error: "Instructor ID is required" });
+    }
+
+    const instructor = await InstructorModel.findById(id);
+    if (!instructor) {
+      return res.status(404).json({ error: "Instructor not found" });
+    }
+
+    const instructorName = instructor.username; // Assuming `username` is the field for the name
+    console.log(instructorName);
+
+    res.status(200).json(instructorName);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Get TA name by ID
+const getTAName = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params; // Use query parameter for GET requests
+    console.log(id);
+    
+    if (!id) {
+      return res.status(400).json({ error: "TA ID is required" });
+    }
+
+    const ta = await TaModel.findById(id);
+    if (!ta) {
+      return res.status(404).json({ error: "TA not found" });
+    }
+
+    const taName = ta.name; // Assuming `name` is the field for the TA's name
+    console.log(taName);
+
+    res.status(200).json(taName);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 module.exports = {
   addEvaluationForm,
   viewAllEvaluationForms,
   viewEvaluationForm,
   updateEvaluationForm,
-  deleteEvaluationForm
+  deleteEvaluationForm,
+  getInstructorId,
+  getTAId,
+  getInstructorName,
+  getTAName
 };

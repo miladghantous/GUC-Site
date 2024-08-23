@@ -2,8 +2,18 @@ import { useState } from "react";
 import { IconButton, Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EvaluationFormEdit from "./EvaluationFormEdit";
-import { EvaluationFormResponse , InstructorResponse} from "../type";
-import { createEvaluationForm , getAllEvaluationForms} from "../api/EvaluationFormApi";
+import {
+  EvaluationFormResponse,
+  UserResponse,
+  TaResponse,
+  // QuestionAnswerResponse,
+} from "../type";
+import {
+  createEvaluationForm,
+  getAllEvaluationForms,
+  getInstructorId,
+  getTAId,
+} from "../api/EvaluationFormApi";
 import { useQuery } from "@tanstack/react-query";
 import Snackbar from "@mui/material/Snackbar";
 
@@ -11,17 +21,28 @@ const EvaluationFormAdd = () => {
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [open, setOpen] = useState(false);
-  const { refetch } = useQuery<
-  EvaluationFormResponse[]
-  >({
+  const { refetch } = useQuery<EvaluationFormResponse[]>({
     queryKey: ["evaluationforms"],
     queryFn: getAllEvaluationForms,
   });
 
-  const handleSave = async (title: string, instructor: InstructorResponse) => {
+  const handleSave = async (
+    evaluator: string, // Assuming UserResponse corresponds to the instructor's information
+    evaluatedTA: string, // Assuming UserResponse corresponds to the TA's information
+    semester: string,
+    course: string
+  ) => {
     try {
-      console.log(title, instructor);
-      const response = await createEvaluationForm(title, instructor);
+      console.log(evaluator, evaluatedTA, semester, course);
+      const instructorId = await getInstructorId(evaluator);
+      console.log(evaluatedTA);
+      const taId = await getTAId(evaluatedTA);
+      const response = await createEvaluationForm(
+        instructorId,
+        taId,
+        semester,
+        course
+      );
       console.log("Evaluation Form added:", response);
       setOpen(false);
       refetch();
@@ -36,13 +57,12 @@ const EvaluationFormAdd = () => {
     setOpen(false);
   };
   const newEvaluationForm: EvaluationFormResponse = {
-    title: "",
-    instructor: {
-      _id: "",
-      username: "",
-      email: "",
-      password: "",
-    },
+    evaluator: "",
+    evaluatedTA: "",
+    semester: "",
+    course: "",
+    questions: [], // This will be an array of QuestionAnswerResponse objects
+    answers: [], // This will be an array of AnswerResponse objects
     _id: "",
   };
 
