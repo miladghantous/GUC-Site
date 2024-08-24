@@ -1,9 +1,6 @@
 import axios from "axios";
 import {
   EvaluationFormResponse,
-  // UserResponse,
-  TaResponse,
-  // QuestionAnswerResponse,
 } from "../type";
 
 export const getAllEvaluationForms = async (): Promise<

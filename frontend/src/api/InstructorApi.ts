@@ -4,8 +4,11 @@ import { UserResponse } from "../type";
 // Function to get all instructors
 export const getAllInstructors = async (): Promise<UserResponse[]> => {
   const response = await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/instructor/viewAllInstructors`
+    `${import.meta.env.VITE_API_URL}/api/instructor/viewAllInstructors`,{
+    withCredentials: true,
+    }
   );
+
   return response.data;
 };
 

@@ -7,11 +7,11 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { EvaluationFormResponse, UserResponse, TaResponse } from "../type";
-import BasicSelect from "./InstructorDropDownMenu";
-import { SelectChangeEvent } from "@mui/material/Select";
+import { EvaluationFormResponse, TaResponse } from "../type";
 import { useQuery } from "@tanstack/react-query";
-import { getAllInstructors } from "../api/InstructorApi";
+import { getAllTas } from "../api/TaApi";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 interface EvaluationFormEditProps {
   open: boolean;
@@ -33,17 +33,18 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
   onSave,
   onCancel,
 }) => {
-  // const { data: instructors } = useQuery<InstructorResponse[]>({
-  //   queryKey: ["instructors"],
-  //   queryFn: getAllInstructors,
-  // });
+  const { data } = useQuery<TaResponse[]>({
+    queryKey: ["ta"],
+    queryFn: getAllTas,
+  });
+
+  console.log(data);
 
   const [formValues, setFormValues] = useState({
     evaluator: evaluationform.evaluator,
     ta: evaluationform.evaluatedTA,
     course: evaluationform.course,
     semester: evaluationform.semester,
-    // instructor: evaluationform.instructor,
   });
 
   useEffect(() => {
@@ -52,7 +53,6 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
       ta: evaluationform.evaluatedTA,
       course: evaluationform.course,
       semester: evaluationform.semester,
-      // instructor: evaluationform.instructor,
     });
   }, [evaluationform]);
 
@@ -61,19 +61,12 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
     setFormValues({ ...formValues, [name]: value });
   };
 
-  // const handleInstructorChange = (event: SelectChangeEvent<string>) => {
-  //   const selectedInstructor = instructors?.find(
-  //     (instructor) => instructor.username === event.target.value
-  //   );
-  //   setFormValues({
-  //     ...formValues,
-  //     instructor: selectedInstructor || formValues.instructor,
-  //   });
-  // };
+  const handleSelectedTAChange = (event: SelectChangeEvent<string>) => {
+    setFormValues({ ...formValues, ta: event.target.value });
+  }
 
   const handleSave = () => {
     if (
-      // !formValues.instructor ||
       !formValues.evaluator ||
       !formValues.ta ||
       !formValues.semester ||
@@ -83,8 +76,6 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
       return;
     }
     onSave(
-      // formValues.instructor,
-      // evaluationform.evaluatedTA,
       formValues.evaluator,
       formValues.ta,
       formValues.semester,
@@ -96,7 +87,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
     <Dialog open={open} onClose={onCancel}>
       <DialogTitle>{header}</DialogTitle>
       <DialogContent>
-      <TextField
+        <TextField
           autoFocus
           margin="dense"
           name="evaluator"
@@ -106,16 +97,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
           value={formValues.evaluator}
           onChange={handleChange}
         />
-        <TextField
-          autoFocus
-          margin="dense"
-          name="ta"
-          label="TA"
-          type="text"
-          fullWidth
-          value={formValues.ta}
-          onChange={handleChange}
-        />
+
         <TextField
           margin="dense"
           name="course"
@@ -134,10 +116,23 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
           value={formValues.semester}
           onChange={handleChange}
         />
-        {/* <BasicSelect
-          value={formValues.instructor?.username || ""}
-          onChange={handleInstructorChange}
-        /> */}
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Evaluated TA</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            name="ta"
+            value={formValues.ta}
+            label="ta"
+            onChange={handleSelectedTAChange}
+          >
+            {data?.map((ta) => (
+              <MenuItem  key={ta._id} value={ta.name} >
+                {ta.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </DialogContent>
       <DialogActions>
         <Button

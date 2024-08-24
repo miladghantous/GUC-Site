@@ -24,6 +24,7 @@ const protect = asyncHandler(async (req,res,next) => {
     }
     else{
         res.status(401);
+        console.log("You are not logged in, No token was found");
         throw new Error('You are not logged in, No token was found')
     }
 })
