@@ -1,7 +1,5 @@
 import axios from "axios";
-import {
-  EvaluationFormResponse,
-} from "../type";
+import { EvaluationFormResponse } from "../type";
 
 export const getAllEvaluationForms = async (): Promise<
   EvaluationFormResponse[]
@@ -13,7 +11,7 @@ export const getAllEvaluationForms = async (): Promise<
 };
 
 export const createEvaluationForm = async (
-  evaluator: string, // Assuming UserResponse corresponds to the instructor's information
+  // evaluator: string, // Assuming UserResponse corresponds to the instructor's information
   evaluatedTA: string, // Assuming UserResponse corresponds to the TA's information
   semester: string,
   course: string
@@ -26,7 +24,7 @@ export const createEvaluationForm = async (
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/evaluationform/addEvaluationForm`,
     {
-      evaluator,
+      // evaluator,
       evaluatedTA,
       semester,
       course,
@@ -34,9 +32,7 @@ export const createEvaluationForm = async (
       // answers,
     },
     {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      withCredentials: true,
     }
   );
   return response.data;

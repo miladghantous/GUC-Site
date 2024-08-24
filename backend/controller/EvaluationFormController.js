@@ -4,12 +4,21 @@ const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
 const InstructorModel = require("../model/Instructor");
 const TaModel = require("../model/Ta");
+const UserModel = require("../model/User");
 
 // Add Evaluation Form
 const addEvaluationForm = asyncHandler(async (req, res) => {
   const evaluationformbody = req.body;
-
   console.log(evaluationformbody);
+  const id = req.user.id;
+  const user = await UserModel.findById(id);
+  console.log(user);
+  
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
   try {
     const defaultQuestions = await QuestionAnswerModel.find({});
     console.log(defaultQuestions);
@@ -27,7 +36,17 @@ const addEvaluationForm = asyncHandler(async (req, res) => {
     evaluationformbody.answers = questionsWithEmptyAnswers;
 
     // Create the evaluation form with default questions
-    const evaluationForm = await EvaluationFormModel.create(evaluationformbody);
+    const evaluationForm = await EvaluationFormModel.create({
+      evaluator: id,
+      questions: evaluationformbody.questions,
+      answers: evaluationformbody.answers,
+      instructor: evaluationformbody.instructor,
+      evaluatedTA: evaluationformbody.evaluatedTA,
+      course: evaluationformbody.course,
+      semester: evaluationformbody.semester,
+
+    }
+    );
     console.log(evaluationForm);
     res.status(200).json(evaluationForm);
   } catch (error) {
@@ -191,13 +210,13 @@ const getInstructorId = asyncHandler(async (req, res) => {
 // Get TA id from name (with try catch)
 const getTAId = asyncHandler(async (req, res) => {
   console.log("dm");
-  
+
   try {
     const taName = req.body.taName;
     const ta = await TaModel.findOne({ name: taName });
     if (!ta) {
       console.log("no taaaaaaa");
-      
+
       return res.status(404).json({ error: "TA not found" });
     }
     const taId = ta._id.toString();
@@ -236,7 +255,7 @@ const getTAName = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params; // Use query parameter for GET requests
     console.log(id);
-    
+
     if (!id) {
       return res.status(400).json({ error: "TA ID is required" });
     }
@@ -264,5 +283,5 @@ module.exports = {
   getInstructorId,
   getTAId,
   getInstructorName,
-  getTAName
+  getTAName,
 };

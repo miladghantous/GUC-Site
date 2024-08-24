@@ -18,7 +18,7 @@ interface EvaluationFormEditProps {
   evaluationform: EvaluationFormResponse;
   header: string;
   onSave: (
-    evaluator: string,
+    // evaluator: string,
     ta: string,
     semester: string,
     course: string
@@ -41,7 +41,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
   console.log(data);
 
   const [formValues, setFormValues] = useState({
-    evaluator: evaluationform.evaluator,
+    // evaluator: evaluationform.evaluator,
     ta: evaluationform.evaluatedTA,
     course: evaluationform.course,
     semester: evaluationform.semester,
@@ -49,7 +49,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
 
   useEffect(() => {
     setFormValues({
-      evaluator: evaluationform.evaluator,
+      // evaluator: evaluationform.evaluator,
       ta: evaluationform.evaluatedTA,
       course: evaluationform.course,
       semester: evaluationform.semester,
@@ -63,11 +63,11 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
 
   const handleSelectedTAChange = (event: SelectChangeEvent<string>) => {
     setFormValues({ ...formValues, ta: event.target.value });
-  }
+  };
 
   const handleSave = () => {
     if (
-      !formValues.evaluator ||
+      // !formValues.evaluator ||
       !formValues.ta ||
       !formValues.semester ||
       !formValues.course
@@ -76,7 +76,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
       return;
     }
     onSave(
-      formValues.evaluator,
+      // formValues.evaluator,
       formValues.ta,
       formValues.semester,
       formValues.course
@@ -87,17 +87,6 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
     <Dialog open={open} onClose={onCancel}>
       <DialogTitle>{header}</DialogTitle>
       <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          name="evaluator"
-          label="Instructor"
-          type="text"
-          fullWidth
-          value={formValues.evaluator}
-          onChange={handleChange}
-        />
-
         <TextField
           margin="dense"
           name="course"
@@ -127,7 +116,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
             onChange={handleSelectedTAChange}
           >
             {data?.map((ta) => (
-              <MenuItem  key={ta._id} value={ta.name} >
+              <MenuItem key={ta._id} value={ta.name}>
                 {ta.name}
               </MenuItem>
             ))}

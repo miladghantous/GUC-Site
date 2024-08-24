@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import {
   Box,
   Typography,
@@ -10,8 +8,13 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Checkbox,
+  TextField,
+  Slider,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   getAllEvaluationForms,
   editEvaluationForm,
@@ -28,15 +31,34 @@ const EvaluationFormsList = () => {
     queryFn: getAllEvaluationForms,
   });
 
-  // Store selected answers for each form separately
   const [selectedAnswers, setSelectedAnswers] = useState<{
-    [formId: string]: { [questionId: string]: string };
+    [formId: string]: { [questionId: string]: string | string[] };
   }>({});
+
+  useEffect(() => {
+    if (data) {
+      const initialAnswers: {
+        [formId: string]: { [questionId: string]: string | string[] };
+      } = {};
+      data.forEach((form) => {
+        initialAnswers[form._id] = {};
+        form.questions.forEach((question) => {
+          const existingAnswer = form.answers.find(
+            (answer) => answer.questionId === question._id
+          );
+          if (existingAnswer) {
+            initialAnswers[form._id][question._id] = existingAnswer.answer;
+          }
+        });
+      });
+      setSelectedAnswers(initialAnswers);
+    }
+  }, [data]);
 
   const handleAnswerChange = (
     formId: string,
     questionId: string,
-    answer: string,
+    answer: string | string[],
     questionType: string
   ) => {
     setSelectedAnswers((prevAnswers) => ({
@@ -47,7 +69,6 @@ const EvaluationFormsList = () => {
       },
     }));
 
-    // Send the answer to the server immediately after selection
     editEvaluationForm(formId, questionId, answer, questionType)
       .then(() => {
         setSnackBarOpen(true);
@@ -96,6 +117,7 @@ const EvaluationFormsList = () => {
               {evaluationForm.course}
             </Typography>
           </AccordionSummary>
+
           <AccordionDetails sx={{ backgroundColor: "#fff", padding: 2 }}>
             {evaluationForm.questions.map(
               (question: QuestionAnswerResponse) => (
@@ -103,29 +125,130 @@ const EvaluationFormsList = () => {
                   <Typography variant="h6" sx={{ color: "black" }}>
                     {question.questionText}
                   </Typography>
-                  <RadioGroup
-                    name={`question-${question._id}`}
-                    value={
-                      selectedAnswers[evaluationForm._id]?.[question._id] || ""
-                    }
-                    onChange={(e) =>
-                      handleAnswerChange(
-                        evaluationForm._id,
-                        question._id,
-                        e.target.value,
-                        question.questionType
-                      )
-                    }
-                  >
-                    {question.options.map((option, oIndex) => (
-                      <FormControlLabel
-                        key={oIndex}
-                        value={option}
-                        control={<Radio />}
-                        label={option}
+
+                  {question.questionType === "Multiple Choice" && (
+                    <RadioGroup
+                      name={`question-${question._id}`}
+                      value={
+                        selectedAnswers[evaluationForm._id]?.[question._id] ||
+                        ""
+                      }
+                      onChange={(e) =>
+                        handleAnswerChange(
+                          evaluationForm._id,
+                          question._id,
+                          e.target.value,
+                          question.questionType
+                        )
+                      }
+                    >
+                      {question.options.map((option, oIndex) => (
+                        <FormControlLabel
+                          key={oIndex}
+                          value={option}
+                          control={<Radio />}
+                          label={option}
+                        />
+                      ))}
+                    </RadioGroup>
+                  )}
+
+                  {question.questionType === "Checkbox" && (
+                    <Box>
+                      {question.options.map((option, oIndex) => (
+                        <FormControlLabel
+                          key={oIndex}
+                          control={
+                            <Checkbox
+                              checked={
+                                Array.isArray(
+                                  selectedAnswers[evaluationForm._id]?.[
+                                    question._id
+                                  ]
+                                ) &&
+                                selectedAnswers[evaluationForm._id]?.[
+                                  question._id
+                                ]?.includes(option)
+                              }
+                              onChange={(e) => {
+                                const newValue = e.target.checked
+                                  ? [
+                                      ...(selectedAnswers[evaluationForm._id]?.[
+                                        question._id
+                                      ] || []),
+                                      option,
+                                    ]
+                                  : (
+                                      selectedAnswers[evaluationForm._id]?.[
+                                        question._id
+                                      ] as string[]
+                                    ).filter((val) => val !== option);
+
+                                handleAnswerChange(
+                                  evaluationForm._id,
+                                  question._id,
+                                  newValue,
+                                  question.questionType
+                                );
+                              }}
+                            />
+                          }
+                          label={option}
+                        />
+                      ))}
+                    </Box>
+                  )}
+
+                  {question.questionType === "Rating" && (
+                    <Box>
+                      <Typography variant="body2" sx={{ color: "gray" }}>
+                        {question.questionText.includes("Volume")
+                          ? "Scale: 1 (zero) to 5 (many)"
+                          : "Scale: 1 (Below average) to 5 (Excellent)"}
+                      </Typography>
+                      <Slider
+                        value={Number(
+                          selectedAnswers[evaluationForm._id]?.[question._id] ||
+                            0
+                        )}
+                        onChange={(e, newValue) =>
+                          handleAnswerChange(
+                            evaluationForm._id,
+                            question._id,
+                            String(newValue),
+                            question.questionType
+                          )
+                        }
+                        aria-labelledby="rating-slider"
+                        step={1}
+                        marks
+                        min={1}
+                        max={5}
+                        valueLabelDisplay="auto"
                       />
-                    ))}
-                  </RadioGroup>
+                    </Box>
+                  )}
+
+                  {question.questionType === "Text" && (
+                    <TextField
+                      fullWidth
+                      value={
+                        selectedAnswers[evaluationForm._id]?.[question._id] ||
+                        ""
+                      }
+                      onChange={(e) =>
+                        handleAnswerChange(
+                          evaluationForm._id,
+                          question._id,
+                          e.target.value,
+                          question.questionType
+                        )
+                      }
+                      variant="outlined"
+                      multiline
+                      rows={4}
+                    />
+                  )}
                 </Box>
               )
             )}

@@ -27,18 +27,20 @@ const EvaluationFormAdd = () => {
   });
 
   const handleSave = async (
-    evaluator: string, // Assuming UserResponse corresponds to the instructor's information
+    // evaluator: string, // Assuming UserResponse corresponds to the instructor's information
     evaluatedTA: string, // Assuming UserResponse corresponds to the TA's information
     semester: string,
     course: string
   ) => {
     try {
-      console.log(evaluator, evaluatedTA, semester, course);
-      const instructorId = await getInstructorId(evaluator);
+      console.log("inside handel save in add eval");
+      
+      console.log(evaluatedTA, semester, course);
+      // const instructorId = await getInstructorId(evaluator);
       console.log(evaluatedTA);
       const taId = await getTAId(evaluatedTA);
       const response = await createEvaluationForm(
-        instructorId,
+        // instructorId,
         taId,
         semester,
         course

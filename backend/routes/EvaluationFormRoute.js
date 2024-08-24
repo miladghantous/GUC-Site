@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { protect } = require("../middleware/AuthenticationHandler");
+const { checkInstructorRole } = require("../middleware/AccessHandler");
 
 const {
   addEvaluationForm,
@@ -14,7 +15,12 @@ const {
   getTAName,
 } = require("../controller/EvaluationFormController");
 
-router.post("/addEvaluationForm", addEvaluationForm);
+router.post(
+  "/addEvaluationForm",
+  protect,
+  checkInstructorRole,
+  addEvaluationForm
+);
 router.get("/viewEvaluationForm/:id", viewEvaluationForm);
 router.get("/viewAllEvaluationForms", viewAllEvaluationForms);
 router.patch(
