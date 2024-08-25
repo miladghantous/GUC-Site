@@ -5,7 +5,7 @@ const EvaluationFormSchema = new mongoose.Schema(
   {
     evaluator: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Instructor",
+      ref: "User",
       required: true,
     },
     evaluatedTA: {

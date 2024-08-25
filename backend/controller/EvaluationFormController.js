@@ -13,7 +13,7 @@ const addEvaluationForm = asyncHandler(async (req, res) => {
   const id = req.user.id;
   const user = await UserModel.findById(id);
   console.log(user);
-  
+
   if (!user) {
     res.status(404);
     throw new Error("User not found");
@@ -44,9 +44,7 @@ const addEvaluationForm = asyncHandler(async (req, res) => {
       evaluatedTA: evaluationformbody.evaluatedTA,
       course: evaluationformbody.course,
       semester: evaluationformbody.semester,
-
-    }
-    );
+    });
     console.log(evaluationForm);
     res.status(200).json(evaluationForm);
   } catch (error) {
@@ -173,15 +171,9 @@ const deleteEvaluationForm = asyncHandler(async (req, res) => {
   }
 
   try {
-    const evaluationForm = await EvaluationFormModel.findById(id);
+    const evaluationForm = await EvaluationFormModel.findByIdAndDelete(id);
 
-    if (!evaluationForm) {
-      return res.status(404).json({ error: "Evaluation Form not found" });
-    }
-
-    await evaluationForm.remove();
-
-    res.status(200).json({ message: "Evaluation Form deleted successfully" });
+    res.status(200).json(evaluationForm);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -274,6 +266,27 @@ const getTAName = asyncHandler(async (req, res) => {
   }
 });
 
+//Get Specific user's forms
+const getUserEvaluationForms = asyncHandler(async (req, res) => {
+  console.log("I am in controller ");
+  const id = req.user.id;
+  console.log("I am in controller and this is user id: " + id);
+  try {
+    const user = await UserModel.findOne({ _id: id });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const forms = await EvaluationFormModel.find({ evaluator: id })
+      .sort({ createdAt: -1 })
+      .populate("questions")
+      .populate("evaluator", "username") // Populate evaluator with only the name field
+      .populate("evaluatedTA", "name");
+    res.status(200).json(forms);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 module.exports = {
   addEvaluationForm,
   viewAllEvaluationForms,
@@ -284,4 +297,5 @@ module.exports = {
   getTAId,
   getInstructorName,
   getTAName,
+  getUserEvaluationForms,
 };

@@ -13,6 +13,7 @@ const {
   getTAId,
   getInstructorName,
   getTAName,
+  getUserEvaluationForms,
 } = require("../controller/EvaluationFormController");
 
 router.post(
@@ -32,5 +33,6 @@ router.post("/getInstructorId", getInstructorId);
 router.post("/getTAId", getTAId);
 router.get("/getInstructorName/:id", getInstructorName);
 router.get("/getTAName/:id", getTAName);
+router.get("/getUserEvaluationForms", protect, getUserEvaluationForms);
 
 module.exports = router;

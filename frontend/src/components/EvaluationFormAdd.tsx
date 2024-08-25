@@ -13,6 +13,7 @@ import {
   getAllEvaluationForms,
   getInstructorId,
   getTAId,
+  getUserEvaluationForms
 } from "../api/EvaluationFormApi";
 import { useQuery } from "@tanstack/react-query";
 import Snackbar from "@mui/material/Snackbar";
@@ -23,7 +24,7 @@ const EvaluationFormAdd = () => {
   const [open, setOpen] = useState(false);
   const { refetch } = useQuery<EvaluationFormResponse[]>({
     queryKey: ["evaluationforms"],
-    queryFn: getAllEvaluationForms,
+    queryFn: getUserEvaluationForms,
   });
 
   const handleSave = async (

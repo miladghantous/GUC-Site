@@ -1,5 +1,6 @@
 import axios from "axios";
 import { EvaluationFormResponse } from "../type";
+import { TrySharp } from "@mui/icons-material";
 
 export const getAllEvaluationForms = async (): Promise<
   EvaluationFormResponse[]
@@ -57,7 +58,7 @@ export const deleteEvaluationForm = async (id: string): Promise<void> => {
   await axios.delete(
     `${
       import.meta.env.VITE_API_URL
-    }/api/evaluationform/removeEvaluationForm/${id}`
+    }/api/evaluationform/deleteEvaluationForm/${id}`
   );
 };
 
@@ -100,4 +101,36 @@ export const getInstructorName = async (id: string): Promise<string> => {
     `${import.meta.env.VITE_API_URL}/api/evaluationform/getInstructorName/${id}`
   );
   return response.data;
+};
+
+//get a user's eval forms
+export const getUserEvaluationForms = async (): Promise<
+  EvaluationFormResponse[]
+> => {
+  console.log("I am in user eval api");
+  
+  try {
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_API_URL
+      }/api/evaluationform/getUserEvaluationForms`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error("Failed to fetch evaluation forms");
+    }
+  } catch (error) {
+    console.error("Error fetching evaluation forms:", error);
+    throw error;
+  }
 };

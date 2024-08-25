@@ -11,31 +11,61 @@ import {
   Checkbox,
   TextField,
   Slider,
+  IconButton,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   getAllEvaluationForms,
   editEvaluationForm,
+  getUserEvaluationForms,
+  deleteEvaluationForm,
 } from "../api/EvaluationFormApi";
 import { EvaluationFormResponse, QuestionAnswerResponse } from "../type";
+import EvaluationFormDelete from "./EvaluationFormDelete";
 
 const EvaluationFormsList = () => {
+  const [data, setData] = useState<EvaluationFormResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  const { data, isLoading, isError, refetch } = useQuery<
-    EvaluationFormResponse[]
-  >({
+  const [evaluationformIdToDelete, setEvaluationFormIdToDelete] = useState<
+    string | null
+  >(null);
+  const { refetch } = useQuery<EvaluationFormResponse[]>({
     queryKey: ["evaluationforms"],
-    queryFn: getAllEvaluationForms,
+    queryFn: getUserEvaluationForms,
   });
+  // const { data, isLoading, isError, refetch } = useQuery<
+  // EvaluationFormResponse[]
+  // >({
+  // queryKey: ["evaluationforms"],
+  // queryFn: getUserEvaluationForms,
+  // });
 
   const [selectedAnswers, setSelectedAnswers] = useState<{
     [formId: string]: { [questionId: string]: string | string[] };
   }>({});
 
   useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await getUserEvaluationForms();
+    //     console.log("Fetched Data:", response);
+
+    //     setData(response);
+    //     setIsLoading(false);
+    //   } catch (error) {
+    //     setIsError(true);
+    //     console.error("Error fetching data:", error);
+    //   }
+    // };
+
+    // fetchData();
     if (data) {
       const initialAnswers: {
         [formId: string]: { [questionId: string]: string | string[] };
@@ -54,6 +84,45 @@ const EvaluationFormsList = () => {
       setSelectedAnswers(initialAnswers);
     }
   }, [data]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getUserEvaluationForms();
+        console.log("Fetched Data:", response);
+        setData(response);
+        setIsLoading(false);
+        refetch()
+      } catch (error) {
+        setIsError(true);
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleDelete = (evaluationformId: string) => {
+    setOpenDelete(true);
+    setEvaluationFormIdToDelete(evaluationformId);
+  };
+
+  const handleCancelDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleConfirmDelete = async (id: string) => {
+    try {
+      const response = await deleteEvaluationForm(id);
+      console.log("Evaluation Form deleted:", response);
+      setOpenDelete(false);
+      // await refetch();
+      setSnackBarOpen(true);
+      setSnackBarMessage("Evaluation Form deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete Evaluation Form:", error);
+    }
+  };
 
   const handleAnswerChange = (
     formId: string,
@@ -116,6 +185,12 @@ const EvaluationFormsList = () => {
             >
               {evaluationForm.course}
             </Typography>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box>
+              <IconButton onClick={() => handleDelete(evaluationForm._id)}>
+                <DeleteIcon fontSize={"large"} color="action" />
+              </IconButton>
+            </Box>
           </AccordionSummary>
 
           <AccordionDetails sx={{ backgroundColor: "#fff", padding: 2 }}>
@@ -256,6 +331,14 @@ const EvaluationFormsList = () => {
         </Accordion>
       ))}
 
+      {evaluationformIdToDelete && (
+        <EvaluationFormDelete
+          open={openDelete}
+          evaluationFormId={evaluationformIdToDelete}
+          onDelete={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
       <Snackbar
         open={snackBarOpen}
         autoHideDuration={6000}
