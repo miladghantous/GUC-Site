@@ -108,7 +108,7 @@ export const getUserEvaluationForms = async (): Promise<
   EvaluationFormResponse[]
 > => {
   console.log("I am in user eval api");
-  
+
   try {
     const response = await fetch(
       `${
@@ -122,6 +122,8 @@ export const getUserEvaluationForms = async (): Promise<
         },
       }
     );
+
+    console.log("Response Status:", response);
 
     if (response.ok) {
       const data = await response.json();

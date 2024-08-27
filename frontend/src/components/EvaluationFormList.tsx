@@ -16,7 +16,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getAllEvaluationForms,
   editEvaluationForm,
@@ -27,6 +27,8 @@ import { EvaluationFormResponse, QuestionAnswerResponse } from "../type";
 import EvaluationFormDelete from "./EvaluationFormDelete";
 
 const EvaluationFormsList = () => {
+  const [refreshKey, setRefreshKey] = useState(0);
+  const queryClient = useQueryClient();
   const [data, setData] = useState<EvaluationFormResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);
@@ -90,9 +92,16 @@ const EvaluationFormsList = () => {
       try {
         const response = await getUserEvaluationForms();
         console.log("Fetched Data:", response);
+        // queryClient.setQueryData(["evaluationforms"], response);
+
+        // refetch();
         setData(response);
         setIsLoading(false);
-        refetch()
+
+        // Force a re-render by updating the refresh key          
+          setRefreshKey((prevKey) => prevKey + 1);
+
+        // queryClient.invalidateQueries(["evaluationforms"]); // Invalidate and refetch
       } catch (error) {
         setIsError(true);
         console.error("Error fetching data:", error);
@@ -100,7 +109,7 @@ const EvaluationFormsList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [refreshKey]);
 
   const handleDelete = (evaluationformId: string) => {
     setOpenDelete(true);
@@ -116,7 +125,10 @@ const EvaluationFormsList = () => {
       const response = await deleteEvaluationForm(id);
       console.log("Evaluation Form deleted:", response);
       setOpenDelete(false);
-      // await refetch();
+      // refetch();
+      const updatedData = await getUserEvaluationForms();
+      console.log("Updated Data:", updatedData);
+      setData(updatedData);
       setSnackBarOpen(true);
       setSnackBarMessage("Evaluation Form deleted successfully");
     } catch (error) {
