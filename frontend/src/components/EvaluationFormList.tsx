@@ -22,6 +22,7 @@ import {
   editEvaluationForm,
   getUserEvaluationForms,
   deleteEvaluationForm,
+  getTAName,
 } from "../api/EvaluationFormApi";
 import { EvaluationFormResponse, QuestionAnswerResponse } from "../type";
 import EvaluationFormDelete from "./EvaluationFormDelete";
@@ -42,32 +43,12 @@ const EvaluationFormsList = () => {
     queryKey: ["evaluationforms"],
     queryFn: getUserEvaluationForms,
   });
-  // const { data, isLoading, isError, refetch } = useQuery<
-  // EvaluationFormResponse[]
-  // >({
-  // queryKey: ["evaluationforms"],
-  // queryFn: getUserEvaluationForms,
-  // });
 
   const [selectedAnswers, setSelectedAnswers] = useState<{
     [formId: string]: { [questionId: string]: string | string[] };
   }>({});
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await getUserEvaluationForms();
-    //     console.log("Fetched Data:", response);
-
-    //     setData(response);
-    //     setIsLoading(false);
-    //   } catch (error) {
-    //     setIsError(true);
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-
-    // fetchData();
     if (data) {
       const initialAnswers: {
         [formId: string]: { [questionId: string]: string | string[] };
@@ -92,14 +73,17 @@ const EvaluationFormsList = () => {
       try {
         const response = await getUserEvaluationForms();
         console.log("Fetched Data:", response);
+        //Loop on response for each
+
         // queryClient.setQueryData(["evaluationforms"], response);
 
         // refetch();
         setData(response);
+
         setIsLoading(false);
 
-        // Force a re-render by updating the refresh key          
-          setRefreshKey((prevKey) => prevKey + 1);
+        // Force a re-render by updating the refresh key
+        // setRefreshKey((prevKey) => prevKey + 1);
 
         // queryClient.invalidateQueries(["evaluationforms"]); // Invalidate and refetch
       } catch (error) {
@@ -191,12 +175,21 @@ const EvaluationFormsList = () => {
             expandIcon={<ExpandMoreIcon />}
             sx={{ backgroundColor: "#f5f5f5", boxShadow: 3 }}
           >
-            <Typography
-              variant="h1"
-              sx={{ color: "black", fontSize: 20, fontWeight: "bold" }}
-            >
-              {evaluationForm.course}
-            </Typography>
+            <Box display="flex" flexDirection="column" width="100%">
+              <Typography
+                variant="h1"
+                sx={{ color: "black", fontSize: 20, fontWeight: "bold" }}
+              >
+                {/* Hello Akram, although it is giving the needed output but the error won't go away  */}
+                {evaluationForm.evaluatedTA.name
+                  ? evaluationForm.evaluatedTA.name
+                  : "TA Name Missing"}
+                - {evaluationForm.course}
+              </Typography>
+              <Typography variant="subtitle1" sx={{ color: "gray" }}>
+                Semester: {evaluationForm.semester}
+              </Typography>
+            </Box>
             <Box sx={{ flexGrow: 1 }} />
             <Box>
               <IconButton onClick={() => handleDelete(evaluationForm._id)}>
