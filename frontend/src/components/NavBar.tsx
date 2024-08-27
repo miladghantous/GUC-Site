@@ -90,7 +90,7 @@ const Navbar = () => {
           </Box>
           <Box
             component={Link}
-            to="/evaluations"
+            to="/evaluationsInstructor"
             sx={{ textDecoration: "none" }}
           >
             <StyledMenuItem>Evaluation</StyledMenuItem>

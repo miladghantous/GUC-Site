@@ -64,7 +64,7 @@ const HomeInstructor = () => {
           <Card
             title="Evaluation"
             icon={<AssessmentOutlinedIcon sx={{ fontSize: 100 }} />}
-            link="/evaluations"
+            link="/evaluationsInstructor"
           />
         </Box>
       </Box>

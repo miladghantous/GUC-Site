@@ -2,7 +2,7 @@ import Navbar from "../components/NavBar";
 import EvaluationList from "../components/EvaluationFormList";
 import EvaluationFormAdd from "../components/EvaluationFormAdd";
 import Box from "@mui/material/Box";
-const Evaluation = () => {
+const EvaluationInstructor = () => {
   return (
     <>
       <Navbar />
@@ -37,4 +37,4 @@ const Evaluation = () => {
   );
 };
 
-export default Evaluation;
+export default EvaluationInstructor;

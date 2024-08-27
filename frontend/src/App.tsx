@@ -6,7 +6,7 @@ import Announcement from "./pages/Announcment";
 import Fund from "./pages/Fund";
 import Conference from "./pages/Conference";
 import FileLink from "./pages/FileLink";
-import Evaluation from "./pages/Evaluation";
+import EvaluationInstructor from "./pages/EvaluationInstructor";
 import ComplaintInstructor from "./pages/ComplaintInstructor";
 import Login from "./pages/Login";
 import EnterEmailReset from "./components/EnterEmailReset";
@@ -71,8 +71,8 @@ const App = () => {
             element={logged ? <FileLink /> : <Navigate to="/login" />}
           />
           <Route
-            path="/evaluations"
-            element={logged ? <Evaluation /> : <Navigate to="/login" />}
+            path="/evaluationsInstructor"
+            element={logged && isInstructor ? <EvaluationInstructor /> : <Navigate to="/login" />}
           />
           <Route
             path="/complaintsInstructor"
