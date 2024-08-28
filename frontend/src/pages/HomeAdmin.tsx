@@ -78,7 +78,7 @@ const HomeAdmin = () => {
           <Card
             title="Evaluation"
             icon={<AssessmentOutlinedIcon sx={{ fontSize: 100 }} />}
-            link="/evaluations"
+            link="/evaluationsAdmin"
           />
         </Box>
       </Box>

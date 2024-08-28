@@ -61,7 +61,7 @@ const viewAllEvaluationForms = asyncHandler(async (req, res) => {
     const evaluationForms = await EvaluationFormModel.find()
       .sort({ createdAt: -1 })
       .populate("questions")
-      .populate("evaluator", "username") // Populate evaluator with only the name field
+      .populate("evaluator", "username email") // Populate evaluator with only the name field
       .populate("evaluatedTA", "name"); // Populate evaluated TA with only the name field
 
     // evaluationForms.forEach(form => {
@@ -279,9 +279,24 @@ const getUserEvaluationForms = asyncHandler(async (req, res) => {
     const forms = await EvaluationFormModel.find({ evaluator: id })
       .sort({ createdAt: -1 })
       .populate("questions")
-      .populate("evaluator", "username") // Populate evaluator with only the name field
+      .populate("evaluator", "username email") // Populate evaluator with only the name field
       .populate("evaluatedTA", "name");
     res.status(200).json(forms);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Compare Email of User and Instructor if same return the username attribute in the Instructor model
+const getInstructorUsername = asyncHandler(async (req, res) => {
+  try {
+    const email = req.body.email;
+    const instructor = await InstructorModel.findOne({ email });
+    if (!instructor) {
+      return res.status(404).json({ error: "Instructor not found" });
+    }
+    const username = instructor.username;
+    res.status(200).json(username);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -298,4 +313,5 @@ module.exports = {
   getInstructorName,
   getTAName,
   getUserEvaluationForms,
+  getInstructorUsername,
 };

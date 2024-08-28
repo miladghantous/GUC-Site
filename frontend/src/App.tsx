@@ -13,6 +13,7 @@ import EnterEmailReset from "./components/EnterEmailReset";
 import ResetPassword from "./components/ResetPassword";
 import ChangePassword from "./pages/ChangePassword";
 import ComplaintAdmin from "./pages/ComplaintAdmin";
+import EvaluationAdmin from "./pages/EvaluationAdmin";
 
 
 const queryClient = new QueryClient();
@@ -69,6 +70,10 @@ const App = () => {
           <Route
             path="/filelinks"
             element={logged ? <FileLink /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/evaluationsAdmin"
+            element={logged && isAdmin ? <EvaluationAdmin /> : <Navigate to="/login" />}
           />
           <Route
             path="/evaluationsInstructor"

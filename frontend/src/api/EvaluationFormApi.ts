@@ -136,3 +136,14 @@ export const getUserEvaluationForms = async (): Promise<
     throw error;
   }
 };
+
+// Compare Email of User and Instructor if same return the username attribute in the Instructor model
+export const getInstructorUsername = async (email: string): Promise<string> => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/evaluationform/getInstructorUsername`,
+    {
+      email,
+    }
+  );
+  return response.data;
+};

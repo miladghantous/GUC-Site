@@ -88,13 +88,23 @@ const Navbar = () => {
           >
             <StyledMenuItem>Conferences</StyledMenuItem>
           </Box>
-          <Box
-            component={Link}
-            to="/evaluationsInstructor"
-            sx={{ textDecoration: "none" }}
-          >
-            <StyledMenuItem>Evaluation</StyledMenuItem>
-          </Box>
+          {isAdmin ? (
+            <Box
+              component={Link}
+              to="/evaluationsAdmin"
+              sx={{ textDecoration: "none" }}
+            >
+              <StyledMenuItem>Evaluations</StyledMenuItem>
+            </Box>
+          ) : (
+            <Box
+              component={Link}
+              to="/evaluationsInstructor"
+              sx={{ textDecoration: "none" }}
+            >
+              <StyledMenuItem>Evaluations</StyledMenuItem>
+            </Box>
+          )}
           <Box component={Link} to="/filelinks" sx={{ textDecoration: "none" }}>
             <StyledMenuItem>Links</StyledMenuItem>
           </Box>
