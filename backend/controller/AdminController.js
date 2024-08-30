@@ -14,7 +14,7 @@ const addAdmin = asyncHandler(async (req, res) => {
       password.search(/[A-Z]/) < 0 ||
       password.search(/[0-9]/) < 0
     ) {
-      res.status(400);
+      res.status(402);
       throw new Error(
         "Password must contain at least one number, one capital letter and one small letter"
       );
@@ -33,11 +33,20 @@ const addAdmin = asyncHandler(async (req, res) => {
       password: password,
       email: email,
     });
-    console.log("*******************");
-    await sendEmail(email);
+
+    try {
+      await sendEmail(email);
+    } catch (error) {
+      if (error.message === "Invalid Email") {
+        console.log("inisde if invalid");
+        return res.status(400).json({ error: "Invalid Email" });
+      }
+      throw error; // Re-throw if the error is something else
+    }
+
     res.status(200).json(admin);
   } catch (error) {
-    res.status(400);
+    res.status(401);
     throw new Error(error.message);
   }
 });
@@ -68,7 +77,15 @@ const sendEmail = async (email) => {
   };
   //debug
   console.log("Email sent.");
-  await transporter.sendMail(mailOptions);
+  //Put try catch for transporter.sendemail
+  try {
+    console.log("Befrore transporter sendmail");
+
+    await transporter.sendMail(mailOptions);
+    console.log("after transporter sendmail");
+  } catch (error) {
+    throw new Error("Invalid Email", { cause: error });
+  }
 };
 
 // Remove/Block Admin

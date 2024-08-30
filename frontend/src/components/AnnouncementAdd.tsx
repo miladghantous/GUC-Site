@@ -23,7 +23,7 @@ const AnnouncementAdd = () => {
     try {
       console.log(title, details);
       const response = await createAnnouncement(title, details);
-      console.log("Announcement added:", response);
+      // console.log("Announcement added:", response);
       setOpen(false);
       refetch();
       setSnackBarOpen(true);

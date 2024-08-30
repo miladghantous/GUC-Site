@@ -1,3 +1,4 @@
+import axios from "axios";
 import { UserResponse } from "../type";
 
 export const addAdmin = async (
@@ -5,21 +6,20 @@ export const addAdmin = async (
   username: string,
   password: string
 ): Promise<UserResponse> => {
-  const response = await fetch(
+  const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/admin/addAdmin`,
     {
-      method: "POST", 
-      credentials: "include", 
+      email,
+      username,
+      password,
+    },
+    {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, username, password }), // Corrected JSON structure
+      withCredentials: true, // Ensures cookies are sent along with the request
     }
   );
 
-  if (!response.ok) {
-    throw new Error("Failed to add admin");
-  }
-
-  return await response.json();
+  return response.data;
 };

@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Stack, Typography, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
-  // getAllComplaints,
   editComplaint,
   deleteComplaint,
   getUserComplaints,
@@ -15,34 +14,8 @@ import { ComplaintResponse } from "../type";
 import Snackbar from "@mui/material/Snackbar";
 
 const ComplaintsList = () => {
-  const [data, setData] = useState<ComplaintResponse[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  // const { data, isLoading, isError, refetch } = useQuery<ComplaintResponse[]>({
-  //   queryKey: ["complaints"],
-  //   queryFn: getUserComplaints,    
-  // });
-  // const [data,setData] = useState<ComplaintResponse[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getUserComplaints();
-        console.log(response);
-        
-        setData(response);
-        setIsLoading(false);
-      } catch (error) {
-        setIsError(true);
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [currentComplaint, setCurrentComplaint] =
@@ -50,6 +23,18 @@ const ComplaintsList = () => {
   const [complaintIdToDelete, setComplaintIdToDelete] = useState<string | null>(
     null
   );
+
+  // Fetch data using useQuery
+  const { data, isLoading, isError, refetch } = useQuery<ComplaintResponse[]>({
+    queryKey: ["complaints"],
+    queryFn: getUserComplaints,
+    onSuccess: (data) => {
+      console.log("Fetched complaints:", data);
+    },
+    onError: (error) => {
+      console.error("Error fetching complaints:", error);
+    },
+  });
 
   const handleEdit = (complaint: ComplaintResponse) => {
     setCurrentComplaint(complaint);
@@ -61,13 +46,14 @@ const ComplaintsList = () => {
       const response = await editComplaint(id, title, details);
       console.log("Complaint edited:", response);
       setOpenEdit(false);
-      // refetch();
+      refetch();
       setSnackBarOpen(true);
       setSnackBarMessage("Complaint edited successfully");
     } catch (error) {
       console.error("Failed to edit complaint:", error);
     }
   };
+
   const handleCancelEdit = () => {
     setOpenEdit(false);
   };
@@ -82,7 +68,7 @@ const ComplaintsList = () => {
       const response = await deleteComplaint(id);
       console.log("Complaint deleted:", response);
       setOpenDelete(false);
-      // refetch();
+      refetch();
       setSnackBarOpen(true);
       setSnackBarMessage("Complaint deleted successfully");
     } catch (error) {
@@ -99,7 +85,7 @@ const ComplaintsList = () => {
   }
 
   if (isError) {
-    return <Typography>Error</Typography>;
+    return <Typography>Error loading complaints.</Typography>;
   }
 
   return (
@@ -114,7 +100,7 @@ const ComplaintsList = () => {
             backgroundColor: "#f5f5f5",
             marginBottom: 2,
             padding: 1,
-            boxShadow: 3, // Add shadow
+            boxShadow: 3,
             borderRadius: 2,
             borderBottom: "1px solid #ddd",
             transition: "0.3s",

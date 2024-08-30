@@ -43,8 +43,6 @@ const addInstructor = asyncHandler(async (req, res) => {
       throw error; // Re-throw if the error is something else
     }
 
-    console.log("After error");
-
     res.status(200).json(ins);
   } catch (error) {
     res.status(401);
@@ -80,7 +78,10 @@ const sendEmail = async (email) => {
   console.log("Email sent.");
   //Put try catch for transporter.sendemail
   try {
+    console.log("Befrore transporter sendmail");
+
     await transporter.sendMail(mailOptions);
+    console.log("after transporter sendmail");
   } catch (error) {
     throw new Error("Invalid Email", { cause: error });
   }

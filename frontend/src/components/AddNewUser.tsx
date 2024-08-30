@@ -9,6 +9,7 @@ import { addAdmin } from "../api/AdminApi";
 import Snackbar from "@mui/material/Snackbar";
 
 const AddNewUser = () => {
+  const [typoMessage, setTypoMessage] = useState<string>("");
   const [typoOpen, setTypoOpen] = useState(false);
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
@@ -32,16 +33,18 @@ const AddNewUser = () => {
       setSnackBarMessage("User added successfully!");
     } catch (error: any) {
       // Check if error response exists and has a request status
+      setTypoOpen(true);
       if (
         error.response &&
         error.response.request &&
         error.response.request.status === 400
       ) {
-        setTypoOpen(true);
+        setTypoMessage("Invalid Email");
       } else {
         console.error("Failed to add user:", error);
         setSnackBarMessage("Failed to add user. Please try again.");
         setSnackBarOpen(true);
+        setTypoMessage("Email already in the system");
       }
     }
   };
@@ -86,6 +89,7 @@ const AddNewUser = () => {
       <AddNewUserDailog
         open={open}
         user={newUser}
+        typoMessage={typoMessage}
         typoOpen={typoOpen}
         // role={role}
         onSave={handleSave}

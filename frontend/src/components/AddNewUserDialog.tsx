@@ -19,7 +19,8 @@ import { UserResponse } from "../type";
 interface AddUserDialogProps {
   open: boolean;
   user: UserResponse;
-  typoOpen: boolean;
+  typoMessage: string;
+  typoOpen:boolean;
   onSave: (email: string, username: string, role: string) => void;
   onCancel: () => void;
 }
@@ -27,6 +28,7 @@ interface AddUserDialogProps {
 const AddNewUserDialog: React.FC<AddUserDialogProps> = ({
   open,
   user,
+  typoMessage,
   typoOpen,
   onSave,
   onCancel,
@@ -93,13 +95,12 @@ const AddNewUserDialog: React.FC<AddUserDialogProps> = ({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "left",
+            justifyContent: "center",
             alignItems: "center",
-            ml: 3,
           }}
         >
           {typoOpen && (
-            <Typography sx={{ color: "red" }}>Invalid Email </Typography>
+            <Typography sx={{ color: "red" }}>*{typoMessage} </Typography>
           )}
         </Box>
         <FormControl component="fieldset" margin="dense">
