@@ -39,6 +39,7 @@ const AddTa = () => {
     setOpen(false);
   };
   const newTA: TaResponse = {
+    _id: "",
     name: "",
   };
 

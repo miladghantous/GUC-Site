@@ -8,14 +8,14 @@ const nodemailer = require("nodemailer");
 // Add a new Instructor
 const addInstructor = asyncHandler(async (req, res) => {
   console.log(req.body);
-  const { username, password, email } = req.body;
+  const { email, username, password } = req.body;
   try {
     if (
       password.search(/[a-z]/) < 0 ||
       password.search(/[A-Z]/) < 0 ||
       password.search(/[0-9]/) < 0
     ) {
-      res.status(400);
+      res.status(402);
       throw new Error(
         "Password must contain at least one number, one capital letter and one small letter"
       );
@@ -32,10 +32,22 @@ const addInstructor = asyncHandler(async (req, res) => {
       password: password,
       email: email,
     });
-    await sendEmail(email);
+
+    try {
+      await sendEmail(email);
+    } catch (error) {
+      if (error.message === "Invalid Email") {
+        console.log("inisde if invalid");
+        return res.status(400).json({ error: "Invalid Email" });
+      }
+      throw error; // Re-throw if the error is something else
+    }
+
+    console.log("After error");
+
     res.status(200).json(ins);
   } catch (error) {
-    res.status(400);
+    res.status(401);
     throw new Error(error.message);
   }
 });
@@ -66,7 +78,12 @@ const sendEmail = async (email) => {
   };
   //debug
   console.log("Email sent.");
-  await transporter.sendMail(mailOptions);
+  //Put try catch for transporter.sendemail
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw new Error("Invalid Email", { cause: error });
+  }
 };
 
 // Remove/Block Instructor

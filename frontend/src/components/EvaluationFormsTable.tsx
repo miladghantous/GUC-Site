@@ -67,7 +67,7 @@ const EvaluationFormsTable = ({ data }: { data: EvaluationFormResponse[] }) => {
 
   const getAnswerLabel = (questionText: string, answer: any) => {
     console.log(answer[0]);
-    
+
     switch (true) {
       case questionText.toLowerCase().includes("volume"):
         switch (answer[0]) {
@@ -151,7 +151,13 @@ const EvaluationFormsTable = ({ data }: { data: EvaluationFormResponse[] }) => {
                     <TableRow
                       key={form._id}
                       onClick={() => handleRowClick(form)}
-                      style={{ cursor: "pointer" }}
+                      sx={{
+                        cursor: "pointer",
+                        "&:hover": {
+                          backgroundColor: "#F57C00",
+                          boxShadow: 6,
+                        },
+                      }}
                     >
                       <TableCell>{form.course}</TableCell>
                       <TableCell>{form.evaluatedTA.name}</TableCell>

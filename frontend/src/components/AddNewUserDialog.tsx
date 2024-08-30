@@ -5,11 +5,13 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Box,
   Button,
   Radio,
   RadioGroup,
   FormControlLabel,
   FormControl,
+  Typography,
   FormLabel,
 } from "@mui/material";
 import { UserResponse } from "../type";
@@ -17,6 +19,7 @@ import { UserResponse } from "../type";
 interface AddUserDialogProps {
   open: boolean;
   user: UserResponse;
+  typoOpen: boolean;
   onSave: (email: string, username: string, role: string) => void;
   onCancel: () => void;
 }
@@ -24,6 +27,7 @@ interface AddUserDialogProps {
 const AddNewUserDialog: React.FC<AddUserDialogProps> = ({
   open,
   user,
+  typoOpen,
   onSave,
   onCancel,
 }) => {
@@ -86,6 +90,18 @@ const AddNewUserDialog: React.FC<AddUserDialogProps> = ({
           value={formValues.username}
           onChange={handleChange}
         />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "left",
+            alignItems: "center",
+            ml: 3,
+          }}
+        >
+          {typoOpen && (
+            <Typography sx={{ color: "red" }}>Invalid Email </Typography>
+          )}
+        </Box>
         <FormControl component="fieldset" margin="dense">
           <FormLabel component="legend">Role</FormLabel>
           <RadioGroup
@@ -94,11 +110,7 @@ const AddNewUserDialog: React.FC<AddUserDialogProps> = ({
             onChange={handleRoleChange}
             row
           >
-            <FormControlLabel
-              value="ADMIN"
-              control={<Radio />}
-              label="Admin"
-            />
+            <FormControlLabel value="ADMIN" control={<Radio />} label="Admin" />
             <FormControlLabel
               value="INSTRUCTOR"
               control={<Radio />}
