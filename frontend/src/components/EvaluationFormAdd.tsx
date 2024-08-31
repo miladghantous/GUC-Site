@@ -53,8 +53,7 @@ const EvaluationFormAdd = () => {
         course
       );
       console.log("Evaluation Form added:", response);
-      const updatedForms = await getUserEvaluationForms();
-      queryClient.setQueryData(["evaluationforms"], updatedForms);
+      queryClient.setQueryData(["evaluationforms"], await getUserEvaluationForms());
       // const updatedData = await getUserEvaluationForms();
       // console.log("Updated Data:", updatedData);
       // setData(updatedData);
@@ -75,8 +74,8 @@ const EvaluationFormAdd = () => {
     setOpen(false);
   };
   const newEvaluationForm: EvaluationFormResponse = {
-    evaluator: "",
-    evaluatedTA: "",
+    evaluator: { _id: "", username: "", email: "", password: "" },
+    evaluatedTA: { _id: "", name: "" },
     semester: "",
     course: "",
     questions: [], // This will be an array of QuestionAnswerResponse objects

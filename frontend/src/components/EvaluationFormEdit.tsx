@@ -42,7 +42,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
 
   const [formValues, setFormValues] = useState({
     // evaluator: evaluationform.evaluator,
-    ta: evaluationform.evaluatedTA,
+    ta: evaluationform.evaluatedTA.name,
     course: evaluationform.course,
     semester: evaluationform.semester,
   });
@@ -50,7 +50,7 @@ const EvaluationFormEdit: React.FC<EvaluationFormEditProps> = ({
   useEffect(() => {
     setFormValues({
       // evaluator: evaluationform.evaluator,
-      ta: evaluationform.evaluatedTA,
+      ta: evaluationform.evaluatedTA.name,
       course: evaluationform.course,
       semester: evaluationform.semester,
     });

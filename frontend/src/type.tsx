@@ -51,8 +51,8 @@ export type TaResponse = {
 
 export type EvaluationFormResponse = {
   _id: string;
-  evaluator: string; // Assuming UserResponse corresponds to the instructor's information
-  evaluatedTA: string; // Assuming UserResponse corresponds to the TA's information
+  evaluator: UserResponse; // Assuming UserResponse corresponds to the instructor's information
+  evaluatedTA: TaResponse; // Assuming UserResponse corresponds to the TA's information
   semester: string;
   course: string;
   questions: QuestionAnswerResponse[]; // Array of QuestionAnswerResponse objects

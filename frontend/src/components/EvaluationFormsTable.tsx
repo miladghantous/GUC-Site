@@ -119,20 +119,20 @@ const EvaluationFormsTable = ({ data }: { data: EvaluationFormResponse[] }) => {
                   <TableRow>
                     <TableCell>
                       <TableSortLabel
-                        active={orderBy === "course"}
-                        direction={orderBy === "course" ? order : "asc"}
-                        onClick={() => handleRequestSort("course")}
-                      >
-                        Course
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>
-                      <TableSortLabel
                         active={orderBy === "evaluatedTA"}
                         direction={orderBy === "evaluatedTA" ? order : "asc"}
                         onClick={() => handleRequestSort("evaluatedTA")}
                       >
                         Evaluated TA
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={orderBy === "course"}
+                        direction={orderBy === "course" ? order : "asc"}
+                        onClick={() => handleRequestSort("course")}
+                      >
+                        Course
                       </TableSortLabel>
                     </TableCell>
                     <TableCell>
@@ -159,8 +159,8 @@ const EvaluationFormsTable = ({ data }: { data: EvaluationFormResponse[] }) => {
                         },
                       }}
                     >
-                      <TableCell>{form.course}</TableCell>
                       <TableCell>{form.evaluatedTA.name}</TableCell>
+                      <TableCell>{form.course}</TableCell>
                       <TableCell>{form.semester}</TableCell>
                     </TableRow>
                   ))}
@@ -182,10 +182,10 @@ const EvaluationFormsTable = ({ data }: { data: EvaluationFormResponse[] }) => {
                   selectedForm.evaluator.email}
               </Typography>
               <Typography variant="h6">
-                Course: {selectedForm.course}
+                Evaluated TA: {selectedForm.evaluatedTA.name}
               </Typography>
               <Typography variant="h6">
-                Evaluated TA: {selectedForm.evaluatedTA.name}
+                Course: {selectedForm.course}
               </Typography>
               <Typography variant="h6">
                 Semester: {selectedForm.semester}
