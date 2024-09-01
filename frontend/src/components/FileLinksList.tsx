@@ -76,6 +76,11 @@ const FileLinksList = ({ data , onEditOrDelete }: linkProps) => {
 
   return (
     <Box sx={{ width: "100%", padding: 2, alignItems: "center" }}>
+      <Box sx={{ width: "100%", padding: 2 }}>
+      <Typography variant="h4" sx={{ color: "black" , marginBottom: 2 }}>
+        List Of Links
+      </Typography>
+    </Box>
       {data?.map((filelink, index) => (
         <Stack
           key={index}

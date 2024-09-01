@@ -34,8 +34,8 @@ const EvaluationFormsListAdmin = () => {
 
   return (
     <Box sx={{ width: "100%", padding: 2 }}>
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
-        Evaluation Forms
+      <Typography variant="h4" sx={{ color: "black" , marginBottom: 2 }}>
+        List Of Evaluation Forms
       </Typography>
       <EvaluationFormsTable data={data} />
     </Box>

@@ -83,7 +83,13 @@ const FundsList = () => {
   }
 
   return (
+    
     <Box sx={{ width: "100%", padding: 2, alignItems: "center" }}>
+      <Box sx={{ width: "100%", padding: 2 }}>
+      <Typography variant="h4" sx={{ color: "black" , marginBottom: 2 }}>
+        List Of Funds
+      </Typography>
+    </Box>
       {data?.map((fund, index) => (
         <Stack
           key={index}
@@ -103,7 +109,9 @@ const FundsList = () => {
               boxShadow: 6,
             },
           }}
+          
         >
+          
           <Box>
             {/* title, link, description, deadline */}
             <Typography
@@ -143,8 +151,9 @@ const FundsList = () => {
             </IconButton>
           </Box>
         </Stack>
+        
       ))}
-
+      
       {currentFund && (
         <FundEdit
           open={openEdit}
