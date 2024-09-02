@@ -15,9 +15,11 @@ export const createFileLink = async (
   subject: string,
   link: string
 ): Promise<FileLinkResponse> => {
+  // console.log("API this is subject:" , subject)
+  // console.log("API this is link: " , link);  
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/filelink/addFileLink`,
-    { subject, link },
+    {  subject, link },
     {
       headers: {
         "Content-Type": "application/json",

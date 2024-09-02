@@ -18,7 +18,9 @@ const FileLinkAdd = (
 
   const handleSave = async (subject: string, link: string) => {
     try {
-      console.log(subject, link);
+      console.log("this is subject:" , subject);
+      console.log("this is link: " , link);
+
       const response = await createFileLink(subject, link);
       console.log("FileLink added:", response);
       setOpen(false);

@@ -114,7 +114,7 @@ const FundEdit: React.FC<FundEditProps> = ({
           value={formValues.link}
           onChange={handleChange}
         />
-        <TextField
+        <TextField sx={{mb:"20px"}}
           margin="dense"
           name="description"
           label="description"
@@ -122,7 +122,12 @@ const FundEdit: React.FC<FundEditProps> = ({
           fullWidth
           value={formValues.description}
           onChange={handleChange}
+          multiline
+          rows={4} // Minimum number of rows (initial height)
+          maxRows={10} // Maximum number of rows to which the TextField can expand
+          variant="outlined"
         />
+        
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Deadline"

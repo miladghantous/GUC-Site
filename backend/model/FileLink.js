@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const FileLinkSchema = new mongoose.Schema(
   {
-    link: {
+    subject: {
       type: String,
       required: true,
     },
-    subject: {
+    link: {
       type: String,
       required: true,
     },

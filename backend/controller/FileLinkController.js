@@ -5,11 +5,16 @@ const asyncHandler = require("express-async-handler");
 // Add File Link
 const addFileLink = asyncHandler(async (req, res) => {
   const filelinkbody = req.body;
+  console.log("Subject: ",filelinkbody.subject);
+  console.log("link: ",filelinkbody.link);
+  
 
   try {
     const filelink = await FileLinkModel.create(filelinkbody);
     res.status(200).json(filelink);
   } catch (error) {
+    console.log(error.message);
+    
     res.status(400);
     throw new Error(error.message);
   }

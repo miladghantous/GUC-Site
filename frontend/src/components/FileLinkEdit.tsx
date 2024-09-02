@@ -42,12 +42,13 @@ const FileLinkEdit: React.FC<FileLinkEditProps> = ({
   };
 
   const handleSave = () => {
-    if(header === "Add FileLink") {
-      if(formValues.subject === "" || formValues.link === "") {
+    if(header === "Add Link") {
+      if(formValues.subject.trim() === "" || formValues.link.trim() === "") {
         onCancel();
         return;
       }
-      onSave(formValues.subject, formValues.link,"");
+      
+      onSave(formValues.subject,formValues.link,"");
       return;
     }
     onSave(filelink._id, formValues.subject, formValues.link);

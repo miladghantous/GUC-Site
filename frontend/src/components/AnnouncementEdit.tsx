@@ -24,7 +24,6 @@ const AnnouncementEdit: React.FC<AnnouncementEditProps> = ({
   onSave,
   onCancel,
 }) => {
-
   const [formValues, setFormValues] = useState({
     title: announcement.title,
     details: announcement.details,
@@ -76,6 +75,10 @@ const AnnouncementEdit: React.FC<AnnouncementEditProps> = ({
           fullWidth
           value={formValues.details}
           onChange={handleChange}
+          multiline
+          rows={4} // Minimum number of rows (initial height)
+          maxRows={10} // Maximum number of rows to which the TextField can expand
+          variant="outlined"
         />
       </DialogContent>
       <DialogActions>
@@ -104,7 +107,6 @@ const AnnouncementEdit: React.FC<AnnouncementEditProps> = ({
           Save
         </Button>
       </DialogActions>
-
     </Dialog>
   );
 };
