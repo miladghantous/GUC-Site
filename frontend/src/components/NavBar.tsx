@@ -3,7 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -20,8 +20,14 @@ const StyledMenuItem = styled(MenuItem)({
   },
 });
 
+const ActiveMenuItem = styled(StyledMenuItem)({
+  // color: "#F57C00", // Change color when active
+    backgroundColor: "#F57C00",
+});
+
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const role = sessionStorage.getItem("role");
   const isAdmin = role === "ADMIN";
@@ -29,13 +35,16 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/logout`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
         const message = await response.json();
         console.log(message);
@@ -55,7 +64,7 @@ const Navbar = () => {
   return (
     <StyledAppBar position="fixed">
       <Toolbar>
-        <Link to={"/home"}>
+        <Link to="/home">
           <Box
             component="img"
             src={logo}
@@ -72,21 +81,33 @@ const Navbar = () => {
           }}
         >
           <Box component={Link} to="/home" sx={{ textDecoration: "none" }}>
-            <StyledMenuItem>Home</StyledMenuItem>
+            {location.pathname === "/home" ? (
+              <ActiveMenuItem>Home</ActiveMenuItem>
+            ) : (
+              <StyledMenuItem>Home</StyledMenuItem>
+            )}
           </Box>
           <Box
             component={Link}
             to="/announcements"
             sx={{ textDecoration: "none" }}
           >
-            <StyledMenuItem>Announcements</StyledMenuItem>
+            {location.pathname === "/announcements" ? (
+              <ActiveMenuItem>Announcements</ActiveMenuItem>
+            ) : (
+              <StyledMenuItem>Announcements</StyledMenuItem>
+            )}
           </Box>
           <Box
             component={Link}
             to="/conferences"
             sx={{ textDecoration: "none" }}
           >
-            <StyledMenuItem>Conferences</StyledMenuItem>
+            {location.pathname === "/conferences" ? (
+              <ActiveMenuItem>Conferences</ActiveMenuItem>
+            ) : (
+              <StyledMenuItem>Conferences</StyledMenuItem>
+            )}
           </Box>
           {isAdmin ? (
             <Box
@@ -94,7 +115,11 @@ const Navbar = () => {
               to="/evaluationsAdmin"
               sx={{ textDecoration: "none" }}
             >
-              <StyledMenuItem>Evaluations</StyledMenuItem>
+              {location.pathname === "/evaluationsAdmin" ? (
+                <ActiveMenuItem>Evaluations</ActiveMenuItem>
+              ) : (
+                <StyledMenuItem>Evaluations</StyledMenuItem>
+              )}
             </Box>
           ) : (
             <Box
@@ -102,14 +127,26 @@ const Navbar = () => {
               to="/evaluationsInstructor"
               sx={{ textDecoration: "none" }}
             >
-              <StyledMenuItem>Evaluations</StyledMenuItem>
+              {location.pathname === "/evaluationsInstructor" ? (
+                <ActiveMenuItem>Evaluations</ActiveMenuItem>
+              ) : (
+                <StyledMenuItem>Evaluations</StyledMenuItem>
+              )}
             </Box>
           )}
           <Box component={Link} to="/filelinks" sx={{ textDecoration: "none" }}>
-            <StyledMenuItem>Links</StyledMenuItem>
+            {location.pathname === "/filelinks" ? (
+              <ActiveMenuItem>Links</ActiveMenuItem>
+            ) : (
+              <StyledMenuItem>Links</StyledMenuItem>
+            )}
           </Box>
           <Box component={Link} to="/funds" sx={{ textDecoration: "none" }}>
-            <StyledMenuItem>Funds</StyledMenuItem>
+            {location.pathname === "/funds" ? (
+              <ActiveMenuItem>Funds</ActiveMenuItem>
+            ) : (
+              <StyledMenuItem>Funds</StyledMenuItem>
+            )}
           </Box>
           {isAdmin ? (
             <Box
@@ -117,7 +154,11 @@ const Navbar = () => {
               to="/complaintsAdmin"
               sx={{ textDecoration: "none" }}
             >
-              <StyledMenuItem>Complaints</StyledMenuItem>
+              {location.pathname === "/complaintsAdmin" ? (
+                <ActiveMenuItem>Complaints</ActiveMenuItem>
+              ) : (
+                <StyledMenuItem>Complaints</StyledMenuItem>
+              )}
             </Box>
           ) : (
             <Box
@@ -125,27 +166,31 @@ const Navbar = () => {
               to="/complaintsInstructor"
               sx={{ textDecoration: "none" }}
             >
-              <StyledMenuItem>Complaints</StyledMenuItem>
+              {location.pathname === "/complaintsInstructor" ? (
+                <ActiveMenuItem>Complaints</ActiveMenuItem>
+              ) : (
+                <StyledMenuItem>Complaints</StyledMenuItem>
+              )}
             </Box>
           )}
-          {/* code for logout icon */}
-          <Box
-            sx={{
-              marginLeft: 40,
-            }}
-          >
-            <IconButton onClick={handleLogout}>
-              <LogoutIcon
-                sx={{
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#F57C00", // Change background color on hover
-                    boxShadow: 6, // Increase shadow on hover
-                  },
-                }}
-              />
-            </IconButton>
-          </Box>
+        </Box>
+        {/* Logout Icon */}
+        <Box
+          sx={{
+            marginLeft: 40,
+          }}
+        >
+          <IconButton onClick={handleLogout}>
+            <LogoutIcon
+              sx={{
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#F57C00",
+                  boxShadow: 6,
+                },
+              }}
+            />
+          </IconButton>
         </Box>
       </Toolbar>
     </StyledAppBar>

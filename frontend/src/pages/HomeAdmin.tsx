@@ -61,7 +61,7 @@ const HomeAdmin = () => {
             link="/filelinks"
           />
           <Card
-            title="Funds"
+            title="Funds/Grants"
             icon={<AttachMoneyOutlinedIcon sx={{ fontSize: 100 }} />}
             link="/funds"
           />
