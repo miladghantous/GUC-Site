@@ -17,9 +17,9 @@ server.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 connectToDb();
 const httpServer = require("http").createServer(server);
-// httpServer.listen(port, () =>
-//   console.log(`Http server is listening on port ${port}`)
-// );
+httpServer.listen(port, () =>
+  console.log(`Http server is listening on port ${port}`)
+);
 
 // Routes
 const instructorRoutes = require("./routes/InstructorRoute");
