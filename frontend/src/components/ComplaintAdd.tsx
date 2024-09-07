@@ -4,7 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ComplaintEdit from "./ComplaintEdit";
 import { ComplaintResponse, Status } from "../type";
 import {
-  getAllComplaints,
+  // getAllComplaints,
   createComplaint,
   getUserComplaints,
 } from "../api/ComplaintApi";
@@ -30,7 +30,7 @@ const ComplaintAdd = () => {
   const handleSave = async (title: string, details: string) => {
     try {
       console.log(title, details);
-      const response = await createComplaint(title, details);
+      await createComplaint(title, details);
       // console.log("Complaint added:", response);
       refetch();
       setOpen(false);

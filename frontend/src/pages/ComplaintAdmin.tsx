@@ -1,5 +1,5 @@
-import ComplaintsList from "../components/ComplaintsList";
-import ComplaintAdd from "../components/ComplaintAdd";
+// import ComplaintsList from "../components/ComplaintsList";
+// import ComplaintAdd from "../components/ComplaintAdd";
 import Navbar from "../components/NavBar";
 import { Box, Typography } from "@mui/material";
 import ComplaintsListAdmin from "../components/ComplaintListAdmin";

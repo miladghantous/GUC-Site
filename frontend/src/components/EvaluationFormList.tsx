@@ -16,20 +16,20 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState, useEffect } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, } from "@tanstack/react-query";
 import {
-  getAllEvaluationForms,
+  // getAllEvaluationForms,
   editEvaluationForm,
   getUserEvaluationForms,
   deleteEvaluationForm,
-  getTAName,
+  // getTAName,
 } from "../api/EvaluationFormApi";
 import { EvaluationFormResponse, QuestionAnswerResponse } from "../type";
 import EvaluationFormDelete from "./EvaluationFormDelete";
 
 const EvaluationFormsList = () => {
-  const [refreshKey, setRefreshKey] = useState(0);
-  const queryClient = useQueryClient();
+  const [refreshKey, ] = useState(0);
+  // const queryClient = useQueryClient();
   const [data, setData] = useState<EvaluationFormResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);
@@ -39,7 +39,7 @@ const EvaluationFormsList = () => {
   const [evaluationformIdToDelete, setEvaluationFormIdToDelete] = useState<
     string | null
   >(null);
-  const { refetch } = useQuery<EvaluationFormResponse[]>({
+  const { } = useQuery<EvaluationFormResponse[]>({
     queryKey: ["evaluationforms"],
     queryFn: getUserEvaluationForms,
   });
@@ -291,7 +291,7 @@ const EvaluationFormsList = () => {
                           selectedAnswers[evaluationForm._id]?.[question._id] ||
                             0
                         )}
-                        onChange={(e, newValue) =>
+                        onChange={( newValue) =>
                           handleAnswerChange(
                             evaluationForm._id,
                             question._id,

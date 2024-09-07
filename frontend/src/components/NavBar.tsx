@@ -31,7 +31,7 @@ const Navbar = () => {
 
   const role = sessionStorage.getItem("role");
   const isAdmin = role === "ADMIN";
-  const isInstructor = role === "INSTRUCTOR";
+  // const isInstructor = role === "INSTRUCTOR";
 
   const handleLogout = async () => {
     try {

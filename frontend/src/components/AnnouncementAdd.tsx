@@ -22,7 +22,7 @@ const AnnouncementAdd = () => {
   const handleSave = async (title: string, details: string) => {
     try {
       console.log(title, details);
-      const response = await createAnnouncement(title, details);
+      await createAnnouncement(title, details);
       // console.log("Announcement added:", response);
       setOpen(false);
       refetch();

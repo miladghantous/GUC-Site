@@ -5,14 +5,14 @@ import AddIcon from "@mui/icons-material/Add";
 import EvaluationFormEdit from "./EvaluationFormEdit";
 import {
   EvaluationFormResponse,
-  UserResponse,
-  TaResponse,
+  // UserResponse,
+  // TaResponse,
   // QuestionAnswerResponse,
 } from "../type";
 import {
   createEvaluationForm,
-  getAllEvaluationForms,
-  getInstructorId,
+  // getAllEvaluationForms,
+  // getInstructorId,
   getTAId,
   getUserEvaluationForms,
 } from "../api/EvaluationFormApi";
@@ -20,7 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import Snackbar from "@mui/material/Snackbar";
 
 const EvaluationFormAdd = () => {
-  const [data, setData] = useState<EvaluationFormResponse[]>([]);
+  // const [data, setData] = useState<EvaluationFormResponse[]>([]);
   const queryClient = useQueryClient();
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
