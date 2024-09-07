@@ -13,7 +13,7 @@ server.use(cookieParser());
 server.use(bodyParser.json());
 
 var cors = require("cors");
-server.use(cors({ origin: "http://localhost:5173", credentials: true }));
+server.use(cors({ origin: "https://guc-site-frontend.vercel.app", credentials: true }));
 
 connectToDb();
 const httpServer = require("http").createServer(server);
