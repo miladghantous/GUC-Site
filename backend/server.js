@@ -50,3 +50,5 @@ server.use("/api/questionanswer", questionAnswerRoutes);
 
 
 server.use(ErrorHandler);
+
+module.exports = server;
