@@ -44,7 +44,7 @@ const login = asyncHandler(async (req, res) => {
     maxAge: 3600000,
     httpOnly: true,
     secure: true, // Send only over HTTPS
-    sameSite: "Lax", // To control cross-site cookie behavior
+    sameSite: 'none', // To control cross-site cookie behavior
   });
 
   res.status(200).json({
