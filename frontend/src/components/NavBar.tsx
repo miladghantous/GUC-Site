@@ -7,7 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: "#1c0b0b",
@@ -30,6 +30,7 @@ const Navbar = () => {
   const location = useLocation();
 
   const role = sessionStorage.getItem("role");
+  const username = sessionStorage.getItem("username")
   const isAdmin = role === "ADMIN";
   // const isInstructor = role === "INSTRUCTOR";
 
@@ -174,12 +175,23 @@ const Navbar = () => {
             </Box>
           )}
         </Box>
+        <Box
+        sx={{
+          ml: 5,
+          mr: 5
+        }}
+        >
+        <Typography>
+          Welcome, {username}
+        </Typography>
+
+        </Box>
         {/* Logout Icon */}
         <Box
           sx={{
-            marginLeft: 40,
+            marginLeft: 10,
           }}
-        >
+          >
           <IconButton onClick={handleLogout}>
             <LogoutIcon
               sx={{
