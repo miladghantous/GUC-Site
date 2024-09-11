@@ -87,7 +87,7 @@ const AnnouncementsList = () => {
     <Box sx={{ width: "100%", padding: 2 , alignItems:"center"}}>
       <Box sx={{ width: "100%", padding: 2 }}>
       <Typography variant="h4" sx={{ color: "black" , marginBottom: 2 }}>
-        List Of Announcemnets
+        List Of Announcements
       </Typography>
     </Box>
       {data?.map((announcement, index) => (

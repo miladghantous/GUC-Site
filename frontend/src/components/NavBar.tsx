@@ -5,24 +5,25 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
+import logo2 from "../assets/German_University_in_Cairo_Logo2.png";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton, Typography } from "@mui/material";
 
 const StyledAppBar = styled(AppBar)({
-  backgroundColor: "#1c0b0b",
+  backgroundColor: "#216DAB",
 });
 
 const StyledMenuItem = styled(MenuItem)({
   color: "#FFFFFF",
   "&:hover": {
-    backgroundColor: "#F57C00",
+    backgroundColor: "#ea6e15",
   },
 });
 
 const ActiveMenuItem = styled(StyledMenuItem)({
   // color: "#F57C00", // Change color when active
-    backgroundColor: "#F57C00",
+  backgroundColor: "#ea6e15",
 });
 
 const Navbar = () => {
@@ -30,7 +31,7 @@ const Navbar = () => {
   const location = useLocation();
 
   const role = sessionStorage.getItem("role");
-  const username = sessionStorage.getItem("username")
+  const username = sessionStorage.getItem("username");
   const isAdmin = role === "ADMIN";
   // const isInstructor = role === "INSTRUCTOR";
 
@@ -68,7 +69,7 @@ const Navbar = () => {
         <Link to="/home">
           <Box
             component="img"
-            src={logo}
+            src={logo2}
             sx={{ display: { xs: "none", md: "flex" }, mr: 1, height: "50px" }}
           />
         </Link>
@@ -176,22 +177,19 @@ const Navbar = () => {
           )}
         </Box>
         <Box
-        sx={{
-          ml: 5,
-          mr: 5
-        }}
+          sx={{
+            ml: 5,
+            mr: 5,
+          }}
         >
-        <Typography>
-          Welcome, {username}
-        </Typography>
-
+          <Typography>Hello, {username}</Typography>
         </Box>
         {/* Logout Icon */}
         <Box
           sx={{
             marginLeft: 10,
           }}
-          >
+        >
           <IconButton onClick={handleLogout}>
             <LogoutIcon
               sx={{
