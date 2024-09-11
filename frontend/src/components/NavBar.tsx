@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/logo.png";
+// import logo from "../assets/logo.png";
 import logo2 from "../assets/German_University_in_Cairo_Logo2.png";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
