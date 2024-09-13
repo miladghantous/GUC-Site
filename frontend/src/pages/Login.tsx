@@ -46,7 +46,7 @@ const Login = () => {
         window.location.reload();
       }
 
-      navigate("https://guc-site-frontend.vercel.app/home");
+      navigate("/home");
       window.location.reload();
     } else {
       setEmail("");
