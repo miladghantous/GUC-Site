@@ -34,11 +34,11 @@ const App = () => {
           <Route
             path="/"
             element={
-              logged ? <Navigate to="https://guc-site-frontend.vercel.app/home" /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />
+              logged ? <Navigate to="https://guc-site-frontend.vercel.app/home" /> : <Navigate to="/login" />
             }
           />
           <Route
-            path="https://guc-site-frontend.vercel.app/login"
+            path="/login"
             element={logged ? <Navigate to="https://guc-site-frontend.vercel.app/home" /> : <Login />}
           />
           <Route
@@ -51,47 +51,47 @@ const App = () => {
                   <HomeInstructor />
                 )
               ) : (
-                <Navigate to="https://guc-site-frontend.vercel.app/login" />
+                <Navigate to="/login" />
               )
             }
           />
           <Route
             path="/announcements"
-            element={logged ? <Announcement /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged ? <Announcement /> : <Navigate to="/login" />}
           />
           <Route
             path="/funds"
-            element={logged ? <Fund /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged ? <Fund /> : <Navigate to="/login" />}
           />
           <Route
             path="/conferences"
-            element={logged ? <Conference /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged ? <Conference /> : <Navigate to="/login" />}
           />
           <Route
             path="/filelinks"
-            element={logged ? <FileLink /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged ? <FileLink /> : <Navigate to="/login" />}
           />
           <Route
             path="/evaluationsAdmin"
-            element={logged && isAdmin ? <EvaluationAdmin /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged && isAdmin ? <EvaluationAdmin /> : <Navigate to="/login" />}
           />
           <Route
             path="/evaluationsInstructor"
-            element={logged && isInstructor ? <EvaluationInstructor /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged && isInstructor ? <EvaluationInstructor /> : <Navigate to="/login" />}
           />
           <Route
             path="/complaintsInstructor"
-            element={logged && isInstructor ? <ComplaintInstructor /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged && isInstructor ? <ComplaintInstructor /> : <Navigate to="/login" />}
           />
           <Route
             path="/complaintsAdmin"
-            element={logged &&  isAdmin ? <ComplaintAdmin /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged &&  isAdmin ? <ComplaintAdmin /> : <Navigate to="/login" />}
           />
           <Route path="/EnterEmailReset" element={<EnterEmailReset />} />
           <Route path="/ResetPassword/:email" element={<ResetPassword />} />
           <Route
             path="/changePassword"
-            element={logged ? <ChangePassword /> : <Navigate to="https://guc-site-frontend.vercel.app/login" />}
+            element={logged ? <ChangePassword /> : <Navigate to="/login" />}
           />
         </Routes>
       </BrowserRouter>
