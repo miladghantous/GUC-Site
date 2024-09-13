@@ -34,15 +34,15 @@ const App = () => {
           <Route
             path="/"
             element={
-              logged ? <Navigate to="https://guc-site-frontend.vercel.app/home" /> : <Navigate to="/login" />
+              logged ? <Navigate to="/home" /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/login"
-            element={logged ? <Navigate to="https://guc-site-frontend.vercel.app/home" /> : <Login />}
+            element={logged ? <Navigate to="/home" /> : <Login />}
           />
           <Route
-            path="https://guc-site-frontend.vercel.app/home"
+            path="/home"
             element={
               logged ? (
                 isAdmin ? (
