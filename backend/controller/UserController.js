@@ -10,8 +10,10 @@ const Mailgen = require("mailgen");
 const dotenv = require("dotenv").config();
 
 const login = asyncHandler(async (req, res) => {
+  console.log("i am here");
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+  console.log("i am at this point 2");
   if (!user) {
     res.status(400);
     console.log("Not user");
