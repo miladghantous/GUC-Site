@@ -15,8 +15,9 @@ server.use(bodyParser.json());
 const cors = require("cors");
 //---------
 // Put it back if my solution doesnt work:
-server.use(cors({ origin: process.env.FRONT, credentials: true }));
+//server.use(cors({ origin: process.env.FRONT, credentials: true }));
 //server.use(cors({ origin: process.env.FRONT}));
+server.use(cors());
 
 // NEW line added by milad:
 //server.use(cors());
