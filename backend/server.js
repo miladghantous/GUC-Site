@@ -12,13 +12,14 @@ server.use(express.urlencoded({ extended: false }));
 server.use(cookieParser());
 server.use(bodyParser.json());
 
-var cors = require("cors");
+const cors = require("cors");
 //---------
 // Put it back if my solution doesnt work:
 //server.use(cors({ origin: process.env.FRONT, credentials: true }));
 
 // NEW line added by milad:
 server.use(cors());
+app.use(cors());
 //-------------------
 connectToDb();
 const httpServer = require("http").createServer(server);
