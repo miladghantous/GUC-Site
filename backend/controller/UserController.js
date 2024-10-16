@@ -214,10 +214,10 @@ const changePassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, salt);
     await User.findOneAndUpdate({ email }, { password: hashedPassword });
     if (role == "INSTRUCTOR") {
-      await Instructor.findOneAndUpdate({ email }, { password: newPassword });
+      await Instructor.findOneAndUpdate({ email }, { password: hashedPassword });
     }
     if (role == "ADMIN") {
-      await Admin.findOneAndUpdate({ email }, { password: newPassword });
+      await Admin.findOneAndUpdate({ email }, { password: hashedPassword });
     }
     res.clearCookie("token");
     return res
