@@ -13,8 +13,13 @@ server.use(cookieParser());
 server.use(bodyParser.json());
 
 var cors = require("cors");
-server.use(cors({ origin: process.env.FRONT, credentials: true }));
+//---------
+// Put it back if my solution doesnt work:
+//server.use(cors({ origin: process.env.FRONT, credentials: true }));
 
+// NEW line added by milad:
+server.use(cors());
+//-------------------
 connectToDb();
 const httpServer = require("http").createServer(server);
 httpServer.listen(port, () =>
