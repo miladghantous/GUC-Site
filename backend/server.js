@@ -15,11 +15,10 @@ server.use(bodyParser.json());
 const cors = require("cors");
 //---------
 // Put it back if my solution doesnt work:
-//server.use(cors({ origin: process.env.FRONT, credentials: true }));
+server.use(cors({ origin: process.env.FRONT, credentials: false }));
 
 // NEW line added by milad:
-server.use(cors());
-app.use(cors());
+//server.use(cors());
 //-------------------
 connectToDb();
 const httpServer = require("http").createServer(server);
