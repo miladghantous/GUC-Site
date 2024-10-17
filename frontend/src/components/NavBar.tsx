@@ -79,7 +79,7 @@ const Navbar = () => {
             flexGrow: 1,
             justifyContent: "center",
             alignContent: "center",
-            marginLeft: 40,
+            marginLeft: 10,
           }}
         >
           <Box component={Link} to="/home" sx={{ textDecoration: "none" }}>
