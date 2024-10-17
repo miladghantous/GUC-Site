@@ -18,7 +18,7 @@ const HomeAdmin = () => {
       <Box
         sx={{
           marginTop: 11,
-          marginLeft: 25,
+          marginLeft: 10,
           display: "flex", 
           flexDirection: "row",
           alignItems: "center", 
