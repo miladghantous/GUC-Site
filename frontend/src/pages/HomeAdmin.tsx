@@ -26,11 +26,11 @@ const HomeAdmin = () => {
         }}
       >
         <AddNewUser />
-        <Box sx={{ml:25 }}>
+        <Box sx={{ml:10 }}>
         <ChangePasswordComponent />
         </Box>
 
-        <Box sx={{ml:25 }}>
+        <Box sx={{ml:10 }}>
         <AddTa />
         </Box>
 
