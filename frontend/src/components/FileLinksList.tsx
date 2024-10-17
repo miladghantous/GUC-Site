@@ -104,7 +104,7 @@ const FileLinksList = ({ data , onEditOrDelete }: linkProps) => {
           <Box>
             <Typography
               variant="h1"
-              sx={{ color: "black", fontSize: 40, fontWeight: "bold" }}
+              sx={{ color: "black", fontSize: 24, fontWeight: "bold" }}
             >
               {filelink.subject}
             </Typography>
@@ -113,7 +113,7 @@ const FileLinksList = ({ data , onEditOrDelete }: linkProps) => {
               href={filelink.link}
               target="_blank"
               rel="noopener noreferrer"
-              sx={{ fontSize: "1.5rem" }}
+              sx={{ fontSize: "1rem" }}
             >
               {" "}
               {filelink.link}
