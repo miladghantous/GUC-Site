@@ -50,7 +50,7 @@ const FileLink = () => {
               justifyContent: "right",
               alignItems: "center",
               marginTop: -4,
-              marginLeft: 120,
+              marginLeft: 20,
             }}
           >
             <SearchBar onData={handleData} />
