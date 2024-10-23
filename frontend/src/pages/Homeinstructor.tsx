@@ -42,7 +42,7 @@ const HomeInstructor = () => {
             link="/announcements"
           />
           <Card
-            title="Files"
+            title="Links"
             icon={<FileCopyOutlinedIcon sx={{ fontSize: 100 }} />}
             link="/filelinks"
           />
